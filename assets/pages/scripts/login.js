@@ -251,10 +251,10 @@ loginForm.addEventListener("submit", (e) => {
                 e.preventDefault();
                 loginNameError.textContent = "User name required";
             }
-            else if (loginName.value !== signUpName.value) {
-                e.preventDefault();
-                loginNameError.textContent = "Enter the same user name";
-            }
+            // else if (loginName.value !== signUpName.value) {
+            //     e.preventDefault();
+            //     loginNameError.textContent = "Enter the same user name";
+            // }
             else {
                 loginNameError.textContent = "";
             }
@@ -277,10 +277,10 @@ loginForm.addEventListener("submit", (e) => {
                 e.preventDefault();
                 loginPasswordError.textContent = "Password required";
             }
-            else if (password.value !== passInput.value) {
-                e.preventDefault();
-                loginPasswordError.textContent = "Enter the same password";
-            }
+            // else if (password.value !== passInput.value) {
+            //     e.preventDefault();
+            //     loginPasswordError.textContent = "Enter the same password";
+            // }
             else {
                 loginPasswordError.textContent = "";
             }
