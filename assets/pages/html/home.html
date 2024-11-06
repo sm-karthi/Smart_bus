@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart bus</title>
+    <link rel="stylesheet" href="../styles/home.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Anton+SC&family=Archivo:ital,wght@0,100..900;1,100..900&family=Dangrek&family=Foldit:wght@100..900&family=Kalnia+Glaze:wght@100..700&family=Kaushan+Script&family=Lobster&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Shrikhand&family=Signika+Negative:wght@300..700&family=Yeseva+One&display=swap"
+        rel="stylesheet">
+
+
+</head>
+
+<body>
+    <header>
+        <!-- Bus logo -->
+        <img src="../../image/SMART BUS logo.png" alt="Bus_logo" id="Bus_logo">
+
+        <!-- My booking button -->
+        <h2 id="myBooking">My Booking</h2>
+
+        <!-- profile icon -->
+        <i class="fas fa-user" id="profile"></i>
+        <!-- <h1 id="userName"></h1> -->
+    </header>
+    <main>
+
+        <div>
+            <h1 id="book_bus_ticket">Book Bus Tickets</h1>
+
+            <!-- search buses button -->
+            <div class="search_bus">
+                <h2 id="search_bus_button">SEARCH BUSES</h2>
+            </div>
+
+            <div id="bus_search_bg">
+                <!-- from bus icon -->
+                <span id="from_bus">
+                    <i class="fas fa-bus"></i>
+                    <i class="fas fa-person-walking flip" id="from_person"></i>
+                </span>
+
+                <!-- from input -->
+                <div id="from_input">
+                    <label for="from">From</label>
+                    <input type="text" id="from">
+                </div>
+
+                <!-- 1st line  -->
+                <div id="line"></div>
+
+                <!-- Arrows icon -->
+                <span class="stack">
+                    <i class="fas fa-arrow-right "></i>
+                    <i class="fas fa-arrow-left "></i>
+                </span>
+
+                <!-- To bus icon -->
+                <span id="to_bus">
+                    <i class="fas fa-bus"></i>
+                    <i class="fas fa-person-walking" id="to_person"></i>
+                </span>
+
+                <!-- to input -->
+                <div id="to_input">
+                    <label for="to">To</label>
+                    <input type="text" id="to">
+                </div>
+
+                <!-- 2nd line -->
+                <div id="line2"></div>
+
+                <!-- calender icon -->
+                <span id="calender">
+                    <i class="fas fa-calendar-days"></i>
+                </span>
+
+                <!-- date input -->
+                <div class="date_input">
+                    <label for="date">Date</label>
+                    <input type="date" id="date">
+                </div>
+
+            </div>
+
+            <h1 id="tag_line">Smooth Rides, Lasting Smiles</h1>
+        </div>
+    </main>
+</body>
+    <!-- <script>
+        const h1 = document.getElementById("userName");
+        localStorage.getItem("userName");
+        h1.textContent = username;
+    </script> -->
+    <script src="../scripts/home.js"></script>
+</html>
