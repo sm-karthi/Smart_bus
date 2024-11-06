@@ -50,7 +50,7 @@ loginForm.addEventListener("submit", (event) => {
             document.querySelectorAll(".login-container input").forEach(x => {
                 x.value = "";
             })
-            
+
         })
         .catch((error) => {
             console.log(error);
@@ -68,8 +68,8 @@ signUpForm.addEventListener("submit", (event) => {
         .then((userCredential) => {
             console.log('Signed up:', userCredential.user);
             alert('Sign-up successful! You can now log in.');
-            document.querySelectorAll(".sign_up_container input").forEach(x=>{
-                x.value="";
+            document.querySelectorAll(".sign_up_container input").forEach(x => {
+                x.value = "";
             });
             switchToLogin();
         })
@@ -176,7 +176,7 @@ signUpForm.addEventListener("submit", (e) => {
         }
         else if (signUpName.value.length > 3 || signUpName.value.length < 30) {
             signUpNameError.textContent = "";
-            
+
         }
         else {
             e.preventDefault();
@@ -231,61 +231,59 @@ signUpForm.addEventListener("submit", (e) => {
             signUpCpassError.textContent = "";
         }
     }
-    
+
 });
 
 // Login form validation
 loginForm.addEventListener("submit", (e) => {
 
-    
-        if (loginName.value.length === 0 && loginEmail.value.length === 0 && password.value.length === 0) {
-            e.preventDefault();
-            loginError.textContent = "Fill the all fields!";
-        } else {
-    
-            e.preventDefault();
-            loginError.textContent = "";
-    
-            // User name error handle
-            if(loginName.value.length === 0){
-                e.preventDefault();
-                loginNameError.textContent = "User name required";
-            }
-            // else if (loginName.value !== signUpName.value) {
-            //     e.preventDefault();
-            //     loginNameError.textContent = "Enter the same user name";
-            // }
-            else {
-                loginNameError.textContent = "";
-            }
-    
-            // Email error handle
-            if(loginEmail.value.length === 0){
-                e.preventDefault();
-                loginEmailError.textContent = "Email required";
-            }
-            // else if (loginEmail.value !== signUpEmail.value) {
-            //     e.preventDefault();
-            //     loginEmailError.textContent = "Enter the same email";
-            // }
-            else {
-                loginEmailError.textContent = "";
-            }
-    
-            // Password error handle
-            if(password.value.length === 0){
-                e.preventDefault();
-                loginPasswordError.textContent = "Password required";
-            }
-            // else if (password.value !== passInput.value) {
-            //     e.preventDefault();
-            //     loginPasswordError.textContent = "Enter the same password";
-            // }
-            else {
-                loginPasswordError.textContent = "";
-            }
-        }
-    
 
-    
+    if (loginName.value.length === 0 && loginEmail.value.length === 0 && password.value.length === 0) {
+        e.preventDefault();
+        loginError.textContent = "Fill the all fields!";
+    } else {
+
+        e.preventDefault();
+        loginError.textContent = "";
+
+        // User name error handle
+        if (loginName.value.length === 0) {
+            e.preventDefault();
+            loginNameError.textContent = "User name required";
+        }
+        // else if (loginName.value !== signUpName.value) {
+        //     e.preventDefault();
+        //     loginNameError.textContent = "Enter the same user name";
+        // }
+        else {
+            loginNameError.textContent = "";
+        }
+
+        // Email error handle
+        if (loginEmail.value.length === 0) {
+            e.preventDefault();
+            loginEmailError.textContent = "Email required";
+        }
+        // else if (loginEmail.value !== signUpEmail.value) {
+        //     e.preventDefault();
+        //     loginEmailError.textContent = "Enter the same email";
+        // }
+        else {
+            loginEmailError.textContent = "";
+        }
+
+        // Password error handle
+        if (password.value.length === 0) {
+            e.preventDefault();
+            loginPasswordError.textContent = "Password required";
+        }
+        // else if (password.value !== passInput.value) {
+        //     e.preventDefault();
+        //     loginPasswordError.textContent = "Enter the same password";
+        // }
+        else {
+            loginPasswordError.textContent = "";
+        }
+    }
+
 });
