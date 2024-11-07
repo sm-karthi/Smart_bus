@@ -268,14 +268,18 @@ body {
 .profileManage {
     width: 200px;
     height: 200px;
-    background-color: aqua;
+    background-color: rgb(56, 248, 142);
     position: absolute;
     top: 100px;
     right: 50px;
     padding: 10px;
     border-radius: 10px;
+    text-align: center; 
 }
 
+#profileContainer{
+    font-size: 25px;
+}
 .h{
     display: none;
 }

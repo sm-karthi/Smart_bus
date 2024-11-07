@@ -45,7 +45,3 @@ document.addEventListener("click", (e) => {
         profileContainer.classList.add("h"); // Hide the profile container
     }
 });
-
-
-
-
