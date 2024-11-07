@@ -107,7 +107,11 @@ body {
     right: 252px;
     cursor: pointer;
 }
-
+.stack:hover{
+    box-shadow: 1px 1px 10px 0px black;
+    transform: scale(1.00.5rem);
+    border: none;
+}
 
 /*button {
     background: none;

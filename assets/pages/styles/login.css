@@ -224,9 +224,16 @@
     bottom: 70px;
     cursor: pointer;
 }
-#signUpNameError, #signUpEmailError, #numberError, #signUpPassError, #signUpCpassError{
+#signUpNameError, #signUpEmailError, #numberError, #signUpPassError{
     position: relative;
     bottom: 20px;
+    left: 50px;
+    color: red;
+}
+
+#signUpCpassError{
+    position: relative;
+    bottom: 40px;
     left: 50px;
     color: red;
 }
