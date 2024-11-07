@@ -234,6 +234,15 @@ signUpForm.addEventListener("submit", (e) => {
 
 });
 
+cPassInput.addEventListener("input", () => {
+    if(cPassInput.value !== passInput.value){
+        signUpCpassError.textContent = "Passwords not match, Enter the correct password";
+    }
+    else {
+        signUpCpassError.textContent = "";
+    }
+})
+
 // Login form validation
 loginForm.addEventListener("submit", (e) => {
 
@@ -285,5 +294,4 @@ loginForm.addEventListener("submit", (e) => {
             loginPasswordError.textContent = "";
         }
     }
-
 });
