@@ -174,13 +174,13 @@ signUpForm.addEventListener("submit", (e) => {
             e.preventDefault();
             signUpNameError.textContent = "User required";
         }
-        else if (signUpName.value.length > 3 || signUpName.value.length < 30) {
-            signUpNameError.textContent = "";
-
+        else if (signUpName.value.length < 3 || signUpName.value.length > 30) {
+            signUpNameError.textContent = "Username must be between 3 and 30 characters";
+            e.preventDefault();
         }
         else {
-            e.preventDefault();
-            signUpNameError.textContent = "Username must be between 3 and 30 characters";
+            
+            signUpNameError.textContent = "";
         }
 
         // Email error handle
@@ -234,6 +234,7 @@ signUpForm.addEventListener("submit", (e) => {
 
 });
 
+// Confirm password input error handle
 cPassInput.addEventListener("input", () => {
     if(cPassInput.value !== passInput.value){
         signUpCpassError.textContent = "Passwords not match, Enter the correct password";
@@ -241,7 +242,17 @@ cPassInput.addEventListener("input", () => {
     else {
         signUpCpassError.textContent = "";
     }
-})
+});
+
+// mobile number input error handle
+numberInput.addEventListener("input", () => {
+    if(numberInput.value.length !== 10){
+        signUpNumberError.textContent = `Only enter 10 numbers, Your enter ${numberInput.value.length}.`;
+    }
+    else{
+        signUpNumberError.textContent = "";
+    }
+});
 
 // Login form validation
 loginForm.addEventListener("submit", (e) => {
