@@ -234,6 +234,15 @@ signUpForm.addEventListener("submit", (e) => {
 
 });
 
+
+signUpForm.addEventListener("submit", () => {
+    const Name = document.getElementById("Name_input").value;
+    
+    if (Name) {
+        localStorage.setItem("username", Name);
+    }
+});
+
 // Confirm password input error handle
 cPassInput.addEventListener("input", () => {
     if(cPassInput.value !== passInput.value){
@@ -306,3 +315,5 @@ loginForm.addEventListener("submit", (e) => {
         }
     }
 });
+
+

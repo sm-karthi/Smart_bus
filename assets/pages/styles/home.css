@@ -264,3 +264,18 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     cursor: pointer;
 }
+
+.profileManage {
+    width: 200px;
+    height: 200px;
+    background-color: aqua;
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.h{
+    display: none;
+}
