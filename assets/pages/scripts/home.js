@@ -8,6 +8,20 @@ arrow.addEventListener("click", () => {
     to_input.value = temp;
 });
 
+// Get the elements by their IDs
+const fromBusIcon = document.getElementById('from_bus');
+const toBusIcon = document.getElementById('to_bus');
+const fromInput = document.getElementById('from');
+const toInput = document.getElementById('to');
+
+// Add click event listeners to the icons
+fromBusIcon.addEventListener('click', () => {
+    fromInput.focus();  // Focuses the 'From' input field
+});
+
+toBusIcon.addEventListener('click', () => {
+    toInput.focus();  // Focuses the 'To' input field
+});
 
 // Retrieve the username from localStorage
 let userName = localStorage.getItem("username");
@@ -45,3 +59,5 @@ document.addEventListener("click", (e) => {
         profileContainer.classList.add("h"); // Hide the profile container
     }
 });
+
+// calender

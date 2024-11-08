@@ -92,7 +92,7 @@ body {
     font-size: 2rem;
     transition: 300ms all ease;
     margin-right: 150px;
-
+    cursor: pointer;
 }
 
 .stack {
@@ -215,6 +215,7 @@ body {
     font-size: 2rem;
     position: relative;
     right: 265px;
+    cursor: pointer;
 
 }
 
@@ -283,3 +284,5 @@ body {
 .h{
     display: none;
 }
+
+
