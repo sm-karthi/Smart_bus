@@ -92,7 +92,7 @@ body {
     font-size: 2rem;
     transition: 300ms all ease;
     margin-right: 150px;
-
+    cursor: pointer;
 }
 
 .stack {
@@ -107,7 +107,11 @@ body {
     right: 252px;
     cursor: pointer;
 }
-
+.stack:hover{
+    box-shadow: 1px 1px 10px 0px black;
+    transform: scale(1.00.5rem);
+    border: none;
+}
 
 /*button {
     background: none;
@@ -211,6 +215,7 @@ body {
     font-size: 2rem;
     position: relative;
     right: 265px;
+    cursor: pointer;
 
 }
 
@@ -260,3 +265,24 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     cursor: pointer;
 }
+
+.profileManage {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(56, 248, 142);
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center; 
+}
+
+#profileContainer{
+    font-size: 25px;
+}
+.h{
+    display: none;
+}
+
+
