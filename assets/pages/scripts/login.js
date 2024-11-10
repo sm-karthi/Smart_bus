@@ -175,6 +175,11 @@ signUpForm.addEventListener("submit", (e) => {
     }
 });
 
+
+
+
+
+
 // Handle Confirm Password validation
 cPassInput.addEventListener("input", () => {
     if (cPassInput.value !== passInput.value) {
