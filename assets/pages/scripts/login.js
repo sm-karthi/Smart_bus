@@ -1,3 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+
+
 
 // Element References
 const goSignUp = document.getElementById("go_sign_up");
@@ -28,7 +32,28 @@ const firebaseConfig = {
     messagingSenderId: "35022257891",
     appId: "1:35022257891:web:8eed74fb4131a414730fd6"
 };
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.onload = function () {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+
+    if (isLoggedIn) {
+        // If the user is logged in, redirect to the home page
+        window.location.replace("./assets/pages/html/home.html");
+    } else {
+        console.log("User is not logged in.");
+
+        // Prevent back navigation if the user is not logged in
+        window.history.pushState(null, null, window.location.href);
+        window.addEventListener("popstate", function () {
+            window.history.pushState(null, null, window.location.href);
+        });
+    }
+};
+
 
 const signUpName = document.getElementById("Name_input");
 const signUpEmail = document.getElementById("Email_input");
@@ -55,11 +80,16 @@ const signUpError = document.getElementById("signUpError");
 // Login page form validation Error space
 const loginEmailError = document.getElementById("emailError");
 const loginPasswordError = document.getElementById("passwordError");
-
+const loginNameError = document.getElementById("nameError");
 
 // Login page inputs
 const loginEmail = document.getElementById("Email_inputs");
+const loginName = document.getElementById("Name_inputs");
 
+
+/* if (localStorage.getItem("loggedIn") === "true") {
+    window.location.href = "./assets/pages/html/home.html";
+} */
 // Sign up form validation
 signUpForm.addEventListener("submit", (e) => {
     e.preventDefault(); // Prevent the form from submitting initially
@@ -74,7 +104,7 @@ signUpForm.addEventListener("submit", (e) => {
     signUpPasswordError.textContent = "";
     signUpCpassError.textContent = "";
 
-    if(signUpName.value.length === 0 && signUpEmail.value.length === 0 && numberInput.value.length === 0 && passInput.value.length === 0 && cPassInput.value.length === 0){
+    if (signUpName.value.length === 0 && signUpEmail.value.length === 0 && numberInput.value.length === 0 && passInput.value.length === 0 && cPassInput.value.length === 0) {
         signUpError.textContent = "Create an account!";
     } else {
         // Validate fields
@@ -119,18 +149,14 @@ signUpForm.addEventListener("submit", (e) => {
         if (formValid) {
             const email = signUpEmail.value;
             const password = passInput.value;
-            const username = signUpName.value;
 
-            firebase.auth().createUserWithEmailAndPassword(email, password)
+            createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     console.log('Signed up:', userCredential.user);
 
                     // Show the success alert
                     alert('Sign-up successful! You can now log in.');
 
-                    // Store the username in local storage
-                    localStorage.setItem("username", username);
-                    // localStorage.setItem("loggedIn", "true");
 
                     // Clear the form inputs
                     document.querySelectorAll(".sign_up_container input").forEach(x => {
@@ -143,9 +169,16 @@ signUpForm.addEventListener("submit", (e) => {
                 .catch((error) => {
                     console.log(error);
                 });
+
+
         }
     }
 });
+
+
+
+
+
 
 // Handle Confirm Password validation
 cPassInput.addEventListener("input", () => {
@@ -181,75 +214,86 @@ function switchToLogin() {
     loginContainer.classList.remove("hidden");
 }
 
+
+// Login form validation 
 loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    
+
     let hasError = false;
 
     // Clear previous error messages
     loginError.textContent = "";
+    loginNameError.textContent = "";
     loginEmailError.textContent = "";
     loginPasswordError.textContent = "";
 
-    if(loginEmail.value.length === 0 && passwordInput.value.length === 0){
+    if (loginName.value.length === 0 && loginEmail.value.length === 0 && passwordInput.value.length === 0) {
         loginError.textContent = "Please fill in all fields.";
     }
-    else{
-    
-    
-    if (loginEmail.value.length === 0) {
-        loginEmailError.textContent = "Email required";
-        hasError = true;
-    }
-    
-    if (passwordInput.value.length === 0) {
-        loginPasswordError.textContent = "Password required";
-        hasError = true;
-    }
+    else {
 
-    // If there's any error, display a message and stop form submission
-    if (hasError) {
-        loginError.textContent = "";
-        return; // Stop further execution
-    }
+        if (loginName.value.length === 0) {
+            loginNameError.textContent = "User name required";
+            hasError = true;
+        }
 
-    // Proceed with Firebase login if no errors
-    const email = loginEmail.value;
-    const password = passwordInput.value;
+        if (loginEmail.value.length === 0) {
+            loginEmailError.textContent = "Email required";
+            hasError = true;
+        }
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            loginError.textContent = '';
-            console.log('Logged in:', userCredential.user);
+        if (passwordInput.value.length === 0) {
+            loginPasswordError.textContent = "Password required";
+            hasError = true;
+        }
 
-            // Redirect to the home page
-            window.location.href = "./assets/pages/html/home.html";
+        // If there's any error, display a message and stop form submission
+        if (hasError) {
+            loginError.textContent = "";
+            return; // Stop further execution
+        }
 
-            // Clear the form inputs
-            document.querySelectorAll(".login-container input").forEach(x => {
-                x.value = "";
+        // Proceed with Firebase login if no errors
+        const email = loginEmail.value;
+        const password = passwordInput.value;
+        const username = loginName.value;
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                loginError.textContent = '';
+                console.log('Logged in:', userCredential.user);
+
+                // Redirect to the home page
+                window.location.href = "./assets/pages/html/home.html";
+
+                // Store the username in local storage
+                localStorage.setItem("loggedIn", "true");
+
+                localStorage.setItem("username", username);
+                // Clear the form inputs
+                document.querySelectorAll(".login-container input").forEach(x => {
+                    x.value = "";
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                loginError.textContent = "Login failed. Please check your credentials.";
             });
-        })
-        .catch((error) => {
-            console.log(error);
-            loginError.textContent = "Login failed. Please check your credentials.";
-        });
     }
 });
 
 
 // Login page password toggle
-const Password = document.getElementById("password_inputs");
 const togglePassword = document.querySelector('#togglePassword');
 const icon = togglePassword.querySelector("i");
 
 togglePassword.addEventListener("click", () => {
-    if (Password.type === "password") {
-        Password.type = "text";
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
         icon.classList.remove("fa-eye-slash");
         icon.classList.add("fa-eye");
     } else {
-        Password.type = "password";
+        passwordInput.type = "password";
         icon.classList.remove("fa-eye");
         icon.classList.add("fa-eye-slash");
     }
@@ -289,20 +333,10 @@ confirmPassToggle.addEventListener("click", () => {
     }
 });
 
-// window.history.replaceState(null, null, window.location.href);
-
-// window.addEventListener('popstate', function(event) {
-//     if (confirm("You can't go back to the login page. Do you want to leave the website?")) {
-//         window.location.href = "https://www.google.com"; // Redirect to external website
-//     } else {
-//         window.history.pushState(null, null, window.location.href); // Keep the user on the current page
-//     }
-// });
-
-// // On the home page, check if the user is logged in
-// if (localStorage.getItem("loggedIn") === "true") {
-//     window.location.href = "./assets/pages/html/home.html"; // Redirect to home page if already logged in
-// }
+window.history.pushState(null, null, window.location.href);
+window.addEventListener("popstate", function () {
+    window.history.pushState(null, null, window.location.href);
+});
 
 
 
