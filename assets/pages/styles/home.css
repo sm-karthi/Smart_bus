@@ -104,13 +104,13 @@ body {
     justify-content: center;
     border: 1px solid black;
     position: relative;
-    right: 252px;
+    right: 253px;
     cursor: pointer;
 }
 .stack:hover{
-    box-shadow: 1px 1px 10px 0px black;
+     box-shadow: 1px 1px 7px 0px black;
     transform: scale(1.00.5rem);
-    border: none;
+    /* border: none;  */
 }
 
 /*button {
@@ -283,6 +283,14 @@ body {
 }
 .h{
     display: none;
+}
+
+#profileContainer .logoutIcon {
+    font-size: 24px; /* Adjust size as needed */
+    color: #f44336; /* Red color for logout icon */
+    cursor: pointer;
+    transition: color 0.3s;
+    margin-top: 60px;
 }
 
 

@@ -1,3 +1,16 @@
+
+// Prevent back navigation after logout
+window.history.pushState(null, null, window.location.href);
+window.addEventListener("popstate", function () {
+    window.history.pushState(null, null, window.location.href);
+});
+
+// Check if the user is logged in
+if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "/index.html"; // Redirect to login page if not logged in
+}
+
+// Arrow click functionality to swap 'from' and 'to' inputs
 const arrow = document.querySelector(".stack");
 const from_input = document.getElementById("from");
 const to_input = document.getElementById("to");
@@ -8,13 +21,12 @@ arrow.addEventListener("click", () => {
     to_input.value = temp;
 });
 
-// Get the elements by their IDs
+// Focus the 'From' and 'To' inputs when their respective icons are clicked
 const fromBusIcon = document.getElementById('from_bus');
 const toBusIcon = document.getElementById('to_bus');
 const fromInput = document.getElementById('from');
 const toInput = document.getElementById('to');
 
-// Add click event listeners to the icons
 fromBusIcon.addEventListener('click', () => {
     fromInput.focus();  // Focuses the 'From' input field
 });
@@ -26,6 +38,7 @@ toBusIcon.addEventListener('click', () => {
 // Retrieve the username from localStorage
 let userName = localStorage.getItem("username");
 
+// Profile container toggle logic
 const profile = document.getElementById("profile");
 
 profile.addEventListener("click", (e) => {
@@ -42,9 +55,51 @@ profile.addEventListener("click", (e) => {
         profileContainer.classList.add("profileManage");
 
         // Display the username in the container
-        profileContainer.innerText = userName ? `Hello, ${userName}!` : "No username found. Please sign up.";
+        profileContainer.innerHTML = userName
+            ? `<p>Hello, ${userName}!</p>`
+            : "<p>No username found. Please login.</p>";
 
-        // Append the container to the body (or to another element if desired)
+        // Create a logout icon element
+        const logoutIcon = document.createElement("i");
+        logoutIcon.classList.add("logoutIcon", "fa", "fa-sign-out"); // Font Awesome icon for logout
+        logoutIcon.style.cursor = "pointer";
+
+        const logoutText = document.createElement("span");
+        logoutText.setAttribute("id", "logoutText");
+        logoutText.textContent = "Logout";
+        logoutText.style.marginLeft = "8px"; // Adds spacing between icon and text
+        logoutText.style.cursor = "pointer";
+
+        // Add event listener to handle logout on icon click
+        logoutIcon.addEventListener("click", () => {
+            localStorage.removeItem("username");
+            localStorage.removeItem("loggedIn");
+            window.location.href = "/index.html"; // Redirect to login page
+
+            // Prevent back navigation after logout
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener("popstate", function () {
+                window.history.pushState(null, null, window.location.href);
+            });
+        });
+
+        logoutText.addEventListener("click", () => {
+            localStorage.removeItem("username");
+            localStorage.removeItem("loggedIn");
+            window.location.href = "/index.html"; // Redirect to login page
+
+            // Prevent back navigation after logout
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener("popstate", function () {
+                window.history.pushState(null, null, window.location.href);
+            });
+        });
+
+        // Append the icon and text to the logout container
+        profileContainer.appendChild(logoutIcon);
+        profileContainer.appendChild(logoutText);
+
+        // Append the container to the body (or another desired element)
         document.body.appendChild(profileContainer);
     } else {
         // Toggle visibility by adding/removing the "h" class
@@ -60,4 +115,3 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// calender

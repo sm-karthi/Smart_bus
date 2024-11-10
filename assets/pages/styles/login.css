@@ -31,7 +31,7 @@
     left: 80px;
 }
 
-#Email_inputs, #password_inputs{
+#Name_inputs, #Email_inputs, #password_inputs{
     width: 300px;
     border: none;
     font-size: 20px;
@@ -40,10 +40,15 @@
     padding: 10px 0px;
 }
 
-#Email_inputs, #password_inputs:focus{
+#Name_inputs, #Email_inputs, #password_inputs:focus{
     outline: 0;
 }
-
+#userName_Logo{
+    height: 30px;
+    width: 30px;
+    position: relative;
+    bottom: 30px;
+}
 #email_Logo{
     height: 30px;
     width: 30px;
@@ -102,7 +107,7 @@
     width: 100%;
 }
 
-#emailError{
+#emailError, #nameError{
     color: red;
     position: relative;
     bottom: 15px;
