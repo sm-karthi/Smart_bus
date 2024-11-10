@@ -115,3 +115,24 @@ document.addEventListener("click", (e) => {
     }
 });
 
+
+// Show the bus list
+
+document.getElementById('search_bus_button').addEventListener('click', function () {
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    const date = document.getElementById('date').value;
+
+    // Check if the fields are filled
+    if (from && to && date) {
+        // Store search data in localStorage
+        localStorage.setItem('searchFrom', from);
+        localStorage.setItem('searchTo', to);
+        localStorage.setItem('searchDate', date);
+
+        // Redirect to the bus results page
+        window.location.href = '../html/busList.html';
+    } else {
+        alert('Please fill out all fields!');
+    }
+});
