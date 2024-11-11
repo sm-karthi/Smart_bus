@@ -1,11 +1,9 @@
 
-window.onload = function() {
-    // Prevent going back to the previous page
+window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
-    window.addEventListener('popstate', function () {
-        window.history.pushState(null, null, window.location.href);
-    });
-};
+});
+
 
 
 // Check if the user is logged in
@@ -76,14 +74,12 @@ profile.addEventListener("click", (e) => {
             localStorage.removeItem("loggedIn");
             window.location.href = "/index.html"; // Redirect to login page
 
-            window.onload = function() {
-                // Prevent going back to the previous page
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', function () {
                 window.history.pushState(null, null, window.location.href);
-                window.addEventListener('popstate', function () {
-                    window.history.pushState(null, null, window.location.href);
-                });
-            };
-            
+            });
+
+
 
         });
 
@@ -92,14 +88,12 @@ profile.addEventListener("click", (e) => {
             localStorage.removeItem("loggedIn");
             window.location.href = "/index.html"; // Redirect to login page
 
-            window.onload = function() {
-                // Prevent going back to the previous page
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', function () {
                 window.history.pushState(null, null, window.location.href);
-                window.addEventListener('popstate', function () {
-                    window.history.pushState(null, null, window.location.href);
-                });
-            };
-            
+            });
+
+
 
         });
 
