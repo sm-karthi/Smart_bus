@@ -295,4 +295,8 @@ body {
     margin-top: 60px;
 }
 
+#logoutText{
+    margin-left: 8px;
+    cursor: pointer;
+}
 

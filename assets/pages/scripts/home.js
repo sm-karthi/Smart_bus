@@ -1,9 +1,16 @@
 
-// Prevent back navigation after logout
-window.history.pushState(null, null, window.location.href);
-window.addEventListener("popstate", function () {
+// Prevents the back button from navigating away by re-pushing the current state
+function preventBackNavigation() {
     window.history.pushState(null, null, window.location.href);
+}
+
+preventBackNavigation();
+
+// Listen for the popstate event to re-push the current state
+window.addEventListener("popstate", function () {
+    preventBackNavigation();
 });
+
 
 // Check if the user is logged in
 if (localStorage.getItem("loggedIn") !== "true") {
@@ -62,13 +69,10 @@ profile.addEventListener("click", (e) => {
         // Create a logout icon element
         const logoutIcon = document.createElement("i");
         logoutIcon.classList.add("logoutIcon", "fa", "fa-sign-out"); // Font Awesome icon for logout
-        logoutIcon.style.cursor = "pointer";
 
         const logoutText = document.createElement("span");
         logoutText.setAttribute("id", "logoutText");
         logoutText.textContent = "Logout";
-        logoutText.style.marginLeft = "8px"; // Adds spacing between icon and text
-        logoutText.style.cursor = "pointer";
 
         // Add event listener to handle logout on icon click
         logoutIcon.addEventListener("click", () => {
@@ -76,11 +80,18 @@ profile.addEventListener("click", (e) => {
             localStorage.removeItem("loggedIn");
             window.location.href = "/index.html"; // Redirect to login page
 
-            // Prevent back navigation after logout
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener("popstate", function () {
+            // Prevents the back button from navigating away by re-pushing the current state
+            function preventBackNavigation() {
                 window.history.pushState(null, null, window.location.href);
+            }
+
+            preventBackNavigation();
+
+            // Listen for the popstate event to re-push the current state
+            window.addEventListener("popstate", function () {
+                preventBackNavigation();
             });
+
         });
 
         logoutText.addEventListener("click", () => {
@@ -88,11 +99,18 @@ profile.addEventListener("click", (e) => {
             localStorage.removeItem("loggedIn");
             window.location.href = "/index.html"; // Redirect to login page
 
-            // Prevent back navigation after logout
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener("popstate", function () {
+            // Prevents the back button from navigating away by re-pushing the current state
+            function preventBackNavigation() {
                 window.history.pushState(null, null, window.location.href);
+            }
+
+            preventBackNavigation();
+
+            // Listen for the popstate event to re-push the current state
+            window.addEventListener("popstate", function () {
+                preventBackNavigation();
             });
+
         });
 
         // Append the icon and text to the logout container
