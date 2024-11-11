@@ -2,16 +2,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
 
 
-window.onload = function() {
-    // Prevent going back to the previous page
+window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
-    window.addEventListener('popstate', function () {
-        window.history.pushState(null, null, window.location.href);
-    });
-};
-
-
-
+});
 
 // Element References
 const goSignUp = document.getElementById("go_sign_up");
