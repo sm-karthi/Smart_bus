@@ -2,6 +2,19 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
 
 
+// Prevents the back button from navigating away by re-pushing the current state
+function preventBackNavigation() {
+    window.history.pushState(null, null, window.location.href);
+}
+
+preventBackNavigation();
+
+// Listen for the popstate event to re-push the current state
+window.addEventListener("popstate", function () {
+    preventBackNavigation();
+});
+
+
 
 // Element References
 const goSignUp = document.getElementById("go_sign_up");
@@ -43,15 +56,7 @@ window.onload = function () {
     if (isLoggedIn) {
         // If the user is logged in, redirect to the home page
         window.location.replace("./assets/pages/html/home.html");
-    } else {
-        console.log("User is not logged in.");
-
-        // Prevent back navigation if the user is not logged in
-        window.history.pushState(null, null, window.location.href);
-        window.addEventListener("popstate", function () {
-            window.history.pushState(null, null, window.location.href);
-        });
-    }
+    } 
 };
 
 
@@ -333,10 +338,7 @@ confirmPassToggle.addEventListener("click", () => {
     }
 });
 
-window.history.pushState(null, null, window.location.href);
-window.addEventListener("popstate", function () {
-    window.history.pushState(null, null, window.location.href);
-});
+
 
 
 
