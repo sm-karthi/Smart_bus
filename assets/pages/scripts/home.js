@@ -1,15 +1,11 @@
 
-// Prevents the back button from navigating away by re-pushing the current state
-function preventBackNavigation() {
+window.onload = function() {
+    // Prevent going back to the previous page
     window.history.pushState(null, null, window.location.href);
-}
-
-preventBackNavigation();
-
-// Listen for the popstate event to re-push the current state
-window.addEventListener("popstate", function () {
-    preventBackNavigation();
-});
+    window.addEventListener('popstate', function () {
+        window.history.pushState(null, null, window.location.href);
+    });
+};
 
 
 // Check if the user is logged in
@@ -80,17 +76,14 @@ profile.addEventListener("click", (e) => {
             localStorage.removeItem("loggedIn");
             window.location.href = "/index.html"; // Redirect to login page
 
-            // Prevents the back button from navigating away by re-pushing the current state
-            function preventBackNavigation() {
+            window.onload = function() {
+                // Prevent going back to the previous page
                 window.history.pushState(null, null, window.location.href);
-            }
-
-            preventBackNavigation();
-
-            // Listen for the popstate event to re-push the current state
-            window.addEventListener("popstate", function () {
-                preventBackNavigation();
-            });
+                window.addEventListener('popstate', function () {
+                    window.history.pushState(null, null, window.location.href);
+                });
+            };
+            
 
         });
 
@@ -99,17 +92,14 @@ profile.addEventListener("click", (e) => {
             localStorage.removeItem("loggedIn");
             window.location.href = "/index.html"; // Redirect to login page
 
-            // Prevents the back button from navigating away by re-pushing the current state
-            function preventBackNavigation() {
+            window.onload = function() {
+                // Prevent going back to the previous page
                 window.history.pushState(null, null, window.location.href);
-            }
-
-            preventBackNavigation();
-
-            // Listen for the popstate event to re-push the current state
-            window.addEventListener("popstate", function () {
-                preventBackNavigation();
-            });
+                window.addEventListener('popstate', function () {
+                    window.history.pushState(null, null, window.location.href);
+                });
+            };
+            
 
         });
 
