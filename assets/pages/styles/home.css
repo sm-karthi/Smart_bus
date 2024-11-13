@@ -94,6 +94,7 @@ body {
     transition: 300ms all ease;
     margin-right: 150px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .stack {
@@ -105,7 +106,7 @@ body {
     justify-content: center;
     border: 1px solid black;
     position: relative;
-    right: 253px;
+    right: 207px;
     cursor: pointer;
 }
 .stack:hover{
@@ -148,14 +149,14 @@ body {
 #calender {
     font-size: 2.5rem;
     position: relative;
-    right: 310px;
+    right: 250px;
 }
 
 .date_input {
     display: flex;
     flex-direction: column;
     position: relative;
-    right: 310px;
+    right: 250px;
 }
 
 .date_input label {
@@ -174,7 +175,7 @@ body {
     background: rgb(0, 0, 0);
     background: linear-gradient(0deg, rgba(0, 0, 0, 1) 24%, rgba(255, 255, 255, 1) 26%, rgba(255, 255, 255, 1) 74%, rgba(0, 0, 0, 1) 76%);
     position: relative;
-    right: 200px;
+    right: 155px;
 }
 
 #line2 {
@@ -182,14 +183,14 @@ body {
     height: 100px;
     background-color: black;
     position: relative;
-    right: 320px;
+    right: 245px;
 }
 
 #from_input {
     position: relative;
-    right: 170px;
     display: flex;
     flex-direction: column;
+    right: 170px; /* Adjust positioning if needed */
 }
 
 #from_input label {
@@ -197,27 +198,24 @@ body {
 }
 
 #from {
-    border: none;
+    border: 1px solid green;
     margin-top: 10px;
     font-size: 20px;
     width: 200px;
-    padding: 0px 30px 0px 0px;
+    padding: 5px 10px 5px 4px;
 }
 
-#from:hover {
-    outline: 0;
-}
-
+#from:hover,
 #from:focus {
-    outline: 0;
+    outline: none;
 }
 
 #to_bus {
     font-size: 2rem;
     position: relative;
-    right: 265px;
+    right: 220px;
     cursor: pointer;
-
+    top: 5px;
 }
 
 #to_person {
@@ -230,7 +228,7 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    right: 280px;
+    right: 239px;
 }
 
 #to_input label {
@@ -239,22 +237,19 @@ body {
 }
 
 #to {
-    border: none;
+    border: 1px solid green;
     margin-top: 10px;
     font-size: 20px;
     width: 200px;
-    padding: 0px 30px 0px 0px;
+    padding: 5px 10px 5px 4.5px;
 }
 
-#to:hover {
-    outline: 0;
-}
-
+#to:hover,
 #to:focus {
-    outline: 0;
+    outline: none;
 }
 
-.search_bus {
+#search_bus_button {
     position: absolute;
     left: 1080px;
     top: 410px;
