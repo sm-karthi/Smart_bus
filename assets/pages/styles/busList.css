@@ -15,6 +15,7 @@ header {
     left: 0;
     background-color: rgb(255, 255, 255);
     box-shadow: 10px 0px 10px ;
+    z-index: 2;
 }
 
 #Bus_logo {
@@ -54,12 +55,13 @@ header {
     width: 200px;
     height: 200px;
     background-color: rgb(248, 74, 91);
-    position: absolute;
+    position: fixed;
     top: 100px;
     right: 50px;
     padding: 10px;
     border-radius: 10px;
     text-align: center; 
+    z-index: 2;
 }
 
 #profileContainer{
@@ -78,30 +80,71 @@ header {
     margin-top: 60px;
 }
 
-#bus_container{
-    position: absolute;
-    top: 400px;
+#side_bar{
+    width: 360px;
+    height: 100vh;
+    background-color: aqua;
+    position: fixed;
+    top: 115px;
 }
 
-
-
-#bus_list {
+/* Bus list container styling */
+#bus_container {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f9fa;
 }
 
+/* Bus list styling */
+#bus_list {
+    width: 1400px;
+    position: absolute;
+    top: 170px;
+}
+
+/* Individual bus item styling */
 .bus-item {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin-left: 400px;
+    
 }
 
+.bus-item:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Bus item title */
 .bus-item h3 {
-    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    margin: 0 0 10px;
+    color: #343a40;
 }
 
+/* Bus item details */
 .bus-item p {
     margin: 5px 0;
+    font-size: 1rem;
+    color: #495057;
+}
+
+/* No buses available message styling */
+#bus_list p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.No_buses {
+    margin-left: 250px;   
+}
+
+#logoutText{
+    cursor: pointer;
 }

@@ -1,0 +1,142 @@
+[
+    {
+        "name": "Lakshmi Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-10",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "MRM Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-10",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Amarnath Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-10",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Lakshmi Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-12",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "SRM Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-12",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Amarnath Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-12",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "AKS Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-13",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Amarnath Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-13",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "GKR Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-13",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Logesh Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-13",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Krishna Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-14",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Logesh Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-14",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "Priya Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-14",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    },
+    {
+        "name": "AKS Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-14",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)"
+    }
+]

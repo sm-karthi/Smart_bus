@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
 
 
 window.history.pushState(null, null, window.location.href);
@@ -47,7 +47,7 @@ window.onload = function () {
     if (isLoggedIn) {
         // If the user is logged in, redirect to the home page
         window.location.replace("./assets/pages/html/home.html");
-    } 
+    }
 };
 
 
@@ -83,11 +83,39 @@ const loginEmail = document.getElementById("Email_inputs");
 const loginName = document.getElementById("Name_inputs");
 
 
-/* if (localStorage.getItem("loggedIn") === "true") {
-    window.location.href = "./assets/pages/html/home.html";
-} */
+// Function to validate the username
+function validateUsername(username) {
+    // Regular expression for allowed pattern (letters, numbers, underscores, and one optional space in between)
+    const usernamePattern = /^(?=.*[a-zA-Z])([a-zA-Z0-9_]+ ?[a-zA-Z0-9_]*)$/;
+    return usernamePattern.test(username);
+}
+
+
+// Function to validate a strong password
+function validatePassword(password) {
+    // Regular expression for a strong password:
+    // - At least 8 characters
+    // - At least one uppercase letter
+    // - At least one lowercase letter
+    // - At least one digit
+    // - At least one special character (!@#$%^&*)
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordPattern.test(password);
+}
+
+// Function to validate the email format without repeated "gmail.com" or similar domains
+function validateEmail(email) {
+    // Regular expression for valid email format with a single instance of any domain (like "gmail.com")
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?!.*\1.*\1)$/;
+
+    // Test if the email matches the standard format without repeating "gmail.com"
+    return emailPattern.test(email);
+}
+
+
+
 // Sign up form validation
-signUpForm.addEventListener("submit", (e) => {
+signUpForm.addEventListener("submit", async (e) => {
     e.preventDefault(); // Prevent the form from submitting initially
 
     let formValid = true;
@@ -100,26 +128,42 @@ signUpForm.addEventListener("submit", (e) => {
     signUpPasswordError.textContent = "";
     signUpCpassError.textContent = "";
 
-    if (signUpName.value.length === 0 && signUpEmail.value.length === 0 && numberInput.value.length === 0 && passInput.value.length === 0 && cPassInput.value.length === 0) {
+    if (
+        signUpName.value.length === 0 &&
+        signUpEmail.value.length === 0 &&
+        numberInput.value.length === 0 &&
+        passInput.value.length === 0 &&
+        cPassInput.value.length === 0
+    ) {
         signUpError.textContent = "Create an account!";
     } else {
-        // Validate fields
+        // Validate Username
         if (signUpName.value.length === 0) {
             signUpNameError.textContent = "Username required";
             formValid = false;
         } else if (signUpName.value.length < 3 || signUpName.value.length > 30) {
             signUpNameError.textContent = "Username must be between 3 and 30 characters";
             formValid = false;
+        } else if (!validateUsername(signUpName.value)) {
+            // Specific error message if username contains only numbers
+            if (/^\d+$/.test(signUpName.value)) {
+                signUpNameError.textContent = "Not use only number include letters.";
+            } else {
+                signUpNameError.textContent = "You can use one space. Not use one more space";
+            }
+            formValid = false;
         }
 
+        // Validate Email
         if (signUpEmail.value.length === 0) {
             signUpEmailError.textContent = "Email required";
             formValid = false;
-        } else if (signUpEmail.validity.typeMismatch) {
-            signUpEmailError.textContent = "Enter valid email";
+        } else if (!validateEmail(signUpEmail.value)) {
+            signUpEmailError.textContent = "Enter a valid email";
             formValid = false;
         }
 
+        // Validate Mobile Number
         if (numberInput.value.length === 0) {
             signUpNumberError.textContent = "Mobile number required";
             formValid = false;
@@ -128,16 +172,22 @@ signUpForm.addEventListener("submit", (e) => {
             formValid = false;
         }
 
+        // Validate Password
         if (passInput.value.length === 0) {
             signUpPasswordError.textContent = "Password required";
             formValid = false;
-        } else if (passInput.value.length < 6) {
-            signUpPasswordError.textContent = "The password must be at least 6 characters";
+        } else if (passInput.value.length < 8) {
+            signUpPasswordError.textContent = "The password must be at least 8 characters";
+            formValid = false;
+        }
+        else if (!validatePassword(passInput.value)) {
+            signUpPasswordError.innerHTML = `<p>Enter strong password, with uppercase, <br>lowercase, digit, and special character.</p>`;
             formValid = false;
         }
 
+        // Validate Confirm Password
         if (cPassInput.value !== passInput.value) {
-            signUpCpassError.textContent = "Passwords do not match";
+            signUpCpassError.textContent = "Passwords do not match, Enter the correct password";
             formValid = false;
         }
 
@@ -150,40 +200,33 @@ signUpForm.addEventListener("submit", (e) => {
                 .then((userCredential) => {
                     console.log('Signed up:', userCredential.user);
 
-                    // Show the success alert
+                    // Store the username in local storage
+                    localStorage.setItem("username", signUpName.value);
+
                     alert('Sign-up successful! You can now log in.');
 
-
-                    // Clear the form inputs
                     document.querySelectorAll(".sign_up_container input").forEach(x => {
                         x.value = "";
                     });
 
-                    // Redirect to the login page or switch the form view
                     switchToLogin();
                 })
                 .catch((error) => {
                     console.log(error);
+
+                    // Handle specific error code for email already in use
+                    if (error.code === "auth/email-already-in-use") {
+                        signUpEmailError.textContent = "This email is already in use.";
+                    } else {
+                        signUpError.textContent = "An error occurred during sign-up. Please try again.";
+                    }
+                    // signUpError.textContent = error.message; // Display error message
                 });
-
-
         }
     }
 });
 
 
-
-
-
-
-// Handle Confirm Password validation
-cPassInput.addEventListener("input", () => {
-    if (cPassInput.value !== passInput.value) {
-        signUpCpassError.textContent = "Passwords do not match, Enter the correct password";
-    } else {
-        signUpCpassError.textContent = "";
-    }
-});
 
 // Handle Mobile Number input validation
 numberInput.addEventListener("input", () => {
@@ -199,7 +242,7 @@ numberInput.addEventListener('input', (event) => {
     event.target.value = event.target.value.replace(/[^0-9]/g, '');
 
     if (event.target.value.length > 10) {
-        event.target.value = event.target.value.slice(0, 10);
+        event.target.value = event.target.value.slice(0, 9);
     }
 });
 
@@ -233,6 +276,7 @@ loginForm.addEventListener("submit", (event) => {
             hasError = true;
         }
 
+
         if (loginEmail.value.length === 0) {
             loginEmailError.textContent = "Email required";
             hasError = true;
@@ -254,19 +298,21 @@ loginForm.addEventListener("submit", (event) => {
         const password = passwordInput.value;
         const username = loginName.value;
 
+        const storedUsername = localStorage.getItem("username");
+
+        if (storedUsername && loginName.value !== storedUsername) {
+            loginNameError.textContent = "Username does not match.";
+            return; // Stop further execution if usernames do not match
+        }
+
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 loginError.textContent = '';
                 console.log('Logged in:', userCredential.user);
 
-                // Redirect to the home page
                 window.location.href = "./assets/pages/html/home.html";
-
-                // Store the username in local storage
                 localStorage.setItem("loggedIn", "true");
 
-                localStorage.setItem("username", username);
-                // Clear the form inputs
                 document.querySelectorAll(".login-container input").forEach(x => {
                     x.value = "";
                 });
@@ -275,6 +321,7 @@ loginForm.addEventListener("submit", (event) => {
                 console.log(error);
                 loginError.textContent = "Login failed. Please check your credentials.";
             });
+
     }
 });
 
