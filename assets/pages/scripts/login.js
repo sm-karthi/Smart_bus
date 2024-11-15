@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+/* import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
 
 
@@ -82,6 +82,17 @@ const loginNameError = document.getElementById("nameError");
 const loginEmail = document.getElementById("Email_inputs");
 const loginName = document.getElementById("Name_inputs");
 
+// intl-tel-input initialization
+const iti = window.intlTelInput(mobileNumberInput, {
+    initialCountry: "auto",
+    geoIpLookup: callback => {
+        fetch('https://ipinfo.io?token=<YOUR_TOKEN_HERE>')
+            .then(response => response.json())
+            .then(data => callback(data.country))
+            .catch(() => callback("US"));
+    },
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+});
 
 // Function to validate the username
 function validateUsername(username) {
@@ -163,14 +174,20 @@ signUpForm.addEventListener("submit", async (e) => {
             formValid = false;
         }
 
+        const isValid = iti.isValidNumber();
         // Validate Mobile Number
         if (numberInput.value.length === 0) {
             signUpNumberError.textContent = "Mobile number required";
             formValid = false;
-        } else if (numberInput.value.length !== 10 || isNaN(numberInput.value)) {
-            signUpNumberError.textContent = "Only enter 10 numeric digits";
+        }
+        else if(!isValid){
+            signUpNumberError.textContent = "Please enter valid mobile number";
             formValid = false;
         }
+        /* else if (numberInput.value.length !== 10 || isNaN(numberInput.value)) {
+            signUpNumberError.textContent = "Only enter 10 numeric digits";
+            formValid = false;
+        } 
 
         // Validate Password
         if (passInput.value.length === 0) {
@@ -228,7 +245,7 @@ signUpForm.addEventListener("submit", async (e) => {
 
 
 
-// Handle Mobile Number input validation
+ // Handle Mobile Number input validation
 numberInput.addEventListener("input", () => {
     if (numberInput.value.length !== 10) {
         signUpNumberError.textContent = `Only enter 10 numbers, Your entered ${numberInput.value.length}.`;
@@ -244,15 +261,240 @@ numberInput.addEventListener('input', (event) => {
     if (event.target.value.length > 10) {
         event.target.value = event.target.value.slice(0, 9);
     }
-});
+}); 
 
 
 // Switch to login form after successful sign-up
 function switchToLogin() {
     signUpContainer.classList.add("hidden");
     loginContainer.classList.remove("hidden");
+} */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+
+// Prevent going back to the previous page using browser's back button
+window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function () {
+    window.history.pushState(null, null, window.location.href);
+});
+
+// Element References for Login and SignUp
+const goSignUp = document.getElementById("go_sign_up");
+const goLoginPage = document.getElementById("go_login_page");
+const loginContainer = document.querySelector(".login-container");
+const signUpContainer = document.querySelector(".sign_up_container");
+
+// Toggle Visibility for Login and Sign-up Pages
+goSignUp.addEventListener("click", () => {
+    loginContainer.classList.add("hidden");
+    signUpContainer.classList.remove("hidden");
+    document.title = "Sign up";
+});
+
+goLoginPage.addEventListener("click", () => {
+    signUpContainer.classList.add("hidden");
+    loginContainer.classList.remove("hidden");
+    document.title = "Login";
+});
+
+// Firebase Setup
+const firebaseConfig = {
+    apiKey: "AIzaSyD2-zKNWSqkRWHsk49coYSbMfBnywCpdO8",
+    authDomain: "smartbus-7443b.firebaseapp.com",
+    projectId: "smartbus-7443b",
+    storageBucket: "smartbus-7443b.appspot.com",
+    messagingSenderId: "35022257891",
+    appId: "1:35022257891:web:8eed74fb4131a414730fd6"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Ensure user is logged in before visiting home page
+window.onload = function () {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+
+    if (isLoggedIn) {
+        // If the user is logged in, redirect to the home page
+        window.location.replace("./assets/pages/html/home.html");
+    }
+};
+
+// Sign-up Form Elements
+const signUpName = document.getElementById("Name_input");
+const signUpEmail = document.getElementById("Email_input");
+const numberInput = document.getElementById("Number_input");
+const passInput = document.getElementById("password_input");
+const cPassInput = document.getElementById("Cpassword_input");
+
+// Sign-up Form Error Elements
+const signUpNameError = document.getElementById("signUpNameError");
+const signUpEmailError = document.getElementById("signUpEmailError");
+const signUpNumberError = document.getElementById("numberError");
+const signUpPasswordError = document.getElementById("signUpPassError");
+const signUpCpassError = document.getElementById("signUpCpassError");
+
+// Login Form Elements
+const passwordInput = document.getElementById("password_inputs");
+const loginEmail = document.getElementById("Email_inputs");
+const loginName = document.getElementById("Name_inputs");
+
+// Form References
+const loginForm = document.getElementById("login_form");
+const signUpForm = document.getElementById("sign_up_form");
+const loginError = document.getElementById("loginError");
+const signUpError = document.getElementById("signUpError");
+
+// Login page form validation Error space
+const loginEmailError = document.getElementById("emailError");
+const loginPasswordError = document.getElementById("passwordError");
+const loginNameError = document.getElementById("nameError");
+
+// Initialize intl-tel-input for mobile number validation
+const iti = window.intlTelInput(numberInput, {
+    initialCountry: "auto",
+    geoIpLookup: callback => {
+        fetch('https://ipinfo.io?token=<YOUR_TOKEN_HERE>')
+            .then(response => response.json())
+            .then(data => callback(data.country))
+            .catch(() => callback("US"));
+    },
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+});
+
+// Validate username pattern
+function validateUsername(username) {
+    const usernamePattern = /^(?=.*[a-zA-Z])([a-zA-Z0-9_]+ ?[a-zA-Z0-9_]*)$/;
+    return usernamePattern.test(username);
 }
 
+// Validate password strength
+function validatePassword(password) {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordPattern.test(password);
+}
+
+// Validate email format
+function validateEmail(email) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?!.*\1.*\1)$/;
+    return emailPattern.test(email);
+}
+
+// Handle Sign-up Form Submission
+signUpForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent form from submitting initially
+
+    let formValid = true;
+    signUpError.textContent = "";
+    signUpNameError.textContent = "";
+    signUpEmailError.textContent = "";
+    signUpNumberError.textContent = "";
+    signUpPasswordError.textContent = "";
+    signUpCpassError.textContent = "";
+    if (
+        signUpName.value.length === 0 &&
+        signUpEmail.value.length === 0 &&
+        numberInput.value.length === 0 &&
+        passInput.value.length === 0 &&
+        cPassInput.value.length === 0
+    ) {
+        signUpError.textContent = "Create an account!";
+    } else {
+        // Validate Username
+        if (signUpName.value.length === 0) {
+            signUpNameError.textContent = "Username required";
+            formValid = false;
+        } else if (signUpName.value.length < 3 || signUpName.value.length > 30) {
+            signUpNameError.textContent = "Username must be between 3 and 30 characters";
+            formValid = false;
+        } else if (!validateUsername(signUpName.value)) {
+            // Specific error message if username contains only numbers
+            if (/^\d+$/.test(signUpName.value)) {
+                signUpNameError.textContent = "Not use only number include letters.";
+            } else {
+                signUpNameError.innerHTML = `<p>You can use one space. Not use one more space<br>but you can use underscores.`;
+            }
+            formValid = false;
+        }
+
+        // Validate Email
+        if (signUpEmail.value.length === 0) {
+            signUpEmailError.textContent = "Email required";
+            formValid = false;
+        } else if (!validateEmail(signUpEmail.value)) {
+            signUpEmailError.textContent = "Enter a valid email";
+            formValid = false;
+        }
+
+        if (numberInput.value.length === 0) {
+            signUpNumberError.textContent = "Mobile number required";
+            formValid = false;
+        }
+        else if (!iti.isValidNumber()) {
+            signUpNumberError.textContent = "please enter valid mobile number";
+            formValid = false;
+        }
+
+        // Validate Password
+        if (passInput.value.length === 0) {
+            signUpPasswordError.textContent = "Password required";
+            formValid = false;
+        } else if (passInput.value.length < 8) {
+            signUpPasswordError.textContent = "The password must be at least 8 characters";
+            formValid = false;
+        }
+        else if (!validatePassword(passInput.value)) {
+            signUpPasswordError.innerHTML = `<p>Enter strong password, with uppercase, <br>lowercase, digit, and special character.</p>`;
+            formValid = false;
+        }
+
+        // Validate Confirm Password
+        if (cPassInput.value !== passInput.value) {
+            signUpCpassError.textContent = "Passwords do not match, Enter the correct password";
+            formValid = false;
+        }
+
+        // If the form is valid, proceed with Firebase authentication
+        if (formValid) {
+            const email = signUpEmail.value;
+            const password = passInput.value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    console.log('Signed up:', userCredential.user);
+
+                    // Store the username in local storage
+                    localStorage.setItem("username", signUpName.value);
+
+                    alert('Sign-up successful! You can now log in.');
+
+                    document.querySelectorAll(".sign_up_container input").forEach(x => {
+                        x.value = "";
+                    });
+
+                    switchToLogin();
+                })
+                .catch((error) => {
+                    console.log(error);
+
+                    // Handle specific error code for email already in use
+                    if (error.code === "auth/email-already-in-use") {
+                        signUpEmailError.textContent = "This email is already in use.";
+                    /* } else {
+                        signUpError.innerHTML = `<p>An error occurred during sign-up.<br>Please try again.`;
+                    } */
+                    }
+                    // signUpError.textContent = error.message; // Display error message
+                });
+        }
+    }
+});
+
+// Switch to login form after successful sign-up
+function switchToLogin() {
+    signUpContainer.classList.add("hidden");
+    loginContainer.classList.remove("hidden");
+}
 
 // Login form validation 
 loginForm.addEventListener("submit", (event) => {

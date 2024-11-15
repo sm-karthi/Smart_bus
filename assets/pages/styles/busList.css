@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+body{
+    background-color: #f1f1f1;
+}
 
 header {
     position: fixed;
@@ -81,9 +83,9 @@ header {
 }
 
 #side_bar{
-    width: 360px;
+    width: 340px;
     height: 100vh;
-    background-color: aqua;
+    background-color:#ffffff;
     position: fixed;
     top: 115px;
 }
@@ -98,9 +100,10 @@ header {
 
 /* Bus list styling */
 #bus_list {
-    width: 1400px;
+    width: 1500px;
     position: absolute;
-    top: 170px;
+    top: 250px;
+    right: 20px;
 }
 
 /* Individual bus item styling */
@@ -113,7 +116,7 @@ header {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
     margin-left: 400px;
-    
+    height: 230px;
 }
 
 .bus-item:hover {
@@ -136,7 +139,7 @@ header {
 
 /* No buses available message styling */
 #bus_list p {
-    color: #6c757d;
+    color: #000000;
     font-size: 1.1rem;
     text-align: center;
 }
@@ -148,3 +151,158 @@ header {
 #logoutText{
     cursor: pointer;
 }
+
+#DepartureTime {
+    position: relative;
+    bottom: 110px;
+    right: 220px;
+    font-size: 14px; /* Adjusted font size for consistency */
+    color: #333; /* Neutral text color */
+}
+
+#ArrivalTime {
+    position: relative;
+    bottom: 136px;
+    font-size: 14px;
+    color: #333;
+}
+
+#bustype {
+    position: relative;
+    right: 430px;
+    bottom: 140px;
+    font-style: italic; /* Italic style to differentiate */
+    font-size: 14px;
+    color: #555;
+}
+
+#fromPlace {
+    position: relative;
+    right: 220px;
+    top: 45px;
+    font-weight: bold; /* Highlighted for emphasis */
+    font-size: 14px;
+    color: #333;
+}
+
+#busDate {
+    position: relative;
+    left: 3px;
+    bottom: 45px;
+    font-size: 14px;
+    color: #333;
+}
+
+#toPlace {
+    position: relative;
+    top: 20px;
+    font-weight: bold; /* Emphasize destination */
+    font-size: 14px;
+    color: #333;
+}
+
+#Duration {
+    position: relative;
+    bottom: 110px;
+    right: 110px;
+    font-size: 14px;
+    color: #333;
+}
+
+#busCount {
+    color: #000000;
+    position: absolute;
+    top: 150px;
+    font-size: 30px;
+    font-weight: bold; /* Make the count stand out */
+    left: 410px;
+}
+
+.rating-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #0e8512; /* Green background */
+    color: white; /* White text color */
+    padding: 2px 8px; /* Adjusted padding for better appearance */
+    border-radius: 6px; /* Rounded corners */
+    font-family: Arial, sans-serif;
+    font-size: 16px; /* Adjust font size for readability */
+    position: relative;
+    bottom: 200px;
+    left: 630px;
+}
+
+.star-icon {
+    margin-right: 5px; /* Space between star and rating */
+    font-size: 18px; /* Adjust star size */
+    color: white; /* Star color */
+}
+
+.rating-value {
+    font-weight: bold; /* Highlight rating value */
+}
+
+#startsFrom {
+    margin-left: 490px;
+    position: relative;
+    bottom: 250px;
+    font-size: 1.5rem;
+    font-weight: bold; /* Emphasize price label */
+    color: #333;
+}
+
+#inrRate {
+    position: relative;
+    bottom: 240px;
+    margin-left: 490px;
+    font-size: 1.2rem; /* Make INR rate prominent */
+    color: #333;
+}
+
+#seatsAvailable {
+    position: relative;
+    bottom: 300px;
+    margin-left: 870px;
+    font-size: 14px;
+    color: #4caf50; /* Green color for availability */
+    font-weight: bold;
+}
+
+#single {
+    position: relative;
+    bottom: 280px;
+    margin-left: 870px;
+    font-size: 14px;
+    color: #f44336; /* Red color for single seat warning */
+    font-weight: bold;
+}
+
+
+.view-seats-btn {
+    position: relative;
+    bottom: 200px;
+    background-color: rgb(248, 74, 91); /* Button background color */
+    color: white; /* Text color for better contrast */
+    width: fit-content; /* Button width adjusts to content */
+    height: fit-content; /* Button height adjusts to content */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners for better aesthetics */
+    padding: 10px 20px; /* Space inside the button */
+    font-size: 16px; /* Font size for the text */
+    font-weight: bold; /* Bold text for visibility */
+    text-align: center; /* Center-align text */
+    cursor: pointer; /* Show pointer cursor on hover */
+    margin-left: 920px; /* Adjust left margin */
+    transition: all 0.3s ease; /* Smooth transition effect */
+}
+
+.view-seats-btn:hover {
+    background-color: rgb(220, 50, 70); /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+.view-seats-btn:active {
+    background-color: rgb(200, 40, 60); /* Even darker shade when clicked */
+    transform: scale(0.95); /* Slightly shrink on click */
+}
+

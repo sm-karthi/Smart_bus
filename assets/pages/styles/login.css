@@ -4,7 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-.login-container, .sign_up_container{
+.login-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -122,6 +122,14 @@
 /* Sign up page */
 
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Anton+SC&family=Archivo:ital,wght@0,100..900;1,100..900&family=Dangrek&family=Foldit:wght@100..900&family=Kalnia+Glaze:wght@100..700&family=Kaushan+Script&family=Lobster&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Shrikhand&family=Signika+Negative:wght@300..700&family=Yeseva+One&display=swap');
+
+.sign_up_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+} 
 
 #Name_input, #Email_input, #Number_input, #password_input {
     width: 300px;

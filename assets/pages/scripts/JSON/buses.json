@@ -3,140 +3,336 @@
         "name": "Lakshmi Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-10",
+        "date": "2024-11-16",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "MRM Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-10",
+        "date": "2024-11-16",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Amarnath Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-10",
+        "date": "2024-11-16",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Lakshmi Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-12",
+        "date": "2024-11-16",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "SRM Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-12",
+        "date": "2024-11-16",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Amarnath Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-12",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "AKS Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-13",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Amarnath Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-13",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "GKR Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-13",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Logesh Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-13",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Krishna Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-14",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Logesh Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-14",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "Priya Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-14",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     },
     {
         "name": "AKS Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-14",
+        "date": "2024-11-17",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)"
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single"
     }
 ]
