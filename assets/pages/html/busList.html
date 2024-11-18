@@ -12,28 +12,35 @@
 
 <body>
     <header>
-         <!-- Bus logo
-         <img src="../../image/SMART BUS logo.png" alt="Bus_logo" id="Bus_logo">
-
-          My booking button 
-         <h2 id="myBooking">My Booking</h2>
- 
-          profile icon 
-         <i class="fas fa-user" id="profile"></i> -->
-
-         <!-- <form action="">
-            <label for="modifyFrom">From</label>
-            <input type="text" id="modifyFrom" name="modifyFrom">
-
-            <label for="modifyTo">To</label>
-            <input type="text" id="modifyTo" name="modifyTo">
-
-            <label for="date">Date</label>
-            <input type="text" id="date" name="date">
-
-            <div id="modifyButton">Modify</div>
-         </form> -->
+        <form id="modifyForm">
+            <!-- Displaying current values -->
+            <div id="display_container">
+                <div id="displayFromContainer">
+                    <p id="displayFrom"></p>
+                </div>
+                <!-- Arrow icon -->
+                <i class="fas fa-arrow-right "></i>
+                <div id="displayToContainer">
+                    <p id="displayTo"></p>
+                </div>
+                <div id="displayDateContainer">
+                    <p id="displayDate"></p>
+                </div>
+            </div>
+    
+            <!-- Modify button -->
+            <button id="modifyButton" type="button">Modify</button>
+        </form>
     </header>
+    
+    <!-- Bus results container -->
+    <div id="busResults" style="margin-top: 20px;"></div>
+    
+    
+    
+
+
+
 
     <aside id="side_bar">
 

@@ -3,8 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     background-color: #f1f1f1;
+
 }
 
 header {
@@ -16,76 +18,16 @@ header {
     top: 0;
     left: 0;
     background-color: rgb(255, 255, 255);
-    box-shadow: 10px 0px 10px ;
+    box-shadow: 10px 0px 5px;
     z-index: 2;
-}
-
-#Bus_logo {
-    margin-left: 90px;
-    height: 100px;
-    width: 200px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-#myBooking {
-    background-color: rgb(248, 74, 91);
-    color: white;
-    width: fit-content;
-    height: fit-content;
-    padding: 10px;
-    border-radius: 10px;
-    margin-right: 350px;
-    margin-top: 35px;
-    cursor: pointer;
-}
-
-#profile {
-    padding: 0.5rem 0.5rem;
-    border-radius: 50%;
-    height: fit-content;
-    justify-content: center;
-    border: 1px solid black;
-    font-size: 2rem;
-    cursor: pointer;
-    margin-right: 80px;
-    margin-top: 35px;
+    font-family: 'Roboto', sans-serif
 }
 
 
-.profileManage {
-    width: 200px;
-    height: 200px;
-    background-color: rgb(248, 74, 91);
-    position: fixed;
-    top: 100px;
-    right: 50px;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center; 
-    z-index: 2;
-}
-
-#profileContainer{
-    font-size: 25px;
-    color: white;
-}
-.h{
-    display: none;
-}
-
-#profileContainer .logoutIcon {
-    font-size: 24px; /* Adjust size as needed */
-    color: #f1f1f1; /* Red color for logout icon */
-    cursor: pointer;
-    transition: color 0.3s;
-    margin-top: 60px;
-}
-
-#side_bar{
+#side_bar {
     width: 340px;
     height: 100vh;
-    background-color:#ffffff;
+    background-color: #ffffff;
     position: fixed;
     top: 115px;
 }
@@ -145,10 +87,10 @@ header {
 }
 
 .No_buses {
-    margin-left: 250px;   
+    margin-left: 250px;
 }
 
-#logoutText{
+#logoutText {
     cursor: pointer;
 }
 
@@ -156,8 +98,10 @@ header {
     position: relative;
     bottom: 110px;
     right: 220px;
-    font-size: 14px; /* Adjusted font size for consistency */
-    color: #333; /* Neutral text color */
+    font-size: 14px;
+    /* Adjusted font size for consistency */
+    color: #333;
+    /* Neutral text color */
 }
 
 #ArrivalTime {
@@ -171,7 +115,8 @@ header {
     position: relative;
     right: 430px;
     bottom: 140px;
-    font-style: italic; /* Italic style to differentiate */
+    font-style: italic;
+    /* Italic style to differentiate */
     font-size: 14px;
     color: #555;
 }
@@ -180,7 +125,8 @@ header {
     position: relative;
     right: 220px;
     top: 45px;
-    font-weight: bold; /* Highlighted for emphasis */
+    font-weight: bold;
+    /* Highlighted for emphasis */
     font-size: 14px;
     color: #333;
 }
@@ -196,7 +142,8 @@ header {
 #toPlace {
     position: relative;
     top: 20px;
-    font-weight: bold; /* Emphasize destination */
+    font-weight: bold;
+    /* Emphasize destination */
     font-size: 14px;
     color: #333;
 }
@@ -214,32 +161,42 @@ header {
     position: absolute;
     top: 150px;
     font-size: 30px;
-    font-weight: bold; /* Make the count stand out */
+    font-weight: bold;
+    /* Make the count stand out */
     left: 410px;
 }
 
 .rating-badge {
     display: inline-flex;
     align-items: center;
-    background-color: #0e8512; /* Green background */
-    color: white; /* White text color */
-    padding: 2px 8px; /* Adjusted padding for better appearance */
-    border-radius: 6px; /* Rounded corners */
+    background-color: #0e8512;
+    /* Green background */
+    color: white;
+    /* White text color */
+    padding: 2px 8px;
+    /* Adjusted padding for better appearance */
+    border-radius: 6px;
+    /* Rounded corners */
     font-family: Arial, sans-serif;
-    font-size: 16px; /* Adjust font size for readability */
+    font-size: 16px;
+    /* Adjust font size for readability */
     position: relative;
     bottom: 200px;
     left: 630px;
 }
 
 .star-icon {
-    margin-right: 5px; /* Space between star and rating */
-    font-size: 18px; /* Adjust star size */
-    color: white; /* Star color */
+    margin-right: 5px;
+    /* Space between star and rating */
+    font-size: 18px;
+    /* Adjust star size */
+    color: white;
+    /* Star color */
 }
 
 .rating-value {
-    font-weight: bold; /* Highlight rating value */
+    font-weight: bold;
+    /* Highlight rating value */
 }
 
 #startsFrom {
@@ -247,7 +204,8 @@ header {
     position: relative;
     bottom: 250px;
     font-size: 1.5rem;
-    font-weight: bold; /* Emphasize price label */
+    font-weight: bold;
+    /* Emphasize price label */
     color: #333;
 }
 
@@ -255,7 +213,8 @@ header {
     position: relative;
     bottom: 240px;
     margin-left: 490px;
-    font-size: 1.2rem; /* Make INR rate prominent */
+    font-size: 1.2rem;
+    /* Make INR rate prominent */
     color: #333;
 }
 
@@ -264,7 +223,8 @@ header {
     bottom: 300px;
     margin-left: 870px;
     font-size: 14px;
-    color: #4caf50; /* Green color for availability */
+    color: #4caf50;
+    /* Green color for availability */
     font-weight: bold;
 }
 
@@ -273,7 +233,8 @@ header {
     bottom: 280px;
     margin-left: 870px;
     font-size: 14px;
-    color: #f44336; /* Red color for single seat warning */
+    color: #f44336;
+    /* Red color for single seat warning */
     font-weight: bold;
 }
 
@@ -281,28 +242,211 @@ header {
 .view-seats-btn {
     position: relative;
     bottom: 200px;
-    background-color: rgb(248, 74, 91); /* Button background color */
-    color: white; /* Text color for better contrast */
-    width: fit-content; /* Button width adjusts to content */
-    height: fit-content; /* Button height adjusts to content */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners for better aesthetics */
-    padding: 10px 20px; /* Space inside the button */
-    font-size: 16px; /* Font size for the text */
-    font-weight: bold; /* Bold text for visibility */
-    text-align: center; /* Center-align text */
-    cursor: pointer; /* Show pointer cursor on hover */
-    margin-left: 920px; /* Adjust left margin */
-    transition: all 0.3s ease; /* Smooth transition effect */
+    background-color: rgb(248, 74, 91);
+    /* Button background color */
+    color: white;
+    /* Text color for better contrast */
+    width: fit-content;
+    /* Button width adjusts to content */
+    height: fit-content;
+    /* Button height adjusts to content */
+    border: none;
+    /* Remove border */
+    border-radius: 5px;
+    /* Rounded corners for better aesthetics */
+    padding: 10px 20px;
+    /* Space inside the button */
+    font-size: 16px;
+    /* Font size for the text */
+    font-weight: bold;
+    /* Bold text for visibility */
+    text-align: center;
+    /* Center-align text */
+    cursor: pointer;
+    /* Show pointer cursor on hover */
+    margin-left: 920px;
+    /* Adjust left margin */
+    transition: all 0.3s ease;
+    /* Smooth transition effect */
 }
 
 .view-seats-btn:hover {
-    background-color: rgb(220, 50, 70); /* Darker shade on hover */
-    transform: scale(1.05); /* Slightly increase size on hover */
+    background-color: rgb(220, 50, 70);
+    /* Darker shade on hover */
+    transform: scale(1.05);
+    /* Slightly increase size on hover */
 }
 
 .view-seats-btn:active {
-    background-color: rgb(200, 40, 60); /* Even darker shade when clicked */
-    transform: scale(0.95); /* Slightly shrink on click */
+    background-color: rgb(200, 40, 60);
+    /* Even darker shade when clicked */
+    transform: scale(0.95);
+    /* Slightly shrink on click */
 }
 
+
+/* Hide elements initially */
+.hidden {
+    display: none;
+}
+
+#display_container {
+    /* background-color: aqua; */
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    position: relative;
+    top: 50px;
+    left: 100px;
+}
+
+
+/* Display container */
+#display_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+#displayFromContainer,
+#displayToContainer,
+#displayDateContainer {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    color: #010101;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    bottom: 10px;
+    font-weight: bold;
+}
+
+/* Modify button styling */
+#modifyButton {
+    background-color: rgb(248, 74, 91);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    left: 550px;
+    bottom: 7px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#modifyButton:hover {
+    background-color: #b10f07;
+}
+
+#modifyButton:active {
+    transform: scale(0.97);
+}
+
+/* Dynamic form styling */
+#dynamicModifyForm {
+    position: relative;
+    top: 20px;
+    left: 500px;
+    background-color: #d6d5d5;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#dynamicModifyForm label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#dynamicModifyForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#dynamicModifyForm input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+#dynamicModifyForm button {
+    width: 100%;
+    background-color: rgb(248, 74, 91);
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+#dynamicModifyForm button:hover {
+    background-color: #b10f07;
+}
+
+#dynamicModifyForm button:active {
+    transform: scale(0.98);
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    justify-content: center;
+    align-items: center;
+    /* Center arrows */
+    border: 1px solid black;
+    position: absolute;
+    left: 170px;
+    top: 115px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+}
+
+.arrow {
+    font-size: 20px;
+    /* Adjust size of arrows */
+    transition: transform 0.3s ease;
+    /* Smooth transition for rotation */
+    position: relative;
+    right: 6px;
+    top: 10px;
+}
+
+
+
+.arrow1 {
+
+    font-size: 20px;
+    /* Adjust size of arrows */
+    transition: transform 0.3s ease;
+    /* Smooth transition for rotation */
+    position: relative;
+    left: 6.5px;
+    bottom: 12px;
+}
+
+.stack:hover{
+    box-shadow: 1px 1px 7px 0px black;
+}
