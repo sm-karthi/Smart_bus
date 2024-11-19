@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Seat Selection</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#seats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+#lower-deck, #upper-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.seat {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40px;
+    text-align: center;
+}
+
+.available {
+    background-color: green;
+    color: white;
+}
+
+.unavailable {
+    background-color: red;
+    color: white;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Select Your Seats</h1>
+    <div id="bus-info">
+        <h2>Bus: <span id="bus-name"></span></h2>
+        <p><strong>From:</strong> <span id="from"></span></p>
+        <p><strong>To:</strong> <span id="to"></span></p>
+        <p><strong>Date:</strong> <span id="date"></span></p>
+    </div>
+    <div id="seats-container">
+        <h2>Lower Deck</h2>
+        <div id="lower-deck"></div>
+        <h2>Upper Deck</h2>
+        <div id="upper-deck"></div>
+    </div>
+
+
+</body>
+<script>
+    // JSON data (the same data you provided)
+const busData = [
+    {
+        "name": "AKS Travels",
+        "from": "Chennai",
+        "to": "Madurai",
+        "date": "2024-11-18",
+        "Departure": "08:00 PM",
+        "Arrival": "6:00 AM",
+        "Duration": "10h 20m",
+        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "ratingBadge": {
+            "badgeClass": "rating-badge",
+            "starIcon": {
+                "iconClass": "star-icon",
+                "iconHTML": "&#9733;"
+            },
+            "ratingValue": {
+                "valueClass": "rating-value",
+                "textContent": 4.4
+            }
+        },
+        "inrRate": "699",
+        "seatsAvailable": "19 Seats Available",
+        "single": "7 Single",
+        "lowerDeck": [
+            { "seatNumber": "1A", "isAvailable": true },
+            { "seatNumber": "1B", "isAvailable": false },
+            { "seatNumber": "2A", "isAvailable": true },
+            { "seatNumber": "2B", "isAvailable": true }
+        ],
+        "upperDeck": [
+            { "seatNumber": "U1A", "isAvailable": true },
+            { "seatNumber": "U1B", "isAvailable": true },
+            { "seatNumber": "U2A", "isAvailable": false },
+            { "seatNumber": "U2B", "isAvailable": true }
+        ]
+    }
+];
+
+// Function to render seat layout
+function renderSeats(busData) {
+    // Assuming we are rendering the first bus's seat data
+    const bus = busData[0];
+
+    // Set bus info
+    document.getElementById('bus-name').textContent = bus.name;
+    document.getElementById('from').textContent = bus.from;
+    document.getElementById('to').textContent = bus.to;
+    document.getElementById('date').textContent = bus.date;
+
+    // Render lower deck seats
+    const lowerDeckContainer = document.getElementById('lower-deck');
+    bus.lowerDeck.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat');
+        seatDiv.textContent = seat.seatNumber;
+        seatDiv.classList.add(seat.isAvailable ? 'available' : 'unavailable');
+        lowerDeckContainer.appendChild(seatDiv);
+    });
+
+    // Render upper deck seats
+    const upperDeckContainer = document.getElementById('upper-deck');
+    bus.upperDeck.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat');
+        seatDiv.textContent = seat.seatNumber;
+        seatDiv.classList.add(seat.isAvailable ? 'available' : 'unavailable');
+        upperDeckContainer.appendChild(seatDiv);
+    });
+}
+
+// Call the function to render seats
+renderSeats(busData);
+
+</script>
+</html>

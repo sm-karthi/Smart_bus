@@ -115,14 +115,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Reusable function to load bus results
+// Function to load bus results
 function loadBusResults() {
     const from = localStorage.getItem('searchFrom');
     const to = localStorage.getItem('searchTo');
     const date = localStorage.getItem('searchDate');
 
-    const busCount = document.getElementById("busCount");
     const busList = document.getElementById('bus_list');
+    const busCount = document.getElementById("busCount");
 
     if (!from || !to || !date) {
         busList.innerHTML = "<p>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</p>";
@@ -140,9 +140,7 @@ function loadBusResults() {
 
     fetch("/assets/pages/scripts/JSON/buses.json")
         .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to load bus data.");
-            }
+            if (!response.ok) throw new Error("Failed to load bus data.");
             return response.json();
         })
         .then(buses => {
@@ -152,7 +150,7 @@ function loadBusResults() {
                 bus.date === date
             );
 
-            busList.innerHTML = ""; // Clear previous results
+            busList.innerHTML = "";
             let count = 0;
 
             if (matchingBuses.length > 0) {
@@ -167,8 +165,6 @@ function loadBusResults() {
                         </div>
                     `;
 
-                    const startFrom = "Starts from";
-
                     busItem.innerHTML = `
                         <h3 id="busName">${bus.name}</h3>
                         <p id="fromPlace">${bus.from}</p>
@@ -178,8 +174,7 @@ function loadBusResults() {
                         <p id="ArrivalTime">${bus.Arrival}</p>
                         <p id="Duration">${bus.Duration}</p>
                         <p id="bustype">${bus.bustype}</p>
-                        ${ratingBadge} 
-                        <p id="startsFrom">${startFrom}</p>
+                        ${ratingBadge}
                         <p id="inrRate">INR ${bus.inrRate}</p>
                         <p id="seatsAvailable">${bus.seatsAvailable}</p>
                         <p id="single">${bus.single}</p>
@@ -188,8 +183,12 @@ function loadBusResults() {
                     const viewSeatsButton = document.createElement('button');
                     viewSeatsButton.textContent = 'VIEW SEATS';
                     viewSeatsButton.classList.add('view-seats-btn');
-                    busItem.appendChild(viewSeatsButton);
+                    viewSeatsButton.addEventListener("click", () => {
+                        localStorage.setItem("selectedBus", JSON.stringify(bus));
+                        window.location.href = "../html/seats.html";
+                    });
 
+                    busItem.appendChild(viewSeatsButton);
                     busList.appendChild(busItem);
                     count++;
                 });
@@ -203,6 +202,40 @@ function loadBusResults() {
             console.error("Error fetching data:", error);
             busList.innerHTML = "<p>Could not load bus data. Please try again later.</p>";
         });
-
-        
 }
+
+// Function to render seats from localStorage
+function renderSeats() {
+    const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
+    if (!selectedBus) {
+        alert("No bus selected. Please go back and choose a bus.");
+        return;
+    }
+
+    document.getElementById('bus-name').textContent = selectedBus.name;
+    document.getElementById('from').textContent = selectedBus.from;
+    document.getElementById('to').textContent = selectedBus.to;
+    document.getElementById('date').textContent = selectedBus.date;
+
+    const lowerDeck = document.getElementById('lower-deck');
+    selectedBus.lowerDeck.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
+        seatDiv.textContent = seat.seatNumber;
+        lowerDeck.appendChild(seatDiv);
+    });
+
+    const upperDeck = document.getElementById('upper-deck');
+    selectedBus.upperDeck.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
+        seatDiv.textContent = seat.seatNumber;
+        upperDeck.appendChild(seatDiv);
+    });
+}
+
+// Load bus results on the appropriate page
+if (document.getElementById("bus_list")) loadBusResults();
+if (document.getElementById("seats-container")) renderSeats();
+
+
