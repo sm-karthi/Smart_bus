@@ -32,8 +32,12 @@ header {
     margin-right: 350px;
     margin-top: 35px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+#myBooking:hover{
+    background-color: #de3b33;
+}
 #profile {
     padding: 0.5rem 0.5rem;
     border-radius: 50%;
@@ -198,7 +202,7 @@ body {
 }
 
 #from {
-    border: 1px solid green;
+    border: 1px solid rgb(1, 1, 1);
     margin-top: 10px;
     font-size: 20px;
     width: 200px;
@@ -237,7 +241,7 @@ body {
 }
 
 #to {
-    border: 1px solid green;
+    border: 1px solid rgb(0, 0, 0);
     margin-top: 10px;
     font-size: 20px;
     width: 200px;
@@ -260,6 +264,11 @@ body {
     border-radius: 0px 20px 20px 0px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition for color change */
+}
+
+#search_bus_button:hover {
+    background-color: #de3b33;
 }
 
 .profileManage {

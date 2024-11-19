@@ -40,7 +40,7 @@ toBusIcon.addEventListener('click', () => {
 });
 
 // Retrieve the username from localStorage
-let userName = localStorage.getItem("username");
+let userName = localStorage.getItem("usersName");
 
 // Profile container toggle logic
 const profile = document.getElementById("profile");

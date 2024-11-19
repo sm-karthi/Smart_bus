@@ -139,9 +139,59 @@
                 "textContent": 4.4
             }
         },
-        "inrRate": "699",
+        "inrRate": 699,
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "totalSeat" : 46,
+        
+        "lowerDeck": [
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false }
+    ],
+    "upperDeck": [
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false },
+        { "seatNumber": "2A", "isAvailable": true },
+        { "seatNumber": "2B", "isAvailable": true },
+
+        { "seatNumber": "1A", "isAvailable": true },
+        { "seatNumber": "1B", "isAvailable": false }
+    ]
     },
     {
         "name": "AKS Travels",
@@ -165,7 +215,19 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "lowerDeck": [
+            { "seatNumber": "1A", "isAvailable": true },
+            { "seatNumber": "1B", "isAvailable": false },
+            { "seatNumber": "2A", "isAvailable": true },
+            { "seatNumber": "2B", "isAvailable": true }
+        ],
+        "upperDeck": [
+            { "seatNumber": "U1A", "isAvailable": true },
+            { "seatNumber": "U1B", "isAvailable": true },
+            { "seatNumber": "U2A", "isAvailable": false },
+            { "seatNumber": "U2B", "isAvailable": true }
+        ]
     },
     {
         "name": "Amarnath Travels",
@@ -189,7 +251,19 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "lowerDeck": [
+            { "seatNumber": "1A", "isAvailable": true },
+            { "seatNumber": "1B", "isAvailable": false },
+            { "seatNumber": "2A", "isAvailable": true },
+            { "seatNumber": "2B", "isAvailable": true }
+        ],
+        "upperDeck": [
+            { "seatNumber": "U1A", "isAvailable": true },
+            { "seatNumber": "U1B", "isAvailable": true },
+            { "seatNumber": "U2A", "isAvailable": false },
+            { "seatNumber": "U2B", "isAvailable": true }
+        ]
     },
     {
         "name": "GKR Travels",
@@ -213,7 +287,19 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "lowerDeck": [
+            { "seatNumber": "1A", "isAvailable": true },
+            { "seatNumber": "1B", "isAvailable": false },
+            { "seatNumber": "2A", "isAvailable": true },
+            { "seatNumber": "2B", "isAvailable": true }
+        ],
+        "upperDeck": [
+            { "seatNumber": "U1A", "isAvailable": true },
+            { "seatNumber": "U1B", "isAvailable": true },
+            { "seatNumber": "U2A", "isAvailable": false },
+            { "seatNumber": "U2B", "isAvailable": true }
+        ]
     },
     {
         "name": "Logesh Travels",
@@ -237,7 +323,19 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "lowerDeck": [
+            { "seatNumber": "1A", "isAvailable": true },
+            { "seatNumber": "1B", "isAvailable": false },
+            { "seatNumber": "2A", "isAvailable": true },
+            { "seatNumber": "2B", "isAvailable": true }
+        ],
+        "upperDeck": [
+            { "seatNumber": "U1A", "isAvailable": true },
+            { "seatNumber": "U1B", "isAvailable": true },
+            { "seatNumber": "U2A", "isAvailable": false },
+            { "seatNumber": "U2B", "isAvailable": true }
+        ]
     },
     {
         "name": "Krishna Travels",
