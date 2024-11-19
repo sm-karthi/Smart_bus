@@ -202,7 +202,7 @@ body {
 }
 
 #from {
-    border: 1px solid green;
+    border: 1px solid rgb(1, 1, 1);
     margin-top: 10px;
     font-size: 20px;
     width: 200px;
@@ -241,7 +241,7 @@ body {
 }
 
 #to {
-    border: 1px solid green;
+    border: 1px solid rgb(0, 0, 0);
     margin-top: 10px;
     font-size: 20px;
     width: 200px;

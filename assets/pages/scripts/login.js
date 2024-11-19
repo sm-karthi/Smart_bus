@@ -1,6 +1,6 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
 // Prevent going back to the previous page using browser's back button
 window.history.pushState(null, null, window.location.href);
@@ -38,6 +38,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Ensure user is logged in before visiting home page
 window.onload = function () {
@@ -151,6 +152,7 @@ signUpForm.addEventListener("submit", async (e) => {
     // Validate Mobile Number
         const countryData = iti.getSelectedCountryData();
         const countryCode = `+${countryData.dialCode} `;
+        const mobileNumber = numberInput.value;
 
     if (
         signUpName.value.length === 0 &&
@@ -219,39 +221,56 @@ signUpForm.addEventListener("submit", async (e) => {
             formValid = false;
         }
 
-        // If the form is valid, proceed with Firebase authentication
         if (formValid) {
-            const email = signUpEmail.value;
-            const password = passInput.value;
-
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    console.log('Signed up:', userCredential.user);
-
-                    // Store the username in local storage
-                    localStorage.setItem("username", signUpName.value);
-
-                    alert('Sign-up successful! You can now log in.');
-
-                    document.querySelectorAll(".sign_up_container input").forEach(x => {
-                        x.value = "";
+            try {
+                // Check if mobile number already exists in Firestore
+                const docRef = doc(db, "mobileNumbers", mobileNumber); // Store numbers in a "mobileNumbers" collection
+                const docSnap = await getDoc(docRef);
+    
+                if (docSnap.exists()) {
+                    signUpNumberError.textContent = "This mobile number is already in use.";
+                    return;
+                }
+    
+                // Proceed with Firebase Authentication
+                const email = signUpEmail.value;
+                const password = passInput.value;
+    
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(async (userCredential) => {
+                        console.log('Signed up:', userCredential.user);
+    
+                        // Save the mobile number in Firestore
+                        await setDoc(doc(db, "mobileNumbers", mobileNumber), {
+                            email: email,
+                            timestamp: new Date()
+                        });
+    
+                        // Store the username in local storage
+                        localStorage.setItem("username", signUpName.value);
+    
+                        alert('Sign-up successful! You can now log in.');
+    
+                        document.querySelectorAll(".sign_up_container input").forEach(x => {
+                            x.value = "";
+                        });
+    
+                        switchToLogin();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+    
+                        if (error.code === "auth/email-already-in-use") {
+                            signUpEmailError.textContent = "This email is already in use.";
+                        }
                     });
-
-                    switchToLogin();
-                })
-                .catch((error) => {
-                    console.log(error);
-
-                    // Handle specific error code for email already in use
-                    if (error.code === "auth/email-already-in-use") {
-                        signUpEmailError.textContent = "This email is already in use.";
-                  
-                    }
-                });
+            } catch (error) {
+                console.error("Error checking or saving mobile number:", error);
+                signUpError.textContent = "An error occurred. Please try again.";
+            }
         }
     }
-});
-
+    });
 // Switch to login form after successful sign-up
 function switchToLogin() {
     signUpContainer.classList.add("hidden");
@@ -381,9 +400,3 @@ confirmPassToggle.addEventListener("click", () => {
         Cicon.classList.add("fa-eye-slash");
     }
 });
-
-
-
-
-
-
