@@ -194,17 +194,6 @@ signUpForm.addEventListener("submit", async (e) => {
 
 
 
-        /* // Check if the number input is empty (without the country code part)
-        if (numberInput.value.length === countryCode.length) {
-            signUpNumberError.textContent = "Mobile number required";
-            formValid = false;
-        }
-        // Check if the number is valid using intl-tel-input's method
-        else if (!iti.isValidNumber()) {
-            signUpNumberError.textContent = "Please enter a valid mobile number";
-            formValid =  false;
-        } */
-
         // Check if the number input is empty (without the country code part)
         if (numberInput.value.length === countryCode.length) {
             signUpNumberError.textContent = "Mobile number required";

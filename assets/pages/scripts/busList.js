@@ -16,9 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
     modifyButton.addEventListener("click", (event) => {
         event.stopPropagation(); // Prevent click from propagating to document
 
-        // Remove existing dynamic form if any
         if (dynamicForm) {
+            // If the form already exists, hide it and clear the reference
             dynamicForm.remove();
+            dynamicForm = null;
+            return;
         }
 
         // Create the dynamic form
@@ -111,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("loadBusResults function is not defined!");
     }
 });
+
 
 
 
@@ -237,5 +240,3 @@ function renderSeats() {
 // Load bus results on the appropriate page
 if (document.getElementById("bus_list")) loadBusResults();
 if (document.getElementById("seats-container")) renderSeats();
-
-
