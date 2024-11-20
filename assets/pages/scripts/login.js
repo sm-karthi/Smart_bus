@@ -150,14 +150,17 @@ signUpForm.addEventListener("submit", async (e) => {
     signUpCpassError.textContent = "";
 
     // Validate Mobile Number
-        const countryData = iti.getSelectedCountryData();
-        const countryCode = `+${countryData.dialCode} `;
-        const mobileNumber = numberInput.value;
+    const countryData = iti.getSelectedCountryData();
+    const countryCode = `+${countryData.dialCode} `;
+    const mobileNumber = numberInput.value;
+
+    // Remove the country code for validation
+    const strippedNumber = mobileNumber.replace(countryCode, "").trim();
 
     if (
         signUpName.value.length === 0 &&
         signUpEmail.value.length === 0 &&
-        numberInput.value.length === countryCode.length&&
+        numberInput.value.length === countryCode.length &&
         passInput.value.length === 0 &&
         cPassInput.value.length === 0
     ) {
@@ -189,9 +192,9 @@ signUpForm.addEventListener("submit", async (e) => {
             formValid = false;
         }
 
-        
-    
-        // Check if the number input is empty (without the country code part)
+
+
+        /* // Check if the number input is empty (without the country code part)
         if (numberInput.value.length === countryCode.length) {
             signUpNumberError.textContent = "Mobile number required";
             formValid = false;
@@ -200,7 +203,24 @@ signUpForm.addEventListener("submit", async (e) => {
         else if (!iti.isValidNumber()) {
             signUpNumberError.textContent = "Please enter a valid mobile number";
             formValid =  false;
+        } */
+
+        // Check if the number input is empty (without the country code part)
+        if (numberInput.value.length === countryCode.length) {
+            signUpNumberError.textContent = "Mobile number required";
+            formValid = false;
         }
+        // Check if the number is valid using intl-tel-input's method
+        else if (!iti.isValidNumber()) {
+            signUpNumberError.textContent = "Please enter a valid mobile number";
+            formValid = false;
+        }
+        // Check if the mobile number is "1234567890"
+        else if (strippedNumber === "1234567890") {
+            signUpNumberError.textContent = "Please enter a valid mobile number";
+            formValid = false;
+        }
+
 
         // Validate Password
         if (passInput.value.length === 0) {
@@ -226,40 +246,40 @@ signUpForm.addEventListener("submit", async (e) => {
                 // Check if mobile number already exists in Firestore
                 const docRef = doc(db, "mobileNumbers", mobileNumber); // Store numbers in a "mobileNumbers" collection
                 const docSnap = await getDoc(docRef);
-    
+
                 if (docSnap.exists()) {
                     signUpNumberError.textContent = "This mobile number is already in use.";
                     return;
                 }
-    
+
                 // Proceed with Firebase Authentication
                 const email = signUpEmail.value;
                 const password = passInput.value;
-    
+
                 createUserWithEmailAndPassword(auth, email, password)
                     .then(async (userCredential) => {
                         console.log('Signed up:', userCredential.user);
-    
+
                         // Save the mobile number in Firestore
                         await setDoc(doc(db, "mobileNumbers", mobileNumber), {
                             email: email,
                             timestamp: new Date()
                         });
-    
+
                         // Store the username in local storage
                         localStorage.setItem("username", signUpName.value);
-    
+
                         alert('Sign-up successful! You can now log in.');
-    
+
                         document.querySelectorAll(".sign_up_container input").forEach(x => {
                             x.value = "";
                         });
-    
+
                         switchToLogin();
                     })
                     .catch((error) => {
                         console.log(error);
-    
+
                         if (error.code === "auth/email-already-in-use") {
                             signUpEmailError.textContent = "This email is already in use.";
                         }
@@ -270,7 +290,7 @@ signUpForm.addEventListener("submit", async (e) => {
             }
         }
     }
-    });
+});
 // Switch to login form after successful sign-up
 function switchToLogin() {
     signUpContainer.classList.add("hidden");
