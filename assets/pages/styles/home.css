@@ -304,3 +304,52 @@ body {
     cursor: pointer;
 }
 
+/* Drop down */
+/* Dropdown styles */
+.dropdown {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 250px;
+    width: 100%;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    margin-top: 80px;
+}
+
+/* Dropdown item styles */
+.dropdown-item {
+    padding: 12px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, padding-left 0.2s ease;
+}
+
+/* Hover effect for dropdown items */
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+    padding-left: 10px;
+}
+
+/* Selected item style */
+.dropdown-item.selected {
+    background-color: #ddd;
+    padding-left: 10px;
+}
+
+/* Hide dropdowns smoothly */
+.dropdown {
+    display: none;
+    transition: opacity 0.3s ease-out;
+}
+
+.dropdown-item.selected {
+    background-color: #ddd;
+    padding-left: 10px;
+}
+
+
