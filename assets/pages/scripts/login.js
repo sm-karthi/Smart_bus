@@ -43,6 +43,7 @@ const db = getFirestore(app);
 // Ensure user is logged in before visiting home page
 window.onload = function () {
     const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+
     if (isLoggedIn) {
         // If the user is logged in, redirect to the home page
         window.location.replace("./assets/pages/html/home.html");
@@ -84,105 +85,6 @@ const loginNameError = document.getElementById("nameError");
 
 
 
-
-
-
-
-
-
-// Set the initial value of the number input to "+91 "
-numberInput.value = "+91  ";
-
-// Ensure the cursor always starts after "+91 " when focused
-numberInput.addEventListener("focus", function () {
-    if (numberInput.selectionStart < 5) { // Corrected index to 5 since "+91 " is 5 characters
-        numberInput.setSelectionRange(5, 5); // Position cursor after "+91 "
-    }
-});
-
-// Prevent deletion or modification of the "+91 " prefix
-numberInput.addEventListener("keydown", function (e) {
-    const cursorPosition = numberInput.selectionStart;
-
-    // Block backspace or delete from affecting the "+91 " prefix
-    if ((e.key === "Backspace" || e.key === "Delete") && cursorPosition <= 4) {
-        e.preventDefault(); // Prevent deleting the "+91 " prefix
-    }
-
-    // Allow both Backspace and Delete after the "+91 " prefix (index > 4)
-    if (cursorPosition > 4) {
-        // Allow Backspace and Delete after the "+91 " prefix
-        if (e.key === "Backspace" || e.key === "Delete") {
-            return; // Allow deleting selected content or previous characters
-        }
-
-        // Allow both letters and digits or navigation keys after "+91 "
-        if (
-            !/^[a-zA-Z0-9]$/.test(e.key) &&  // Allow letters and digits
-            e.key !== "ArrowLeft" && 
-            e.key !== "ArrowRight" && 
-            e.key !== "Tab"
-        ) {
-            e.preventDefault(); // Prevent non-letter and non-digit inputs
-        }
-    }
-});
-
-// Allow pasting content (both letters and digits) and append it after the "+91 " prefix
-numberInput.addEventListener("paste", function (e) {
-    e.preventDefault(); // Prevent default paste behavior
-
-    // Get the pasted data
-    const pasteData = (e.clipboardData || window.clipboardData).getData("text");
-
-    // Remove non-letter and non-digit characters from pasted data
-    const validContent = pasteData.replace(/[^a-zA-Z0-9]/g, "");
-
-    if (validContent) {
-        const currentValue = numberInput.value.slice(0, 4); // Keep the "+91 " prefix
-        numberInput.value = currentValue + validContent; // Append the letters and digits after "+91 "
-
-        // Move the cursor to the end of the input
-        numberInput.setSelectionRange(numberInput.value.length, numberInput.value.length);
-    }
-});
-
-// Prevent editing or removing the "+91 " prefix
-numberInput.addEventListener("input", function () {
-    if (!numberInput.value.startsWith("+91  ")) {
-        numberInput.value = "+91  " + numberInput.value.slice(4); // Corrected to slice from index 4
-    }
-});
-
-// Allow selecting the entire input and preserve "+91 " prefix
-numberInput.addEventListener("select", function () {
-    if (numberInput.selectionStart < 5) { // Ensure selection only occurs after "+91 "
-        numberInput.setSelectionRange(5, numberInput.value.length); // Restrict selection to digits and letters
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Validate username pattern
 function validateUsername(username) {
     const usernamePattern = /^(?=.*[a-zA-Z])([a-zA-Z0-9_]+ ?[a-zA-Z0-9_]*)$/;
@@ -197,19 +99,14 @@ function validatePassword(password) {
 
 // Validate email format
 function validateEmail(email) {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?!.*\1.*\1)$/;
     return emailPattern.test(email);
 }
 
-// Validate Indian mobile number pattern
-function validateIndianMobileNumber(mobileNumber) {
-    const indianMobilePattern = /^[6-9]\d{9}$/; // Starts with 6-9 and is 10 digits long
-    return indianMobilePattern.test(mobileNumber);
-}
 
-// Handle Sign-up Form Submission
+
 signUpForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent form from submitting initially
+    e.preventDefault(); // Prevent form submission initially
 
     let formValid = true;
     signUpError.textContent = "";
@@ -218,6 +115,9 @@ signUpForm.addEventListener("submit", async (e) => {
     signUpNumberError.textContent = "";
     signUpPasswordError.textContent = "";
     signUpCpassError.textContent = "";
+
+    const number = numberInput.value.trim(); // Trim spaces
+    const regex = /^[6-9]\d{9}$/; // Indian mobile number format
 
     if (
         signUpName.value.length === 0 &&
@@ -228,7 +128,7 @@ signUpForm.addEventListener("submit", async (e) => {
     ) {
         signUpError.textContent = "Create an account!";
     } else {
-        // Validate Username
+        // Username Validation
         if (signUpName.value.length === 0) {
             signUpNameError.textContent = "Username required";
             formValid = false;
@@ -236,11 +136,15 @@ signUpForm.addEventListener("submit", async (e) => {
             signUpNameError.textContent = "Username must be between 3 and 30 characters";
             formValid = false;
         } else if (!validateUsername(signUpName.value)) {
-            signUpNameError.textContent = "Username can include letters, numbers, and underscores.";
+            if (/^\d+$/.test(signUpName.value)) {
+                signUpNameError.textContent = "Not use only number include letters.";
+            } else {
+                signUpNameError.innerHTML = `You can use one space. Not use multiple <br>spaces, but underscores are allowed.`;
+            }
             formValid = false;
         }
 
-        // Validate Email
+        // Email Validation
         if (signUpEmail.value.length === 0) {
             signUpEmailError.textContent = "Email required";
             formValid = false;
@@ -249,61 +153,88 @@ signUpForm.addEventListener("submit", async (e) => {
             formValid = false;
         }
 
-        // Validate Mobile Number
-        const mobileNumber = numberInput.value.replace("+91 ", ""); // Remove the "+91 " prefix before validation
-        if (mobileNumber.length === 0) {
+        // Mobile Number Validation
+        if (number.length === 0) {
             signUpNumberError.textContent = "Mobile number required";
             formValid = false;
-        } else if (!validateIndianMobileNumber(mobileNumber)) {
-            signUpNumberError.textContent = "Please enter valid mobile number";
+        } else if (!regex.test(number)) {
+            signUpNumberError.textContent = "Please enter a valid mobile number";
             formValid = false;
+        } else {
+            // Check if the mobile number is already used in Firestore
+            const docRef = doc(db, "users", number);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                signUpNumberError.textContent = "Mobile number already in use";
+                formValid = false;
+            }
         }
 
-        // Validate Password
+        // Password Validation
         if (passInput.value.length === 0) {
             signUpPasswordError.textContent = "Password required";
             formValid = false;
         } else if (passInput.value.length < 8) {
-            signUpPasswordError.textContent = "The password must be at least 8 characters";
+            signUpPasswordError.textContent = "Password must be at least 8 characters";
             formValid = false;
         } else if (!validatePassword(passInput.value)) {
-            signUpPasswordError.innerHTML = `Enter strong password, with uppercase, lowercase, digit, and special character.`;
+            signUpPasswordError.innerHTML = `Enter a strong password with uppercase, <br>lowercase, digit, and special character.`;
             formValid = false;
         }
 
-        // Validate Confirm Password
-        if (cPassInput.value.length === 0) {
-            signUpCpassError.textContent = "Confirm your password";
-            formValid = false;
-        } else if (cPassInput.value !== passInput.value) {
-            signUpCpassError.textContent = "Passwords don't match!";
+        // Confirm Password Validation
+        if (cPassInput.value !== passInput.value) {
+            signUpCpassError.textContent = "Passwords do not match";
             formValid = false;
         }
 
-        // If form is valid, proceed with Firebase authentication
+        // If all validations pass
         if (formValid) {
-            const mobileDocRef = doc(db, "mobileNumbers", mobileNumber);
-            const mobileDocSnap = await getDoc(mobileDocRef);
-            if (mobileDocSnap.exists()) {
-                signUpNumberError.textContent = "Mobile number already exists.";
-                return;
-            }
+            const email = signUpEmail.value;
+            const password = passInput.value;
 
-            try {
-                await createUserWithEmailAndPassword(auth, signUpEmail.value, passInput.value);
-                await setDoc(doc(db, "users", auth.currentUser.uid), {
-                    name: signUpName.value,
-                    email: signUpEmail.value,
-                    mobileNumber: mobileNumber,
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    console.log("Signed up:", userCredential.user);
+
+                    // Save user data in Firestore
+                    await setDoc(doc(db, "users", number), {
+                        name: signUpName.value,
+                        email: email,
+                        number: number,
+                    });
+
+                    alert("Sign-up successful! You can now log in.");
+
+                    // Clear input fields
+                    document.querySelectorAll(".sign_up_container input").forEach((x) => {
+                        x.value = "";
+                    });
+
+                    // Store the username in local storage
+                    localStorage.setItem("username", signUpName.value);
+
+                    switchToLogin();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.code === "auth/email-already-in-use") {
+                        signUpEmailError.textContent = "This email is already in use.";
+                    }
                 });
-                localStorage.setItem("loggedIn", "true");
-                window.location.replace("./assets/pages/html/home.html");
-            } catch (error) {
-                signUpError.textContent = error.message;
-            }
         }
     }
 });
+
+// Switch to login form after successful sign-up
+function switchToLogin() {
+    signUpContainer.classList.add("hidden");
+    loginContainer.classList.remove("hidden");
+}
+
+
+
 
 // Login form validation 
 loginForm.addEventListener("submit", (event) => {

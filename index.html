@@ -20,7 +20,7 @@
             <!-- Bus logo -->
             <img src="./assets/image/SMART BUS logo.png" alt="Bus_logo" id="Bus_Logo">
             <h1 id="loginHeading">LOGIN</h1>
-            
+
             <!-- Name input -->
             <input type="text" id="Name_inputs" name="name" placeholder="User Name">
 
@@ -58,7 +58,7 @@
             <p id="go_sign_up">don't have an account?<a href="#">Sign up</a></p>
         </form>
     </div>
-<img src="" alt="">
+    <img src="" alt="">
     <!-- Sign up page -->
     <div class="sign_up_container hidden">
         <form action="" id="sign_up_form" novalidate>
@@ -80,30 +80,40 @@
             <!-- Email input logo -->
             <img src="./assets/image/email_logo.png" alt="email_logo" id="email_logo">
             <span id="signUpEmailError"></span>
+            <div id="mobile">
+                <span class="input-prefix">
+                    <i class=""></i> +91
+                </span>
+                <!-- Mobile number input -->
+                <input type="tel" id="Number_input" name="number" placeholder="Mobile Number">
 
-            <!-- Mobile number input -->
-            <input type="tel" id="Number_input" name="number" placeholder="Mobile Number">
+                
+            </div>
+
+            <!-- <input type="tel" id="Number_input" name="number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Mobile Number"> -->
             <!-- Mobile number input logo -->
             <img src="./assets/image/phone_logo.png" alt="phone_logo" id="phone_logo">
             <span id="numberError"></span>
 
-            
+            <!-- <img src="./assets/image/+91_img.png" alt="+91 image" id="codeNumber">
+            <div id="mobileLine"></div> -->
+
             <!-- Password input -->
             <input type="password" id="password_input" name="password" placeholder="Password">
 
             <!-- Password input logo -->
-             
+
             <img src="./assets/image/password_logo.png" alt="password_logo" id="password_logo">
 
             <!-- Password Toggle eye icon -->
             <span id="signUp-Password-Toggle" class="sign-up-eye-icon">
                 <i class="fas fa-eye-slash"></i>
             </span>
-            
+
             <span id="signUpPassError"></span>
 
             <!-- Confirm Password input -->
-            
+
             <input type="password" id="Cpassword_input" name="cpassword" placeholder="Confirm Password">
 
             <!-- Confirm Password input logo -->
@@ -113,7 +123,7 @@
             <span id="confirm-Password-Toggle" class="confirm_pass_eye-icon">
                 <i class="fas fa-eye-slash"></i>
             </span>
-            
+
             <span id="signUpCpassError"></span>
 
             <!-- Sign up button -->
