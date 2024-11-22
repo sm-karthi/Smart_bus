@@ -81,41 +81,7 @@ const loginPasswordError = document.getElementById("passwordError");
 const loginNameError = document.getElementById("nameError");
 
 
-// Initialize intl-tel-input
-const iti = window.intlTelInput(numberInput, {
-    initialCountry: "auto",
-    geoIpLookup: callback => {
-        fetch('https://ipinfo.io?token=<YOUR_TOKEN_HERE>') // Replace with your actual token
-            .then(response => response.json())
-            .then(data => callback(data.country))
-            .catch(() => callback("US"));
-    },
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-});
 
-// Set initial country code value
-iti.promise.then(() => {
-    const countryData = iti.getSelectedCountryData();
-    numberInput.value = `+${countryData.dialCode} `;
-});
-
-// Update country code value on country change
-numberInput.addEventListener("countrychange", () => {
-    const countryData = iti.getSelectedCountryData();
-    const countryCode = `+${countryData.dialCode} `;
-    if (!numberInput.value.startsWith(countryCode)) {
-        numberInput.value = countryCode; // Update the input value with the new country code
-    }
-});
-
-// Prevent country code from being removed
-numberInput.addEventListener("input", () => {
-    const countryData = iti.getSelectedCountryData();
-    const countryCode = `+${countryData.dialCode} `;
-    if (!numberInput.value.startsWith(countryCode)) {
-        numberInput.value = countryCode + numberInput.value.replace(/^\+\d+\s*/, "");
-    }
-});
 
 
 
@@ -137,9 +103,10 @@ function validateEmail(email) {
     return emailPattern.test(email);
 }
 
-// Handle Sign-up Form Submission
+
+
 signUpForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent form from submitting initially
+    e.preventDefault(); // Prevent form submission initially
 
     let formValid = true;
     signUpError.textContent = "";
@@ -149,24 +116,19 @@ signUpForm.addEventListener("submit", async (e) => {
     signUpPasswordError.textContent = "";
     signUpCpassError.textContent = "";
 
-    // Validate Mobile Number
-    const countryData = iti.getSelectedCountryData();
-    const countryCode = `+${countryData.dialCode} `;
-    const mobileNumber = numberInput.value;
-
-    // Remove the country code for validation
-    const strippedNumber = mobileNumber.replace(countryCode, "").trim();
+    const number = numberInput.value.trim(); // Trim spaces
+    const regex = /^[6-9]\d{9}$/; // Indian mobile number format
 
     if (
         signUpName.value.length === 0 &&
         signUpEmail.value.length === 0 &&
-        numberInput.value.length === countryCode.length &&
+        numberInput.value.length === 0 &&
         passInput.value.length === 0 &&
         cPassInput.value.length === 0
     ) {
         signUpError.textContent = "Create an account!";
     } else {
-        // Validate Username
+        // Username Validation
         if (signUpName.value.length === 0) {
             signUpNameError.textContent = "Username required";
             formValid = false;
@@ -174,16 +136,15 @@ signUpForm.addEventListener("submit", async (e) => {
             signUpNameError.textContent = "Username must be between 3 and 30 characters";
             formValid = false;
         } else if (!validateUsername(signUpName.value)) {
-            // Specific error message if username contains only numbers
             if (/^\d+$/.test(signUpName.value)) {
                 signUpNameError.textContent = "Not use only number include letters.";
             } else {
-                signUpNameError.innerHTML = `<p>You can use one space. Not use one more space<br>but you can use underscores.`;
+                signUpNameError.innerHTML = `You can use one space. Not use multiple <br>spaces, but underscores are allowed.`;
             }
             formValid = false;
         }
 
-        // Validate Email
+        // Email Validation
         if (signUpEmail.value.length === 0) {
             signUpEmailError.textContent = "Email required";
             formValid = false;
@@ -192,110 +153,88 @@ signUpForm.addEventListener("submit", async (e) => {
             formValid = false;
         }
 
-
-
-        /* // Check if the number input is empty (without the country code part)
-        if (numberInput.value.length === countryCode.length) {
+        // Mobile Number Validation
+        if (number.length === 0) {
             signUpNumberError.textContent = "Mobile number required";
             formValid = false;
-        }
-        // Check if the number is valid using intl-tel-input's method
-        else if (!iti.isValidNumber()) {
-            signUpNumberError.textContent = "Please enter a valid mobile number";
-            formValid =  false;
-        } */
-
-        // Check if the number input is empty (without the country code part)
-        if (numberInput.value.length === countryCode.length) {
-            signUpNumberError.textContent = "Mobile number required";
-            formValid = false;
-        }
-        // Check if the number is valid using intl-tel-input's method
-        else if (!iti.isValidNumber()) {
+        } else if (!regex.test(number)) {
             signUpNumberError.textContent = "Please enter a valid mobile number";
             formValid = false;
-        }
-        // Check if the mobile number is "1234567890"
-        else if (strippedNumber === "1234567890") {
-            signUpNumberError.textContent = "Please enter a valid mobile number";
-            formValid = false;
+        } else {
+            // Check if the mobile number is already used in Firestore
+            const docRef = doc(db, "users", number);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                signUpNumberError.textContent = "Mobile number already in use";
+                formValid = false;
+            }
         }
 
-
-        // Validate Password
+        // Password Validation
         if (passInput.value.length === 0) {
             signUpPasswordError.textContent = "Password required";
             formValid = false;
         } else if (passInput.value.length < 8) {
-            signUpPasswordError.textContent = "The password must be at least 8 characters";
+            signUpPasswordError.textContent = "Password must be at least 8 characters";
             formValid = false;
-        }
-        else if (!validatePassword(passInput.value)) {
-            signUpPasswordError.innerHTML = `<p>Enter strong password, with uppercase, <br>lowercase, digit, and special character.</p>`;
+        } else if (!validatePassword(passInput.value)) {
+            signUpPasswordError.innerHTML = `Enter a strong password with uppercase, <br>lowercase, digit, and special character.`;
             formValid = false;
         }
 
-        // Validate Confirm Password
+        // Confirm Password Validation
         if (cPassInput.value !== passInput.value) {
-            signUpCpassError.textContent = "Passwords do not match, Enter the correct password";
+            signUpCpassError.textContent = "Passwords do not match";
             formValid = false;
         }
 
+        // If all validations pass
         if (formValid) {
-            try {
-                // Check if mobile number already exists in Firestore
-                const docRef = doc(db, "mobileNumbers", mobileNumber); // Store numbers in a "mobileNumbers" collection
-                const docSnap = await getDoc(docRef);
+            const email = signUpEmail.value;
+            const password = passInput.value;
 
-                if (docSnap.exists()) {
-                    signUpNumberError.textContent = "This mobile number is already in use.";
-                    return;
-                }
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    console.log("Signed up:", userCredential.user);
 
-                // Proceed with Firebase Authentication
-                const email = signUpEmail.value;
-                const password = passInput.value;
-
-                createUserWithEmailAndPassword(auth, email, password)
-                    .then(async (userCredential) => {
-                        console.log('Signed up:', userCredential.user);
-
-                        // Save the mobile number in Firestore
-                        await setDoc(doc(db, "mobileNumbers", mobileNumber), {
-                            email: email,
-                            timestamp: new Date()
-                        });
-
-                        // Store the username in local storage
-                        localStorage.setItem("username", signUpName.value);
-
-                        alert('Sign-up successful! You can now log in.');
-
-                        document.querySelectorAll(".sign_up_container input").forEach(x => {
-                            x.value = "";
-                        });
-
-                        switchToLogin();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-
-                        if (error.code === "auth/email-already-in-use") {
-                            signUpEmailError.textContent = "This email is already in use.";
-                        }
+                    // Save user data in Firestore
+                    await setDoc(doc(db, "users", number), {
+                        name: signUpName.value,
+                        email: email,
+                        number: number,
                     });
-            } catch (error) {
-                console.error("Error checking or saving mobile number:", error);
-                signUpError.textContent = "An error occurred. Please try again.";
-            }
+
+                    alert("Sign-up successful! You can now log in.");
+
+                    // Clear input fields
+                    document.querySelectorAll(".sign_up_container input").forEach((x) => {
+                        x.value = "";
+                    });
+
+                    // Store the username in local storage
+                    localStorage.setItem("username", signUpName.value);
+
+                    switchToLogin();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.code === "auth/email-already-in-use") {
+                        signUpEmailError.textContent = "This email is already in use.";
+                    }
+                });
         }
     }
 });
+
 // Switch to login form after successful sign-up
 function switchToLogin() {
     signUpContainer.classList.add("hidden");
     loginContainer.classList.remove("hidden");
 }
+
+
+
 
 // Login form validation 
 loginForm.addEventListener("submit", (event) => {

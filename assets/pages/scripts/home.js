@@ -5,10 +5,6 @@ window.addEventListener('popstate', function () {
 });
 
 
-
-
-
-
 // Check if the user is logged in
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "/index.html"; // Redirect to login page if not logged in
@@ -141,4 +137,167 @@ document.getElementById('search_bus_button').addEventListener('click', function 
     // Redirect to bus_show.html
     window.location.href = "/assets/pages/html/busList.html";
 });
+
+
+
+
+
+// List of place names
+const places = [
+    // Districts of Tamil Nadu with sample Taluks
+    "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode", 
+    "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari", 
+    "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam", 
+    "Arakkonam", "Kanchipuram", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai", 
+    "Kanchipuram", "Tiruvarur", "Chidambaram", "Krishnagiri", "Dharmapuri", "Sankari", 
+    "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Kanchipuram", "Vedasandur", 
+    "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi", 
+    "Ariyalur", "Chengalpattu", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Karur", 
+    "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Perambalur", "Pudukkottai", 
+    "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Tiruvannamalai", "Tirunelveli", 
+    "Vellore", "Virudhunagar", "Nilgiris", "Tenkasi", "Thiruvarur", "Thoothukudi"
+];
+
+
+
+const selectedValuesContainer = document.getElementById('selected_values');
+
+// Create dropdown elements
+const fromDropdown = document.createElement("div");
+fromDropdown.classList.add("dropdown");
+fromInput.parentNode.appendChild(fromDropdown);
+
+const toDropdown = document.createElement("div");
+toDropdown.classList.add("dropdown");
+toInput.parentNode.appendChild(toDropdown);
+
+// Index to track selected item in the dropdown
+let fromSelectedIndex = -1;
+let toSelectedIndex = -1;
+
+// Function to filter places based on input value
+function filterPlaces(inputValue) {
+    if (inputValue.trim() === "") {
+        return []; // Return an empty array when input is empty, hiding the dropdown
+    } else {
+        return places.filter(place =>
+            place.toLowerCase().includes(inputValue.toLowerCase())
+        );
+    }
+}
+
+// Function to show dropdown suggestions
+function showDropdown(input, dropdown, filteredPlaces, selectedIndex) {
+    dropdown.innerHTML = ""; // Clear previous suggestions
+
+    if (filteredPlaces.length === 0) {
+        dropdown.style.display = "none"; // Hide dropdown if no places match
+        return;
+    }
+
+    filteredPlaces.forEach((place, index) => {
+        const option = document.createElement("div");
+        option.textContent = place;
+        option.classList.add("dropdown-item");
+
+        // Highlight the selected option
+        if (index === selectedIndex) {
+            option.classList.add("selected");
+        }
+
+        option.addEventListener("click", () => {
+            input.value = place; // Set the selected place in the input
+            dropdown.style.display = "none"; // Hide dropdown after selection
+        });
+
+        dropdown.appendChild(option);
+    });
+
+    dropdown.style.display = "block"; // Show dropdown
+}
+
+// Add event listeners for "From" input
+fromInput.addEventListener("input", () => {
+    const filteredPlaces = filterPlaces(fromInput.value);
+    showDropdown(fromInput, fromDropdown, filteredPlaces, fromSelectedIndex);
+});
+
+// Add event listeners for "To" input
+toInput.addEventListener("input", () => {
+    const filteredPlaces = filterPlaces(toInput.value);
+    showDropdown(toInput, toDropdown, filteredPlaces, toSelectedIndex);
+});
+
+// Keyboard navigation for dropdown (arrow keys and Enter)
+document.addEventListener("keydown", (event) => {
+    const fromFilteredPlaces = filterPlaces(fromInput.value);
+    const toFilteredPlaces = filterPlaces(toInput.value);
+
+    // For "From" input
+    if (event.target === fromInput) {
+        if (event.key === "ArrowDown") {
+            if (fromSelectedIndex < fromFilteredPlaces.length - 1) {
+                fromSelectedIndex++;
+            }
+        } else if (event.key === "ArrowUp") {
+            if (fromSelectedIndex > 0) {
+                fromSelectedIndex--;
+            }
+        } else if (event.key === "Enter") {
+            if (fromSelectedIndex !== -1) {
+                fromInput.value = fromFilteredPlaces[fromSelectedIndex];
+                fromDropdown.style.display = "none"; // Hide dropdown after selection
+            }
+        }
+        showDropdown(fromInput, fromDropdown, fromFilteredPlaces, fromSelectedIndex);
+    }
+
+    // For "To" input
+    if (event.target === toInput) {
+        if (event.key === "ArrowDown") {
+            if (toSelectedIndex < toFilteredPlaces.length - 1) {
+                toSelectedIndex++;
+            }
+        } else if (event.key === "ArrowUp") {
+            if (toSelectedIndex > 0) {
+                toSelectedIndex--;
+            }
+        } else if (event.key === "Enter") {
+            if (toSelectedIndex !== -1) {
+                toInput.value = toFilteredPlaces[toSelectedIndex];
+                toDropdown.style.display = "none"; // Hide dropdown after selection
+            }
+        }
+        showDropdown(toInput, toDropdown, toFilteredPlaces, toSelectedIndex);
+    }
+});
+
+// Hide dropdown when clicking outside
+document.addEventListener("click", (event) => {
+    if (!fromInput.contains(event.target) && !fromDropdown.contains(event.target)) {
+        fromDropdown.style.display = "none";
+    }
+    if (!toInput.contains(event.target) && !toDropdown.contains(event.target)) {
+        toDropdown.style.display = "none";
+    }
+});
+
+// Display the selected values when the Enter key is pressed after filling both inputs
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        const from = fromInput.value;
+        const to = toInput.value;
+
+        // Check if both 'From' and 'To' inputs are filled
+        if (from && to) {
+            selectedValuesContainer.textContent = `From: ${from}, To: ${to}`;
+
+            // Hide the container (dropdowns) after entering both values
+            fromDropdown.style.display = "none";
+            toDropdown.style.display = "none";
+        }
+    }
+});
+
+
 
