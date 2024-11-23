@@ -337,13 +337,15 @@
 
 .success-message {
     position: fixed;
-    top: 200px;
-    right: 200px;
+    top: 400px;
+    right: 170px;
+    height: 50px;
+    width: 300px;
     background-color: #39e461;
     color: #000000;
     border: 1px solid #39e461;
     border-radius: 5px;
-    padding: 15px;
+    padding: 15px ;
     font-size: 14px;
     font-family: Arial, sans-serif;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
