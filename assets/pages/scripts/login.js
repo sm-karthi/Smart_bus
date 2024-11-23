@@ -99,9 +99,11 @@ function validatePassword(password) {
 
 // Validate email format
 function validateEmail(email) {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}$/;
+    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
 }
+
+
 
 signUpForm.addEventListener("submit", async (e) => {
     e.preventDefault(); // Prevent form submission initially
