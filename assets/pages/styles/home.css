@@ -34,6 +34,7 @@ header {
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     transition: background-color 0.3s ease;
+    font-size: 18px;
 }
 
 #myBooking:hover{
@@ -361,6 +362,9 @@ body {
 }
 
 
+
+
+
 /* Style for the message container */
 #message-container {
     margin-top: 40px;
@@ -370,8 +374,8 @@ body {
     height: 0; /* Initially collapsed */
     opacity: 0; /* Initially transparent */
     padding: 0; /* No padding initially */
-    display: none; /* Hidden by default */
-    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease; /* Smooth transitions */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease, visibility 0.5s ease; /* Smooth transitions */
 }
 
 /* Style for the error message */
@@ -387,8 +391,129 @@ body {
 
 /* Expanded state of the container */
 #message-container.expand {
-    display: block; /* Make it visible */
     height: auto; /* Expand height to fit content */
     opacity: 1; /* Fade in */
     padding: 10px 0; /* Add padding */
+    visibility: visible; /* Make it visible */
+}
+
+
+
+
+
+
+
+
+
+
+/* Confirmation Dialog Container */
+#confirmationDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: rgb(29, 29, 29);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    z-index: 1000;
+    opacity: 0;
+
+    animation: fadeIn 0.4s forwards, scaleUp 0.3s forwards;
+}
+
+/* Message Text */
+#confirmationDialog p {
+    font-size: 20px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.confirmButton {
+    margin: 10px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* "Yes" Button Style */
+#confirmYes {
+    background-color: #4caf50;
+    /* Green */
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#confirmYes:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* "No" Button Style */
+#confirmNo {
+    background-color: #f44336;
+    /* Red */
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#confirmNo:hover {
+    background-color: #e53935;
+    transform: translateY(-2px);
+}
+
+/* Close Button (Optional) */
+#confirmationDialog .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Hiding the confirmation dialog */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Apply fade-out animation */
+#confirmationDialog.hidden {
+    animation: fadeOut 0.5s forwards;
 }

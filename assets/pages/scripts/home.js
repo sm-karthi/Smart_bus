@@ -1,9 +1,8 @@
-
+// Prevent the user from using the back button
 window.history.pushState(null, null, window.location.href);
 window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
 });
-
 
 // Check if the user is logged in
 if (localStorage.getItem("loggedIn") !== "true") {
@@ -42,68 +41,36 @@ let userName = localStorage.getItem("usersName");
 const profile = document.getElementById("profile");
 
 profile.addEventListener("click", (e) => {
-    // Prevent the event from propagating to the document click handler
-    e.stopPropagation();
+    e.stopPropagation();  // Prevent the event from propagating to the document click handler
 
-    // Check if the profileContainer already exists
     let profileContainer = document.getElementById("profileContainer");
 
     if (!profileContainer) {
-        // Create a new div to serve as the container if it doesn't exist
+        // Create and display the profile container
         profileContainer = document.createElement("div");
         profileContainer.setAttribute("id", "profileContainer");
         profileContainer.classList.add("profileManage");
 
-        // Display the username in the container
         profileContainer.innerHTML = userName
             ? `<p>Hello, ${userName}!</p>`
             : "<p>No username found. Please login.</p>";
 
-        // Create a logout icon element
+        // Create and append the logout icon
         const logoutIcon = document.createElement("i");
-        logoutIcon.classList.add("logoutIcon", "fa", "fa-sign-out"); // Font Awesome icon for logout
+        logoutIcon.classList.add("logoutIcon", "fa", "fa-sign-out");
 
         const logoutText = document.createElement("span");
         logoutText.setAttribute("id", "logoutText");
         logoutText.textContent = "Logout";
 
-        // Add event listener to handle logout on icon click
-        logoutIcon.addEventListener("click", () => {
-            localStorage.removeItem("username");
-            localStorage.removeItem("loggedIn");
-            window.location.href = "/index.html"; // Redirect to login page
+        // Add event listeners to handle logout
+        logoutIcon.addEventListener("click", showLogoutConfirmation);
+        logoutText.addEventListener("click", showLogoutConfirmation);
 
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', function () {
-                window.history.pushState(null, null, window.location.href);
-            });
-
-
-
-        });
-
-        logoutText.addEventListener("click", () => {
-            localStorage.removeItem("username");
-            localStorage.removeItem("loggedIn");
-            window.location.href = "/index.html"; // Redirect to login page
-
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', function () {
-                window.history.pushState(null, null, window.location.href);
-            });
-
-
-
-        });
-
-        // Append the icon and text to the logout container
         profileContainer.appendChild(logoutIcon);
         profileContainer.appendChild(logoutText);
-
-        // Append the container to the body (or another desired element)
         document.body.appendChild(profileContainer);
     } else {
-        // Toggle visibility by adding/removing the "h" class
         profileContainer.classList.toggle("h");
     }
 });
@@ -116,64 +83,66 @@ document.addEventListener("click", (e) => {
     }
 });
 
+// Show custom logout confirmation dialog
+function showLogoutConfirmation() {
+    let confirmationDialog = document.getElementById("confirmationDialog");
+    if (confirmationDialog) return;
 
-/* // Show the bus list
+    // Create the confirmation dialog
+    confirmationDialog = document.createElement("div");
+    confirmationDialog.setAttribute("id", "confirmationDialog");
+    confirmationDialog.classList.add("confirmationDialog");
+
+    confirmationDialog.innerHTML = `
+        <p>Are you sure you want to log out?</p>
+        <button id="confirmYes" class="confirmButton">Yes</button>
+        <button id="confirmNo" class="confirmButton">No</button>
+    `;
+
+    document.body.appendChild(confirmationDialog);
+
+    document.getElementById("confirmYes").addEventListener("click", () => {
+        localStorage.removeItem("usersName");
+        localStorage.removeItem("loggedIn");
+        window.location.href = "/index.html";
+    });
+
+    document.getElementById("confirmNo").addEventListener("click", () => {
+        confirmationDialog.classList.add("hidden");
+        setTimeout(() => confirmationDialog.remove(), 500);
+    });
+}
+
+
+
+// Show the bus list
 document.getElementById('search_bus_button').addEventListener('click', function () {
-    const from = document.getElementById('from').value;
-    const to = document.getElementById('to').value;
-    const date = document.getElementById('date').value;
-
-    // Check if all fields are filled
-    if (!from || !to || !date) {
-        alert("Please fill in all fields to search for buses.");
-        return;
-    }
-
-    // Store search parameters in localStorage
-    localStorage.setItem('searchFrom', from);
-    localStorage.setItem('searchTo', to);
-    localStorage.setItem('searchDate', date);
-
-    // Redirect to bus_show.html
-    window.location.href = "/assets/pages/html/busList.html";
-}); */
-
-
- // Show the bus list
- document.getElementById('search_bus_button').addEventListener('click', function () {
     const from = document.getElementById('from').value.trim();
     const to = document.getElementById('to').value.trim();
     const date = document.getElementById('date').value.trim();
 
-    // Get the message container
     const messageContainer = document.getElementById('message-container');
-
-    // Clear any existing messages and reset styles
     messageContainer.innerHTML = '';
     messageContainer.classList.remove('expand');
 
     // Check if all fields are filled
     if (!from || !to || !date) {
-        // Create a div for the message
         const messageDiv = document.createElement('div');
         messageDiv.textContent = "Please fill in all fields to search for buses.";
-        messageContainer.appendChild(messageDiv); // Append message to the container
+        messageContainer.appendChild(messageDiv);
 
-        // Show the container with fade-in effect
-        messageContainer.style.display = 'block'; // Make it visible
+        messageContainer.style.visibility = 'visible';
         setTimeout(() => {
             messageContainer.classList.add('expand');
-        }, 12); // Small delay to allow DOM rendering
+        }, 12);
 
-        // Hide the container after 2 seconds
         setTimeout(() => {
-            messageContainer.classList.remove('expand'); // Trigger fade-out and collapse
+            messageContainer.classList.remove('expand');
         }, 2500);
 
-        // Remove the container from display after fade-out
         setTimeout(() => {
-            messageContainer.style.display = 'none'; // Fully hide
-        }, 3000); // Wait for fade-out transition to complete
+            messageContainer.style.visibility = 'hidden';
+        }, 3000);
 
         return;
     }
@@ -186,11 +155,6 @@ document.getElementById('search_bus_button').addEventListener('click', function 
     // Redirect to bus_show.html
     window.location.href = "/assets/pages/html/busList.html";
 });
-
-
-
-
-
 
 
 // List of place names
@@ -349,6 +313,4 @@ document.addEventListener("keydown", (event) => {
         }
     }
 });
-
-
 
