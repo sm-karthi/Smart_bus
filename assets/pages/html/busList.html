@@ -37,6 +37,8 @@
 
         </form>
 
+        <!-- Message container for displaying error -->
+        <div id="message-container"></div>
     </header>
 
     <!-- Bus results container -->
@@ -53,8 +55,10 @@
     </aside>
 
     <main id="bus_container">
-        <div id="busCount"></div>
         <div id="bus_list"></div>
+        <!-- <div id="busCount"></div> -->
+        <div id="loader" class="loader"></div>
+
     </main>
 
     <script type="module" src="../scripts/busList.js"></script>

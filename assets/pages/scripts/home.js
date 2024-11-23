@@ -1,3 +1,42 @@
+// Listen for the page load to set initial values from localStorage
+document.addEventListener('DOMContentLoaded', function () {
+    const fromInput = document.getElementById('from');
+    const toInput = document.getElementById('to');
+    const dateInput = document.getElementById('date');
+
+    // Retrieve saved values and set them in the form fields
+    if (localStorage.getItem('fromValue')) {
+        fromInput.value = localStorage.getItem('fromValue');
+    }
+    if (localStorage.getItem('toValue')) {
+        toInput.value = localStorage.getItem('toValue');
+    }
+    if (localStorage.getItem('dateValue')) {
+        dateInput.value = localStorage.getItem('dateValue');
+    }
+});
+
+// Save input values to localStorage as the user types
+const fromInput = document.getElementById('from');
+const toInput = document.getElementById('to');
+const dateInput = document.getElementById('date');
+
+// Save the values to localStorage
+fromInput.addEventListener('input', () => {
+    localStorage.setItem('fromValue', fromInput.value);
+});
+
+toInput.addEventListener('input', () => {
+    localStorage.setItem('toValue', toInput.value);
+});
+
+dateInput.addEventListener('input', () => {
+    localStorage.setItem('dateValue', dateInput.value);
+});
+
+
+
+
 // Prevent the user from using the back button
 window.history.pushState(null, null, window.location.href);
 window.addEventListener('popstate', function () {
@@ -13,18 +52,21 @@ if (localStorage.getItem("loggedIn") !== "true") {
 const arrow = document.querySelector(".stack");
 const from_input = document.getElementById("from");
 const to_input = document.getElementById("to");
+// const dateInput = document.getElementById("date");
 
 arrow.addEventListener("click", () => {
     const temp = from_input.value;
     from_input.value = to_input.value;
     to_input.value = temp;
+
+    // Save updated values in localStorage
+    localStorage.setItem("searchFrom", fromInput.value);
+    localStorage.setItem("searchTo", toInput.value);
 });
 
 // Focus the 'From' and 'To' inputs when their respective icons are clicked
 const fromBusIcon = document.getElementById('from_bus');
 const toBusIcon = document.getElementById('to_bus');
-const fromInput = document.getElementById('from');
-const toInput = document.getElementById('to');
 
 fromBusIcon.addEventListener('click', () => {
     fromInput.focus();  // Focuses the 'From' input field
@@ -83,7 +125,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// Show custom logout confirmation dialog
+ // Show custom logout confirmation dialog
 function showLogoutConfirmation() {
     let confirmationDialog = document.getElementById("confirmationDialog");
     if (confirmationDialog) return;
@@ -128,7 +170,10 @@ function showLogoutConfirmation() {
 }
 
 
-
+// Save values to localStorage on input
+fromInput.addEventListener("input", () => localStorage.setItem("searchFrom", fromInput.value));
+toInput.addEventListener("input", () => localStorage.setItem("searchTo", toInput.value));
+dateInput.addEventListener("input", () => localStorage.setItem("searchDate", dateInput.value));
 
 
 // Show the bus list
@@ -173,9 +218,23 @@ document.getElementById('search_bus_button').addEventListener('click', function 
 });
 
 
-// List of place names
+// Dropdown elements
+const fromDropdown = document.createElement("div");
+const toDropdown = document.createElement("div");
+
+
+// Message and selected values container
+const messageContainer = document.getElementById("message-container");
+const selectedValuesContainer = document.getElementById("selected-values");
+
+// Add dropdown elements to DOM
+fromDropdown.classList.add("dropdown");
+toDropdown.classList.add("dropdown");
+fromInput.parentNode.appendChild(fromDropdown);
+toInput.parentNode.appendChild(toDropdown);
+
+// List of places
 const places = [
-    // Districts of Tamil Nadu with sample Taluks
     "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
     "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari",
     "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam",
@@ -183,127 +242,91 @@ const places = [
     "Kanchipuram", "Tiruvarur", "Chidambaram", "Krishnagiri", "Dharmapuri", "Sankari",
     "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Vedasandur",
     "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi",
-    "Chengalpattu",
-    "Namakkal",
-    "Sivagangai",
-    "Virudhunagar", "Nilgiris", "Tenkasi", "Thiruvarur", "Thoothukudi"
+    "Chengalpattu", "Namakkal", "Sivagangai", "Virudhunagar", "Nilgiris", "Tenkasi",
+    "Thiruvarur", "Thoothukudi"
 ];
 
-
-
-const selectedValuesContainer = document.getElementById('selected_values');
-
-// Create dropdown elements
-const fromDropdown = document.createElement("div");
-fromDropdown.classList.add("dropdown");
-fromInput.parentNode.appendChild(fromDropdown);
-
-const toDropdown = document.createElement("div");
-toDropdown.classList.add("dropdown");
-toInput.parentNode.appendChild(toDropdown);
-
-// Index to track selected item in the dropdown
+// State for selected index
 let fromSelectedIndex = -1;
 let toSelectedIndex = -1;
 
-// Function to filter places based on input value
+// Utility function to filter places based on input
 function filterPlaces(inputValue) {
-    if (inputValue.trim() === "") {
-        return []; // Return an empty array when input is empty, hiding the dropdown
-    } else {
-        return places.filter(place =>
-            place.toLowerCase().includes(inputValue.toLowerCase())
-        );
-    }
+    return inputValue ? places.filter(place => place.toLowerCase().includes(inputValue.toLowerCase())) : [];
 }
 
-// Function to show dropdown suggestions
-function showDropdown(input, dropdown, filteredPlaces, selectedIndex) {
-    dropdown.innerHTML = ""; // Clear previous suggestions
-
-    if (filteredPlaces.length === 0) {
-        dropdown.style.display = "none"; // Hide dropdown if no places match
-        return;
-    }
-
+// Function to display dropdown options
+function showDropdown(input, dropdown, filteredPlaces, selectedIndex = -1) {
+    dropdown.innerHTML = ""; // Clear dropdown content
     filteredPlaces.forEach((place, index) => {
         const option = document.createElement("div");
         option.textContent = place;
         option.classList.add("dropdown-item");
-
-        // Highlight the selected option
         if (index === selectedIndex) {
-            option.classList.add("selected");
+            option.classList.add("active");
         }
-
+        // Select place on click
         option.addEventListener("click", () => {
-            input.value = place; // Set the selected place in the input
-            dropdown.style.display = "none"; // Hide dropdown after selection
+            input.value = place;
+            dropdown.style.display = "none";
+            localStorage.setItem(input.id === "from" ? "searchFrom" : "searchTo", place);
         });
-
         dropdown.appendChild(option);
     });
-
-    dropdown.style.display = "block"; // Show dropdown
+    dropdown.style.display = filteredPlaces.length > 0 ? "block" : "none"; // Show or hide dropdown
 }
 
-// Add event listeners for "From" input
+// Handle keyboard navigation
+function handleKeyNavigation(event, input, dropdown, selectedIndex, setIndexCallback) {
+    const filteredPlaces = filterPlaces(input.value);
+
+    if (filteredPlaces.length === 0) {
+        dropdown.style.display = "none";
+        return;
+    }
+
+    if (event.key === "ArrowDown") {
+        selectedIndex = Math.min(selectedIndex + 1, filteredPlaces.length - 1);
+    } else if (event.key === "ArrowUp") {
+        selectedIndex = Math.max(selectedIndex - 1, 0);
+    } else if (event.key === "Enter") {
+        if (selectedIndex >= 0) {
+            input.value = filteredPlaces[selectedIndex];
+            localStorage.setItem(input.id === "from" ? "searchFrom" : "searchTo", input.value);
+            dropdown.style.display = "none";
+        }
+    }
+    setIndexCallback(selectedIndex);
+    showDropdown(input, dropdown, filteredPlaces, selectedIndex);
+}
+
+// Input event listeners for filtering
 fromInput.addEventListener("input", () => {
     const filteredPlaces = filterPlaces(fromInput.value);
-    showDropdown(fromInput, fromDropdown, filteredPlaces, fromSelectedIndex);
+    fromSelectedIndex = -1;
+    showDropdown(fromInput, fromDropdown, filteredPlaces);
 });
 
-// Add event listeners for "To" input
 toInput.addEventListener("input", () => {
     const filteredPlaces = filterPlaces(toInput.value);
-    showDropdown(toInput, toDropdown, filteredPlaces, toSelectedIndex);
+    toSelectedIndex = -1;
+    showDropdown(toInput, toDropdown, filteredPlaces);
 });
 
-// Keyboard navigation for dropdown (arrow keys and Enter)
-document.addEventListener("keydown", (event) => {
-    const fromFilteredPlaces = filterPlaces(fromInput.value);
-    const toFilteredPlaces = filterPlaces(toInput.value);
-
-    // For "From" input
-    if (event.target === fromInput) {
-        if (event.key === "ArrowDown") {
-            if (fromSelectedIndex < fromFilteredPlaces.length - 1) {
-                fromSelectedIndex++;
-            }
-        } else if (event.key === "ArrowUp") {
-            if (fromSelectedIndex > 0) {
-                fromSelectedIndex--;
-            }
-        } else if (event.key === "Enter") {
-            if (fromSelectedIndex !== -1) {
-                fromInput.value = fromFilteredPlaces[fromSelectedIndex];
-                fromDropdown.style.display = "none"; // Hide dropdown after selection
-            }
-        }
-        showDropdown(fromInput, fromDropdown, fromFilteredPlaces, fromSelectedIndex);
-    }
-
-    // For "To" input
-    if (event.target === toInput) {
-        if (event.key === "ArrowDown") {
-            if (toSelectedIndex < toFilteredPlaces.length - 1) {
-                toSelectedIndex++;
-            }
-        } else if (event.key === "ArrowUp") {
-            if (toSelectedIndex > 0) {
-                toSelectedIndex--;
-            }
-        } else if (event.key === "Enter") {
-            if (toSelectedIndex !== -1) {
-                toInput.value = toFilteredPlaces[toSelectedIndex];
-                toDropdown.style.display = "none"; // Hide dropdown after selection
-            }
-        }
-        showDropdown(toInput, toDropdown, toFilteredPlaces, toSelectedIndex);
-    }
+// Keyboard navigation listeners
+fromInput.addEventListener("keydown", (event) => {
+    handleKeyNavigation(event, fromInput, fromDropdown, fromSelectedIndex, (index) => {
+        fromSelectedIndex = index;
+    });
 });
 
-// Hide dropdown when clicking outside
+toInput.addEventListener("keydown", (event) => {
+    handleKeyNavigation(event, toInput, toDropdown, toSelectedIndex, (index) => {
+        toSelectedIndex = index;
+    });
+});
+
+// Hide dropdowns when clicking outside
 document.addEventListener("click", (event) => {
     if (!fromInput.contains(event.target) && !fromDropdown.contains(event.target)) {
         fromDropdown.style.display = "none";
@@ -313,20 +336,29 @@ document.addEventListener("click", (event) => {
     }
 });
 
-// Display the selected values when the Enter key is pressed after filling both inputs
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        const from = fromInput.value;
-        const to = toInput.value;
+// Restore saved values on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const storedFrom = localStorage.getItem("searchFrom");
+    const storedTo = localStorage.getItem("searchTo");
+    const storedDate = localStorage.getItem("searchDate");
 
-        // Check if both 'From' and 'To' inputs are filled
-        if (from && to) {
-            selectedValuesContainer.textContent = `From: ${from}, To: ${to}`;
-
-            // Hide the container (dropdowns) after entering both values
-            fromDropdown.style.display = "none";
-            toDropdown.style.display = "none";
-        }
-    }
+    if (storedFrom) fromInput.value = storedFrom;
+    if (storedTo) toInput.value = storedTo;
+    if (storedDate) dateInput.value = storedDate;
 });
 
+// Save the date input to localStorage
+dateInput.addEventListener("input", () => {
+    localStorage.setItem("searchDate", dateInput.value);
+});
+
+ // On page load, restore saved values
+document.addEventListener("DOMContentLoaded", () => {
+    const storedFrom = localStorage.getItem("searchFrom");
+    const storedTo = localStorage.getItem("searchTo");
+    const storedDate = localStorage.getItem("searchDate");
+
+    if (storedFrom) fromInput.value = storedFrom;
+    if (storedTo) toInput.value = storedTo;
+    if (storedDate) dateInput.value = storedDate;
+});
