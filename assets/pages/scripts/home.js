@@ -112,8 +112,14 @@ profile.addEventListener("click", (e) => {
         profileContainer.appendChild(logoutIcon);
         profileContainer.appendChild(logoutText);
         document.body.appendChild(profileContainer);
+
+        // Add the 'show' class to display the profile container
+        setTimeout(() => {
+            profileContainer.classList.add("show");
+        }, 10); // Ensure the animation starts after appending
     } else {
-        profileContainer.classList.toggle("h");
+        // Toggle visibility with animation
+        profileContainer.classList.toggle("show");
     }
 });
 
@@ -121,11 +127,12 @@ profile.addEventListener("click", (e) => {
 document.addEventListener("click", (e) => {
     let profileContainer = document.getElementById("profileContainer");
     if (profileContainer && !profileContainer.contains(e.target) && e.target !== profile) {
-        profileContainer.classList.add("h"); // Hide the profile container
+        profileContainer.classList.remove("show"); // Hide the profile container with animation
     }
 });
 
- // Show custom logout confirmation dialog
+
+// Show custom logout confirmation dialog
 function showLogoutConfirmation() {
     let confirmationDialog = document.getElementById("confirmationDialog");
     if (confirmationDialog) return;
@@ -168,6 +175,7 @@ function showLogoutConfirmation() {
         }, 500);
     });
 }
+
 
 
 // Save values to localStorage on input
@@ -352,7 +360,7 @@ dateInput.addEventListener("input", () => {
     localStorage.setItem("searchDate", dateInput.value);
 });
 
- // On page load, restore saved values
+// On page load, restore saved values
 document.addEventListener("DOMContentLoaded", () => {
     const storedFrom = localStorage.getItem("searchFrom");
     const storedTo = localStorage.getItem("searchTo");

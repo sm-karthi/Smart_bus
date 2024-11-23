@@ -24,8 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (dynamicForm) {
             // If the form already exists, hide it and clear the reference
-            dynamicForm.remove();
-            dynamicForm = null;
+            dynamicForm.classList.remove("show"); // Remove the "show" class to hide the form
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null;
+            }, 500); // Match the duration of the transition
             return;
         }
 
@@ -35,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add form fields
         dynamicForm.innerHTML = `
+            <div class="close-btn" id="closeFormBtn">X</div> <!-- Close button -->
             <div id="modifyFromContainer">
                 <label for="modifyFrom">From</label>
                 <input type="text" id="modifyFrom" name="modifyFrom" 
@@ -61,6 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // Append the form after the modify button
         modifyButton.parentNode.insertBefore(dynamicForm, modifyButton.nextSibling);
 
+        // Add animation class to show the form smoothly
+        setTimeout(() => {
+            dynamicForm.classList.add("show");
+        }, 10); // Delay to ensure the form is added to the DOM before applying the class
+
         // Add functionality to swap values using arrows
         const modifyFrom = document.getElementById("modifyFrom");
         const modifyTo = document.getElementById("modifyTo");
@@ -71,6 +80,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const temp = modifyFrom.value;
             modifyFrom.value = modifyTo.value;
             modifyTo.value = temp;
+        });
+
+        const closeButton = document.getElementById("closeFormBtn");
+        closeButton.addEventListener("click", () => {
+            dynamicForm.classList.remove("show"); // Hide the form smoothly
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null;
+            }, 500); // Match the duration of the transition
         });
 
         // Add event listener for the Search button
@@ -121,22 +139,17 @@ document.addEventListener("DOMContentLoaded", () => {
             displayDate.textContent = capitalizedDateValue;
 
             // Remove the dynamic form
-            dynamicForm.remove();
-            dynamicForm = null; // Clear the form reference
+            dynamicForm.classList.remove("show"); // Hide the form smoothly
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null; // Clear the form reference
+            }, 500); // Match the duration of the transition
 
             // Immediately load updated results
             loadBusResults();
 
             window.location.reload();
         });
-    });
-
-    // Hide the form when clicking outside of it
-    document.addEventListener("click", (event) => {
-        if (dynamicForm && !dynamicForm.contains(event.target) && event.target !== modifyButton) {
-            dynamicForm.remove();
-            dynamicForm = null; // Clear the form reference
-        }
     });
 
     // Load initial bus results on page load
@@ -146,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("loadBusResults function is not defined!");
     }
 });
+
 
 
 
@@ -175,6 +189,8 @@ function simulateLoading(callback) {
     }, 3000); // 3000ms = 3 seconds
 }
 
+const side_bar = document.getElementById('side_bar');
+side_bar.style.display = "none";
 
 // Function to load bus results
 function loadBusResults() {
@@ -184,12 +200,15 @@ function loadBusResults() {
         const date = localStorage.getItem("searchDate");
         const bus_container = document.getElementById('bus_container');
         const busList = document.getElementById("bus_list");
+        
+
 
         document.title = `${from} To ${to}`;
 
         if (!from || !to || !date) {
             busList.innerHTML =
-                "<p>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</p>";
+                "<h4>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</h4>";
+                side_bar.style.display = "none";
             return;
         }
 
@@ -199,7 +218,8 @@ function loadBusResults() {
 
         if (selectedDate < today) {
             busList.innerHTML =
-                "<p>No buses available for past dates. Please select today or a future date.</p>";
+                "<h4>No buses available for past dates. Please select today or a future date.</h4>";
+                side_bar.style.display = "none";
             return;
         }
 
@@ -224,6 +244,8 @@ function loadBusResults() {
                         bus.to.toLowerCase() === to.toLowerCase() &&
                         bus.date === date
                 );
+
+                side_bar.style.display = "block";
 
                 // Reset bus list before appending new results, but keep busCountContainer
                 busList.innerHTML = ""; 
@@ -280,13 +302,16 @@ function loadBusResults() {
                     busCount.textContent = `${count} BUSES found`;
                     bus_container.appendChild(busCount);
                 } else {
-                    busList.innerHTML = `<p class="No_buses">No buses available for this route on the selected date.</p>`;
+                    busList.innerHTML = `<h5 class="No_buses">No buses available for this route on the selected date.</h5>`;
+                    side_bar.style.display = "none";
                 }
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
                 busList.innerHTML =
-                    "<p>Could not load bus data. Please try again later.</p>";
+                    "<h5>Could not load bus data. Please try again later.</h5>";
+                    side_bar.style.display = "none";
+                    
             });
     });
 }

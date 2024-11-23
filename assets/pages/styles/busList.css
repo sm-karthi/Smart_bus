@@ -80,11 +80,26 @@ header {
     color: #495057;
 }
 
-/* No buses available message styling */
 #bus_list p {
-    color: #000000;
+    color: #495057;
     font-size: 1.1rem;
+    text-align: center; 
+
+}
+
+#bus_list h5 {
+    color: #495057;
+    font-size: 1.2rem;
+    text-align: center; 
+    font-weight: bold;
+    margin-right: 200px;
+}
+
+#bus_list h4{
+    color: #495057;
+    font-size: 1.2rem;
     text-align: center;
+    margin-left: 100px;
 }
 
 .No_buses {
@@ -165,7 +180,6 @@ header {
     font-size: 25px;
     font-weight: bold;
 }
-
 
 
 
@@ -504,5 +518,32 @@ header {
 }
 
 
+/* Initial state of the form is hidden (opacity 0 and scaled down) */
+#dynamicModifyForm {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* When the form is visible (after adding class "show") */
+#dynamicModifyForm.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Styling for the close button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+}
+
+.close-btn:hover {
+    color: red;
+}
 
 
