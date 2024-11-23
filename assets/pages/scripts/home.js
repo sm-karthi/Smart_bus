@@ -117,7 +117,7 @@ document.addEventListener("click", (e) => {
 });
 
 
-// Show the bus list
+/* // Show the bus list
 document.getElementById('search_bus_button').addEventListener('click', function () {
     const from = document.getElementById('from').value;
     const to = document.getElementById('to').value;
@@ -136,7 +136,58 @@ document.getElementById('search_bus_button').addEventListener('click', function 
 
     // Redirect to bus_show.html
     window.location.href = "/assets/pages/html/busList.html";
+}); */
+
+
+ // Show the bus list
+ document.getElementById('search_bus_button').addEventListener('click', function () {
+    const from = document.getElementById('from').value.trim();
+    const to = document.getElementById('to').value.trim();
+    const date = document.getElementById('date').value.trim();
+
+    // Get the message container
+    const messageContainer = document.getElementById('message-container');
+
+    // Clear any existing messages and reset styles
+    messageContainer.innerHTML = '';
+    messageContainer.classList.remove('expand');
+
+    // Check if all fields are filled
+    if (!from || !to || !date) {
+        // Create a div for the message
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = "Please fill in all fields to search for buses.";
+        messageContainer.appendChild(messageDiv); // Append message to the container
+
+        // Show the container with fade-in effect
+        messageContainer.style.display = 'block'; // Make it visible
+        setTimeout(() => {
+            messageContainer.classList.add('expand');
+        }, 12); // Small delay to allow DOM rendering
+
+        // Hide the container after 2 seconds
+        setTimeout(() => {
+            messageContainer.classList.remove('expand'); // Trigger fade-out and collapse
+        }, 2500);
+
+        // Remove the container from display after fade-out
+        setTimeout(() => {
+            messageContainer.style.display = 'none'; // Fully hide
+        }, 3000); // Wait for fade-out transition to complete
+
+        return;
+    }
+
+    // Store search parameters in localStorage
+    localStorage.setItem('searchFrom', from);
+    localStorage.setItem('searchTo', to);
+    localStorage.setItem('searchDate', date);
+
+    // Redirect to bus_show.html
+    window.location.href = "/assets/pages/html/busList.html";
 });
+
+
 
 
 
