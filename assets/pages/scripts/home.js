@@ -99,8 +99,18 @@ function showLogoutConfirmation() {
         <button id="confirmNo" class="confirmButton">No</button>
     `;
 
+    // Create the overlay to block interaction
+    const overlay = document.createElement("div");
+    overlay.setAttribute("id", "overlay");
+    overlay.classList.add("overlay");
+    document.body.appendChild(overlay);
+
     document.body.appendChild(confirmationDialog);
 
+    // Prevent interaction with the background
+    overlay.style.display = "block"; // Show overlay
+
+    // Add event listeners for Yes/No buttons
     document.getElementById("confirmYes").addEventListener("click", () => {
         localStorage.removeItem("usersName");
         localStorage.removeItem("loggedIn");
@@ -109,9 +119,15 @@ function showLogoutConfirmation() {
 
     document.getElementById("confirmNo").addEventListener("click", () => {
         confirmationDialog.classList.add("hidden");
-        setTimeout(() => confirmationDialog.remove(), 500);
+        overlay.style.display = "none"; // Hide overlay
+        setTimeout(() => {
+            confirmationDialog.remove();
+            overlay.remove();
+        }, 500);
     });
 }
+
+
 
 
 
@@ -160,17 +176,17 @@ document.getElementById('search_bus_button').addEventListener('click', function 
 // List of place names
 const places = [
     // Districts of Tamil Nadu with sample Taluks
-    "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode", 
-    "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari", 
-    "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam", 
-    "Arakkonam", "Kanchipuram", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai", 
-    "Kanchipuram", "Tiruvarur", "Chidambaram", "Krishnagiri", "Dharmapuri", "Sankari", 
-    "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Kanchipuram", "Vedasandur", 
-    "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi", 
-    "Ariyalur", "Chengalpattu", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Karur", 
-    "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Perambalur", "Pudukkottai", 
-    "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Tiruvannamalai", "Tirunelveli", 
-    "Vellore", "Virudhunagar", "Nilgiris", "Tenkasi", "Thiruvarur", "Thoothukudi"
+    "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
+    "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari",
+    "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam",
+    "Arakkonam", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai",
+    "Kanchipuram", "Tiruvarur", "Chidambaram", "Krishnagiri", "Dharmapuri", "Sankari",
+    "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Vedasandur",
+    "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi",
+    "Chengalpattu",
+    "Namakkal",
+    "Sivagangai",
+    "Virudhunagar", "Nilgiris", "Tenkasi", "Thiruvarur", "Thoothukudi"
 ];
 
 
