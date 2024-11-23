@@ -205,7 +205,21 @@ signUpForm.addEventListener("submit", async (e) => {
                         number: number,
                     });
 
-                    alert("Sign-up successful! You can now log in.");
+                    // Create and display the success message
+                    const messageContainer = document.createElement('div');
+                    messageContainer.textContent = "Sign-up successful! You can now log in.";
+                    messageContainer.classList.add('success-message'); // Add a class for styling
+                    document.body.appendChild(messageContainer); // Append it to the body or a specific container
+
+                    // Automatically hide the message after 3 seconds
+                    setTimeout(() => {
+                        messageContainer.classList.add('hide'); // Add a class for fade-out animation
+                    }, 3000);
+
+                    // Remove the message from the DOM after the animation completes
+                    setTimeout(() => {
+                        messageContainer.remove();
+                    }, 4000); // Slightly longer to account for the fade-out duration
 
                     // Clear input fields
                     document.querySelectorAll(".sign_up_container input").forEach((x) => {
@@ -223,6 +237,8 @@ signUpForm.addEventListener("submit", async (e) => {
                         signUpEmailError.textContent = "This email is already in use.";
                     }
                 });
+
+
         }
     }
 });

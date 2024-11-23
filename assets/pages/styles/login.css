@@ -333,3 +333,53 @@
 .hidden {
     display: none;
 }
+
+
+.success-message {
+    position: fixed;
+    top: 200px;
+    right: 200px;
+    background-color: #39e461;
+    color: #000000;
+    border: 1px solid #39e461;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it appears above other elements */
+    opacity: 0; /* Start invisible */
+    transform: translateY(-20px); /* Start slightly above */
+    animation: fadeInSlideDown 0.5s ease forwards; /* Initial animation */
+}
+
+/* Animation for showing the message */
+@keyframes fadeInSlideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for hiding the message */
+.success-message.hide {
+    animation: fadeOutSlideUp 0.5s ease forwards;
+}
+
+@keyframes fadeOutSlideUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+
+
