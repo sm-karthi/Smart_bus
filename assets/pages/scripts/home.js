@@ -1,9 +1,47 @@
+// Listen for the page load to set initial values from localStorage
+document.addEventListener('DOMContentLoaded', function () {
+    const fromInput = document.getElementById('from');
+    const toInput = document.getElementById('to');
+    const dateInput = document.getElementById('date');
 
+    // Retrieve saved values and set them in the form fields
+    if (localStorage.getItem('fromValue')) {
+        fromInput.value = localStorage.getItem('fromValue');
+    }
+    if (localStorage.getItem('toValue')) {
+        toInput.value = localStorage.getItem('toValue');
+    }
+    if (localStorage.getItem('dateValue')) {
+        dateInput.value = localStorage.getItem('dateValue');
+    }
+});
+
+// Save input values to localStorage as the user types
+const fromInput = document.getElementById('from');
+const toInput = document.getElementById('to');
+const dateInput = document.getElementById('date');
+
+// Save the values to localStorage
+fromInput.addEventListener('input', () => {
+    localStorage.setItem('fromValue', fromInput.value);
+});
+
+toInput.addEventListener('input', () => {
+    localStorage.setItem('toValue', toInput.value);
+});
+
+dateInput.addEventListener('input', () => {
+    localStorage.setItem('dateValue', dateInput.value);
+});
+
+
+
+
+// Prevent the user from using the back button
 window.history.pushState(null, null, window.location.href);
 window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
 });
-
 
 // Check if the user is logged in
 if (localStorage.getItem("loggedIn") !== "true") {
@@ -14,18 +52,21 @@ if (localStorage.getItem("loggedIn") !== "true") {
 const arrow = document.querySelector(".stack");
 const from_input = document.getElementById("from");
 const to_input = document.getElementById("to");
+// const dateInput = document.getElementById("date");
 
 arrow.addEventListener("click", () => {
     const temp = from_input.value;
     from_input.value = to_input.value;
     to_input.value = temp;
+
+    // Save updated values in localStorage
+    localStorage.setItem("searchFrom", fromInput.value);
+    localStorage.setItem("searchTo", toInput.value);
 });
 
 // Focus the 'From' and 'To' inputs when their respective icons are clicked
 const fromBusIcon = document.getElementById('from_bus');
 const toBusIcon = document.getElementById('to_bus');
-const fromInput = document.getElementById('from');
-const toInput = document.getElementById('to');
 
 fromBusIcon.addEventListener('click', () => {
     fromInput.focus();  // Focuses the 'From' input field
@@ -42,69 +83,43 @@ let userName = localStorage.getItem("usersName");
 const profile = document.getElementById("profile");
 
 profile.addEventListener("click", (e) => {
-    // Prevent the event from propagating to the document click handler
-    e.stopPropagation();
+    e.stopPropagation();  // Prevent the event from propagating to the document click handler
 
-    // Check if the profileContainer already exists
     let profileContainer = document.getElementById("profileContainer");
 
     if (!profileContainer) {
-        // Create a new div to serve as the container if it doesn't exist
+        // Create and display the profile container
         profileContainer = document.createElement("div");
         profileContainer.setAttribute("id", "profileContainer");
         profileContainer.classList.add("profileManage");
 
-        // Display the username in the container
         profileContainer.innerHTML = userName
             ? `<p>Hello, ${userName}!</p>`
             : "<p>No username found. Please login.</p>";
 
-        // Create a logout icon element
+        // Create and append the logout icon
         const logoutIcon = document.createElement("i");
-        logoutIcon.classList.add("logoutIcon", "fa", "fa-sign-out"); // Font Awesome icon for logout
+        logoutIcon.classList.add("logoutIcon", "fa", "fa-sign-out");
 
         const logoutText = document.createElement("span");
         logoutText.setAttribute("id", "logoutText");
         logoutText.textContent = "Logout";
 
-        // Add event listener to handle logout on icon click
-        logoutIcon.addEventListener("click", () => {
-            localStorage.removeItem("username");
-            localStorage.removeItem("loggedIn");
-            window.location.href = "/index.html"; // Redirect to login page
+        // Add event listeners to handle logout
+        logoutIcon.addEventListener("click", showLogoutConfirmation);
+        logoutText.addEventListener("click", showLogoutConfirmation);
 
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', function () {
-                window.history.pushState(null, null, window.location.href);
-            });
-
-
-
-        });
-
-        logoutText.addEventListener("click", () => {
-            localStorage.removeItem("username");
-            localStorage.removeItem("loggedIn");
-            window.location.href = "/index.html"; // Redirect to login page
-
-            window.history.pushState(null, null, window.location.href);
-            window.addEventListener('popstate', function () {
-                window.history.pushState(null, null, window.location.href);
-            });
-
-
-
-        });
-
-        // Append the icon and text to the logout container
         profileContainer.appendChild(logoutIcon);
         profileContainer.appendChild(logoutText);
-
-        // Append the container to the body (or another desired element)
         document.body.appendChild(profileContainer);
+
+        // Add the 'show' class to display the profile container
+        setTimeout(() => {
+            profileContainer.classList.add("show");
+        }, 10); // Ensure the animation starts after appending
     } else {
-        // Toggle visibility by adding/removing the "h" class
-        profileContainer.classList.toggle("h");
+        // Toggle visibility with animation
+        profileContainer.classList.toggle("show");
     }
 });
 
@@ -112,68 +127,91 @@ profile.addEventListener("click", (e) => {
 document.addEventListener("click", (e) => {
     let profileContainer = document.getElementById("profileContainer");
     if (profileContainer && !profileContainer.contains(e.target) && e.target !== profile) {
-        profileContainer.classList.add("h"); // Hide the profile container
+        profileContainer.classList.remove("show"); // Hide the profile container with animation
     }
 });
 
 
-/* // Show the bus list
+// Show custom logout confirmation dialog
+function showLogoutConfirmation() {
+    let confirmationDialog = document.getElementById("confirmationDialog");
+    if (confirmationDialog) return;
+
+    // Create the confirmation dialog
+    confirmationDialog = document.createElement("div");
+    confirmationDialog.setAttribute("id", "confirmationDialog");
+    confirmationDialog.classList.add("confirmationDialog");
+
+    confirmationDialog.innerHTML = `
+        <p>Are you sure you want to log out?</p>
+        <button id="confirmYes" class="confirmButton">Yes</button>
+        <button id="confirmNo" class="confirmButton">No</button>
+    `;
+
+    // Create the overlay to block interaction
+    const overlay = document.createElement("div");
+    overlay.setAttribute("id", "overlay");
+    overlay.classList.add("overlay");
+    document.body.appendChild(overlay);
+
+    document.body.appendChild(confirmationDialog);
+
+    // Prevent interaction with the background
+    overlay.style.display = "block"; // Show overlay
+
+    // Add event listeners for Yes/No buttons
+    document.getElementById("confirmYes").addEventListener("click", () => {
+        localStorage.removeItem("usersName");
+        localStorage.removeItem("loggedIn");
+        window.location.href = "/index.html";
+    });
+
+    document.getElementById("confirmNo").addEventListener("click", () => {
+        confirmationDialog.classList.add("hidden");
+        overlay.style.display = "none"; // Hide overlay
+        setTimeout(() => {
+            confirmationDialog.remove();
+            overlay.remove();
+        }, 500);
+    });
+}
+
+
+
+// Save values to localStorage on input
+fromInput.addEventListener("input", () => localStorage.setItem("searchFrom", fromInput.value));
+toInput.addEventListener("input", () => localStorage.setItem("searchTo", toInput.value));
+dateInput.addEventListener("input", () => localStorage.setItem("searchDate", dateInput.value));
+
+
+// Show the bus list
 document.getElementById('search_bus_button').addEventListener('click', function () {
-    const from = document.getElementById('from').value;
-    const to = document.getElementById('to').value;
-    const date = document.getElementById('date').value;
-
-    // Check if all fields are filled
-    if (!from || !to || !date) {
-        alert("Please fill in all fields to search for buses.");
-        return;
-    }
-
-    // Store search parameters in localStorage
-    localStorage.setItem('searchFrom', from);
-    localStorage.setItem('searchTo', to);
-    localStorage.setItem('searchDate', date);
-
-    // Redirect to bus_show.html
-    window.location.href = "/assets/pages/html/busList.html";
-}); */
-
-
- // Show the bus list
- document.getElementById('search_bus_button').addEventListener('click', function () {
     const from = document.getElementById('from').value.trim();
     const to = document.getElementById('to').value.trim();
     const date = document.getElementById('date').value.trim();
 
-    // Get the message container
     const messageContainer = document.getElementById('message-container');
-
-    // Clear any existing messages and reset styles
     messageContainer.innerHTML = '';
     messageContainer.classList.remove('expand');
 
     // Check if all fields are filled
     if (!from || !to || !date) {
-        // Create a div for the message
         const messageDiv = document.createElement('div');
         messageDiv.textContent = "Please fill in all fields to search for buses.";
-        messageContainer.appendChild(messageDiv); // Append message to the container
+        messageContainer.appendChild(messageDiv);
 
-        // Show the container with fade-in effect
-        messageContainer.style.display = 'block'; // Make it visible
+        messageContainer.style.visibility = 'visible';
         setTimeout(() => {
             messageContainer.classList.add('expand');
-        }, 12); // Small delay to allow DOM rendering
+        }, 12);
 
-        // Hide the container after 2 seconds
         setTimeout(() => {
-            messageContainer.classList.remove('expand'); // Trigger fade-out and collapse
+            messageContainer.classList.remove('expand');
         }, 2500);
 
-        // Remove the container from display after fade-out
         setTimeout(() => {
-            messageContainer.style.display = 'none'; // Fully hide
-        }, 3000); // Wait for fade-out transition to complete
+            messageContainer.style.visibility = 'hidden';
+        }, 3000);
 
         return;
     }
@@ -188,142 +226,115 @@ document.getElementById('search_bus_button').addEventListener('click', function 
 });
 
 
-
-
-
-
-
-// List of place names
-const places = [
-    // Districts of Tamil Nadu with sample Taluks
-    "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode", 
-    "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari", 
-    "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam", 
-    "Arakkonam", "Kanchipuram", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai", 
-    "Kanchipuram", "Tiruvarur", "Chidambaram", "Krishnagiri", "Dharmapuri", "Sankari", 
-    "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Kanchipuram", "Vedasandur", 
-    "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi", 
-    "Ariyalur", "Chengalpattu", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Karur", 
-    "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Perambalur", "Pudukkottai", 
-    "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Tiruvannamalai", "Tirunelveli", 
-    "Vellore", "Virudhunagar", "Nilgiris", "Tenkasi", "Thiruvarur", "Thoothukudi"
-];
-
-
-
-const selectedValuesContainer = document.getElementById('selected_values');
-
-// Create dropdown elements
+// Dropdown elements
 const fromDropdown = document.createElement("div");
-fromDropdown.classList.add("dropdown");
-fromInput.parentNode.appendChild(fromDropdown);
-
 const toDropdown = document.createElement("div");
+
+
+// Message and selected values container
+const messageContainer = document.getElementById("message-container");
+const selectedValuesContainer = document.getElementById("selected-values");
+
+// Add dropdown elements to DOM
+fromDropdown.classList.add("dropdown");
 toDropdown.classList.add("dropdown");
+fromInput.parentNode.appendChild(fromDropdown);
 toInput.parentNode.appendChild(toDropdown);
 
-// Index to track selected item in the dropdown
+// List of places
+const places = [
+    "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
+    "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari",
+    "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam",
+    "Arakkonam", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai",
+    "Kanchipuram", "Tiruvarur", "Chidambaram", "Krishnagiri", "Dharmapuri", "Sankari",
+    "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Vedasandur",
+    "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi",
+    "Chengalpattu", "Namakkal", "Sivagangai", "Virudhunagar", "Nilgiris", "Tenkasi",
+    "Thiruvarur", "Thoothukudi"
+];
+
+// State for selected index
 let fromSelectedIndex = -1;
 let toSelectedIndex = -1;
 
-// Function to filter places based on input value
+// Utility function to filter places based on input
 function filterPlaces(inputValue) {
-    if (inputValue.trim() === "") {
-        return []; // Return an empty array when input is empty, hiding the dropdown
-    } else {
-        return places.filter(place =>
-            place.toLowerCase().includes(inputValue.toLowerCase())
-        );
-    }
+    return inputValue ? places.filter(place => place.toLowerCase().includes(inputValue.toLowerCase())) : [];
 }
 
-// Function to show dropdown suggestions
-function showDropdown(input, dropdown, filteredPlaces, selectedIndex) {
-    dropdown.innerHTML = ""; // Clear previous suggestions
-
-    if (filteredPlaces.length === 0) {
-        dropdown.style.display = "none"; // Hide dropdown if no places match
-        return;
-    }
-
+// Function to display dropdown options
+function showDropdown(input, dropdown, filteredPlaces, selectedIndex = -1) {
+    dropdown.innerHTML = ""; // Clear dropdown content
     filteredPlaces.forEach((place, index) => {
         const option = document.createElement("div");
         option.textContent = place;
         option.classList.add("dropdown-item");
-
-        // Highlight the selected option
         if (index === selectedIndex) {
-            option.classList.add("selected");
+            option.classList.add("active");
         }
-
+        // Select place on click
         option.addEventListener("click", () => {
-            input.value = place; // Set the selected place in the input
-            dropdown.style.display = "none"; // Hide dropdown after selection
+            input.value = place;
+            dropdown.style.display = "none";
+            localStorage.setItem(input.id === "from" ? "searchFrom" : "searchTo", place);
         });
-
         dropdown.appendChild(option);
     });
-
-    dropdown.style.display = "block"; // Show dropdown
+    dropdown.style.display = filteredPlaces.length > 0 ? "block" : "none"; // Show or hide dropdown
 }
 
-// Add event listeners for "From" input
+// Handle keyboard navigation
+function handleKeyNavigation(event, input, dropdown, selectedIndex, setIndexCallback) {
+    const filteredPlaces = filterPlaces(input.value);
+
+    if (filteredPlaces.length === 0) {
+        dropdown.style.display = "none";
+        return;
+    }
+
+    if (event.key === "ArrowDown") {
+        selectedIndex = Math.min(selectedIndex + 1, filteredPlaces.length - 1);
+    } else if (event.key === "ArrowUp") {
+        selectedIndex = Math.max(selectedIndex - 1, 0);
+    } else if (event.key === "Enter") {
+        if (selectedIndex >= 0) {
+            input.value = filteredPlaces[selectedIndex];
+            localStorage.setItem(input.id === "from" ? "searchFrom" : "searchTo", input.value);
+            dropdown.style.display = "none";
+        }
+    }
+    setIndexCallback(selectedIndex);
+    showDropdown(input, dropdown, filteredPlaces, selectedIndex);
+}
+
+// Input event listeners for filtering
 fromInput.addEventListener("input", () => {
     const filteredPlaces = filterPlaces(fromInput.value);
-    showDropdown(fromInput, fromDropdown, filteredPlaces, fromSelectedIndex);
+    fromSelectedIndex = -1;
+    showDropdown(fromInput, fromDropdown, filteredPlaces);
 });
 
-// Add event listeners for "To" input
 toInput.addEventListener("input", () => {
     const filteredPlaces = filterPlaces(toInput.value);
-    showDropdown(toInput, toDropdown, filteredPlaces, toSelectedIndex);
+    toSelectedIndex = -1;
+    showDropdown(toInput, toDropdown, filteredPlaces);
 });
 
-// Keyboard navigation for dropdown (arrow keys and Enter)
-document.addEventListener("keydown", (event) => {
-    const fromFilteredPlaces = filterPlaces(fromInput.value);
-    const toFilteredPlaces = filterPlaces(toInput.value);
-
-    // For "From" input
-    if (event.target === fromInput) {
-        if (event.key === "ArrowDown") {
-            if (fromSelectedIndex < fromFilteredPlaces.length - 1) {
-                fromSelectedIndex++;
-            }
-        } else if (event.key === "ArrowUp") {
-            if (fromSelectedIndex > 0) {
-                fromSelectedIndex--;
-            }
-        } else if (event.key === "Enter") {
-            if (fromSelectedIndex !== -1) {
-                fromInput.value = fromFilteredPlaces[fromSelectedIndex];
-                fromDropdown.style.display = "none"; // Hide dropdown after selection
-            }
-        }
-        showDropdown(fromInput, fromDropdown, fromFilteredPlaces, fromSelectedIndex);
-    }
-
-    // For "To" input
-    if (event.target === toInput) {
-        if (event.key === "ArrowDown") {
-            if (toSelectedIndex < toFilteredPlaces.length - 1) {
-                toSelectedIndex++;
-            }
-        } else if (event.key === "ArrowUp") {
-            if (toSelectedIndex > 0) {
-                toSelectedIndex--;
-            }
-        } else if (event.key === "Enter") {
-            if (toSelectedIndex !== -1) {
-                toInput.value = toFilteredPlaces[toSelectedIndex];
-                toDropdown.style.display = "none"; // Hide dropdown after selection
-            }
-        }
-        showDropdown(toInput, toDropdown, toFilteredPlaces, toSelectedIndex);
-    }
+// Keyboard navigation listeners
+fromInput.addEventListener("keydown", (event) => {
+    handleKeyNavigation(event, fromInput, fromDropdown, fromSelectedIndex, (index) => {
+        fromSelectedIndex = index;
+    });
 });
 
-// Hide dropdown when clicking outside
+toInput.addEventListener("keydown", (event) => {
+    handleKeyNavigation(event, toInput, toDropdown, toSelectedIndex, (index) => {
+        toSelectedIndex = index;
+    });
+});
+
+// Hide dropdowns when clicking outside
 document.addEventListener("click", (event) => {
     if (!fromInput.contains(event.target) && !fromDropdown.contains(event.target)) {
         fromDropdown.style.display = "none";
@@ -333,22 +344,29 @@ document.addEventListener("click", (event) => {
     }
 });
 
-// Display the selected values when the Enter key is pressed after filling both inputs
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        const from = fromInput.value;
-        const to = toInput.value;
+// Restore saved values on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const storedFrom = localStorage.getItem("searchFrom");
+    const storedTo = localStorage.getItem("searchTo");
+    const storedDate = localStorage.getItem("searchDate");
 
-        // Check if both 'From' and 'To' inputs are filled
-        if (from && to) {
-            selectedValuesContainer.textContent = `From: ${from}, To: ${to}`;
-
-            // Hide the container (dropdowns) after entering both values
-            fromDropdown.style.display = "none";
-            toDropdown.style.display = "none";
-        }
-    }
+    if (storedFrom) fromInput.value = storedFrom;
+    if (storedTo) toInput.value = storedTo;
+    if (storedDate) dateInput.value = storedDate;
 });
 
+// Save the date input to localStorage
+dateInput.addEventListener("input", () => {
+    localStorage.setItem("searchDate", dateInput.value);
+});
 
+// On page load, restore saved values
+document.addEventListener("DOMContentLoaded", () => {
+    const storedFrom = localStorage.getItem("searchFrom");
+    const storedTo = localStorage.getItem("searchTo");
+    const storedDate = localStorage.getItem("searchDate");
 
+    if (storedFrom) fromInput.value = storedFrom;
+    if (storedTo) toInput.value = storedTo;
+    if (storedDate) dateInput.value = storedDate;
+});

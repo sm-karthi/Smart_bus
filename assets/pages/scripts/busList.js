@@ -7,10 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let dynamicForm = null; // Track the dynamic form
 
-    // Initialize displayed values
-    displayFrom.textContent = localStorage.getItem("searchFrom") || "Enter From";
-    displayTo.textContent = localStorage.getItem("searchTo") || "Enter To";
-    displayDate.textContent = localStorage.getItem("searchDate") || "Select Date";
+    // Function to capitalize the first letter of a string
+    function capitalizeFirstLetter(str) {
+        if (!str) return str; // Check for empty or null string
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    // Initialize displayed values with capitalization
+    displayFrom.textContent = capitalizeFirstLetter(localStorage.getItem("searchFrom") || "Enter From");
+    displayTo.textContent = capitalizeFirstLetter(localStorage.getItem("searchTo") || "Enter To");
+    displayDate.textContent = capitalizeFirstLetter(localStorage.getItem("searchDate") || "Select Date");
 
     // Handle Modify button click
     modifyButton.addEventListener("click", (event) => {
@@ -18,8 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (dynamicForm) {
             // If the form already exists, hide it and clear the reference
-            dynamicForm.remove();
-            dynamicForm = null;
+            dynamicForm.classList.remove("show"); // Remove the "show" class to hide the form
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null;
+            }, 500); // Match the duration of the transition
             return;
         }
 
@@ -29,10 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add form fields
         dynamicForm.innerHTML = `
+            <div class="close-btn" id="closeFormBtn">X</div> <!-- Close button -->
             <div id="modifyFromContainer">
                 <label for="modifyFrom">From</label>
                 <input type="text" id="modifyFrom" name="modifyFrom" 
-                    value="${displayFrom.textContent === "Enter From" ? "" : displayFrom.textContent}" />
+                    value="${displayFrom.textContent === "Enter From" ? "" : displayFrom.textContent}" autocomplete="off"/>
             </div>
             <div class="stack">
                 <div class="arrow" id="upArrow">&#8593;</div> <!-- Up arrow -->
@@ -42,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyToContainer">
                 <label for="modifyTo">To</label>
                 <input type="text" id="modifyTo" name="modifyTo" 
-                    value="${displayTo.textContent === "Enter To" ? "" : displayTo.textContent}" />
+                    value="${displayTo.textContent === "Enter To" ? "" : displayTo.textContent}" autocomplete="off"/>
             </div>
             <div id="modifyDateContainer">
                 <label for="modifyDate">Date</label>
@@ -54,6 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Append the form after the modify button
         modifyButton.parentNode.insertBefore(dynamicForm, modifyButton.nextSibling);
+
+        // Add animation class to show the form smoothly
+        setTimeout(() => {
+            dynamicForm.classList.add("show");
+        }, 10); // Delay to ensure the form is added to the DOM before applying the class
 
         // Add functionality to swap values using arrows
         const modifyFrom = document.getElementById("modifyFrom");
@@ -67,6 +82,15 @@ document.addEventListener("DOMContentLoaded", () => {
             modifyTo.value = temp;
         });
 
+        const closeButton = document.getElementById("closeFormBtn");
+        closeButton.addEventListener("click", () => {
+            dynamicForm.classList.remove("show"); // Hide the form smoothly
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null;
+            }, 500); // Match the duration of the transition
+        });
+
         // Add event listener for the Search button
         const searchButton = document.getElementById("searchButton");
         searchButton.addEventListener("click", () => {
@@ -74,36 +98,58 @@ document.addEventListener("DOMContentLoaded", () => {
             const toValue = modifyTo.value.trim();
             const dateValue = document.getElementById("modifyDate").value.trim();
 
+            const messageContainer = document.getElementById('message-container');
+            messageContainer.innerHTML = '';
+            messageContainer.classList.remove('expand');
+
             if (!fromValue || !toValue || !dateValue) {
-                alert("All fields are required. Please fill them out!");
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = "Please fill in all fields to search for buses.";
+                messageContainer.appendChild(messageDiv);
+
+                messageContainer.style.visibility = 'visible';
+                setTimeout(() => {
+                    messageContainer.classList.add('expand');
+                }, 12);
+
+                setTimeout(() => {
+                    messageContainer.classList.remove('expand');
+                }, 2500);
+
+                setTimeout(() => {
+                    messageContainer.style.visibility = 'hidden';
+                }, 3000);
+
                 return;
             }
 
-            // Save the values to localStorage
-            localStorage.setItem("searchFrom", fromValue);
-            localStorage.setItem("searchTo", toValue);
-            localStorage.setItem("searchDate", dateValue);
+            // Capitalize first letter of input values
+            const capitalizedFromValue = capitalizeFirstLetter(fromValue);
+            const capitalizedToValue = capitalizeFirstLetter(toValue);
+            const capitalizedDateValue = capitalizeFirstLetter(dateValue);
 
-            // Update displayed values
-            displayFrom.textContent = fromValue;
-            displayTo.textContent = toValue;
-            displayDate.textContent = dateValue;
+            // Save the values to localStorage
+            localStorage.setItem("searchFrom", capitalizedFromValue);
+            localStorage.setItem("searchTo", capitalizedToValue);
+            localStorage.setItem("searchDate", capitalizedDateValue);
+
+            // Update displayed values with capitalized first letters
+            displayFrom.textContent = capitalizedFromValue;
+            displayTo.textContent = capitalizedToValue;
+            displayDate.textContent = capitalizedDateValue;
 
             // Remove the dynamic form
-            dynamicForm.remove();
-            dynamicForm = null; // Clear the form reference
+            dynamicForm.classList.remove("show"); // Hide the form smoothly
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null; // Clear the form reference
+            }, 500); // Match the duration of the transition
 
             // Immediately load updated results
             loadBusResults();
-        });
-    });
 
-    // Hide the form when clicking outside of it
-    document.addEventListener("click", (event) => {
-        if (dynamicForm && !dynamicForm.contains(event.target) && event.target !== modifyButton) {
-            dynamicForm.remove();
-            dynamicForm = null; // Clear the form reference
-        }
+            window.location.reload();
+        });
     });
 
     // Load initial bus results on page load
@@ -118,125 +164,203 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+// Select the loader element
+const loader = document.getElementById("loader");
+
+// Function to show the loader
+function showLoader() {
+    loader.style.display = "block";
+}
+
+// Function to hide the loader
+function hideLoader() {
+    loader.style.display = "none";
+}
+
+// Function to simulate loading for 3 seconds
+function simulateLoading(callback) {
+    showLoader(); // Show loader
+    setTimeout(() => {
+        hideLoader(); // Hide loader after 3 seconds
+        if (typeof callback === "function") {
+            callback(); // Execute the callback (e.g., display bus results)
+        }
+    }, 3000); // 3000ms = 3 seconds
+}
+
+const side_bar = document.getElementById('side_bar');
+side_bar.style.display = "none";
+
 // Function to load bus results
 function loadBusResults() {
-    const from = localStorage.getItem('searchFrom');
-    const to = localStorage.getItem('searchTo');
-    const date = localStorage.getItem('searchDate');
+    simulateLoading(() => {
+        const from = localStorage.getItem("searchFrom");
+        const to = localStorage.getItem("searchTo");
+        const date = localStorage.getItem("searchDate");
+        const bus_container = document.getElementById('bus_container');
+        const busList = document.getElementById("bus_list");
+        
 
-    const busList = document.getElementById('bus_list');
-    const busCount = document.getElementById("busCount");
 
-    if (!from || !to || !date) {
-        busList.innerHTML = "<p>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</p>";
-        return;
-    }
+        document.title = `${from} To ${to}`;
 
-    const selectedDate = new Date(date);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+        if (!from || !to || !date) {
+            busList.innerHTML =
+                "<h4>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</h4>";
+                side_bar.style.display = "none";
+            return;
+        }
 
-    if (selectedDate < today) {
-        busList.innerHTML = "<p>No buses available for past dates. Please select today or a future date.</p>";
-        return;
-    }
+        const selectedDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-    fetch("/assets/pages/scripts/JSON/buses.json")
-        .then(response => {
-            if (!response.ok) throw new Error("Failed to load bus data.");
-            return response.json();
-        })
-        .then(buses => {
-            const matchingBuses = buses.filter(bus =>
-                bus.from.toLowerCase() === from.toLowerCase() &&
-                bus.to.toLowerCase() === to.toLowerCase() &&
-                bus.date === date
-            );
+        if (selectedDate < today) {
+            busList.innerHTML =
+                "<h4>No buses available for past dates. Please select today or a future date.</h4>";
+                side_bar.style.display = "none";
+            return;
+        }
 
-            busList.innerHTML = "";
-            let count = 0;
+        // Dynamically create the bus count container before resetting the list
+        const busCount = document.createElement("div");
+        busCount.setAttribute("id", "busCount");
+        
 
-            if (matchingBuses.length > 0) {
-                matchingBuses.forEach(bus => {
-                    const busItem = document.createElement('div');
-                    busItem.classList.add('bus-item');
+        // Debugging log to check if busCountContainer is appended
+        console.log("busCountContainer created and appended");
 
-                    const ratingBadge = `
-                        <div class="${bus.ratingBadge.badgeClass}">
-                            <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
-                            <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
-                        </div>
-                    `;
+        // Fetch the bus data and filter matching buses
+        fetch("/assets/pages/scripts/JSON/buses.json")
+            .then((response) => {
+                if (!response.ok) throw new Error("Failed to load bus data.");
+                return response.json();
+            })
+            .then((buses) => {
+                const matchingBuses = buses.filter(
+                    (bus) =>
+                        bus.from.toLowerCase() === from.toLowerCase() &&
+                        bus.to.toLowerCase() === to.toLowerCase() &&
+                        bus.date === date
+                );
 
-                    busItem.innerHTML = `
-                        <h3 id="busName">${bus.name}</h3>
-                        <p id="fromPlace">${bus.from}</p>
-                        <p id="toPlace">${bus.to}</p>
-                        <p id="busDate">${bus.date}</p>
-                        <p id="DepartureTime">${bus.Departure}</p>
-                        <p id="ArrivalTime">${bus.Arrival}</p>
-                        <p id="Duration">${bus.Duration}</p>
-                        <p id="bustype">${bus.bustype}</p>
-                        ${ratingBadge}
-                        <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${bus.seatsAvailable}</p>
-                        <p id="single">${bus.single}</p>
-                    `;
+                side_bar.style.display = "block";
 
-                    const viewSeatsButton = document.createElement('button');
-                    viewSeatsButton.textContent = 'VIEW SEATS';
-                    viewSeatsButton.classList.add('view-seats-btn');
-                    viewSeatsButton.addEventListener("click", () => {
-                        localStorage.setItem("selectedBus", JSON.stringify(bus));
-                        window.location.href = "../html/seats.html";
+                // Reset bus list before appending new results, but keep busCountContainer
+                busList.innerHTML = ""; 
+
+                let count = 0;
+
+                if (matchingBuses.length > 0) {
+                    matchingBuses.forEach((bus) => {
+                        const busItem = document.createElement("div");
+                        busItem.classList.add("bus-item");
+
+                        // Add a fallback to prevent errors if ratingBadge is missing
+                        const ratingBadge = bus.ratingBadge
+                            ? `
+                    <div class="${bus.ratingBadge.badgeClass}">
+                        <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
+                        <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
+                    </div>
+                `
+                            : '';
+
+                        busItem.innerHTML = `
+                    <h3 id="busName">${bus.name}</h3>
+                    <p id="fromPlace">${bus.from}</p>
+                    <p id="toPlace">${bus.to}</p>
+                    <p id="busDate">${bus.date}</p>
+                    <p id="DepartureTime">${bus.Departure || "Not available"}</p>
+                    <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
+                    <p id="Duration">${bus.Duration}</p>
+                    <p id="bustype">${bus.bustype}</p>
+                    ${ratingBadge}
+                    <p id="inrRate">INR ${bus.inrRate}</p>
+                    <p id="seatsAvailable">${bus.seatsAvailable}</p>
+                    <p id="single">${bus.single}</p>
+                `;
+
+                        const viewSeatsButton = document.createElement("button");
+                        viewSeatsButton.textContent = "VIEW SEATS";
+                        viewSeatsButton.classList.add("view-seats-btn");
+                        viewSeatsButton.addEventListener("click", () => {
+                            localStorage.setItem("selectedBus", JSON.stringify(bus));
+                            window.location.href = "../html/seats.html";
+                        });
+
+                        busItem.appendChild(viewSeatsButton);
+                        busList.appendChild(busItem);
+                        count++;
                     });
 
-                    busItem.appendChild(viewSeatsButton);
-                    busList.appendChild(busItem);
-                    count++;
-                });
+                    // Debugging log to ensure count is updated
+                    console.log(`Buses found: ${count}`);
 
-                busCount.textContent = `${count} BUSES found`;
-            } else {
-                busList.innerHTML = `<p class="No_buses">No buses available for this route on the selected date.</p>`;
+                    // Update the bus count dynamically
+                    busCount.textContent = `${count} BUSES found`;
+                    bus_container.appendChild(busCount);
+                } else {
+                    busList.innerHTML = `<h5 class="No_buses">No buses available for this route on the selected date.</h5>`;
+                    side_bar.style.display = "none";
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                busList.innerHTML =
+                    "<h5>Could not load bus data. Please try again later.</h5>";
+                    side_bar.style.display = "none";
+                    
+            });
+    });
+}
+
+
+
+
+
+
+
+
+        // Call loadBusResults on page load
+        document.addEventListener("DOMContentLoaded", loadBusResults);
+
+
+        // Call loadBusResults on page load
+        document.addEventListener("DOMContentLoaded", loadBusResults);
+
+
+        // Function to render seats from localStorage
+        function renderSeats() {
+            const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
+            if (!selectedBus) {
+                alert("No bus selected. Please go back and choose a bus.");
+                return;
             }
-        })
-        .catch(error => {
-            console.error("Error fetching data:", error);
-            busList.innerHTML = "<p>Could not load bus data. Please try again later.</p>";
-        });
-}
 
-// Function to render seats from localStorage
-function renderSeats() {
-    const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
-    if (!selectedBus) {
-        alert("No bus selected. Please go back and choose a bus.");
-        return;
-    }
+            document.getElementById('bus-name').textContent = selectedBus.name;
+            document.getElementById('from').textContent = selectedBus.from;
+            document.getElementById('to').textContent = selectedBus.to;
+            document.getElementById('date').textContent = selectedBus.date;
 
-    document.getElementById('bus-name').textContent = selectedBus.name;
-    document.getElementById('from').textContent = selectedBus.from;
-    document.getElementById('to').textContent = selectedBus.to;
-    document.getElementById('date').textContent = selectedBus.date;
+            const lowerDeck = document.getElementById('lower-deck');
+            selectedBus.lowerDeck.forEach(seat => {
+                const seatDiv = document.createElement('div');
+                seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
+                seatDiv.textContent = seat.seatNumber;
+                lowerDeck.appendChild(seatDiv);
+            });
 
-    const lowerDeck = document.getElementById('lower-deck');
-    selectedBus.lowerDeck.forEach(seat => {
-        const seatDiv = document.createElement('div');
-        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
-        seatDiv.textContent = seat.seatNumber;
-        lowerDeck.appendChild(seatDiv);
-    });
+            const upperDeck = document.getElementById('upper-deck');
+            selectedBus.upperDeck.forEach(seat => {
+                const seatDiv = document.createElement('div');
+                seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
+                seatDiv.textContent = seat.seatNumber;
+                upperDeck.appendChild(seatDiv);
+            });
+        }
 
-    const upperDeck = document.getElementById('upper-deck');
-    selectedBus.upperDeck.forEach(seat => {
-        const seatDiv = document.createElement('div');
-        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
-        seatDiv.textContent = seat.seatNumber;
-        upperDeck.appendChild(seatDiv);
-    });
-}
-
-// Load bus results on the appropriate page
-if (document.getElementById("bus_list")) loadBusResults();
-if (document.getElementById("seats-container")) renderSeats();
+        // Load bus results on the appropriate page
+        if (document.getElementById("bus_list")) loadBusResults();
+        if (document.getElementById("seats-container")) renderSeats();

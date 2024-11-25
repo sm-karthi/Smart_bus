@@ -34,6 +34,7 @@ header {
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     transition: background-color 0.3s ease;
+    font-size: 18px;
 }
 
 #myBooking:hover{
@@ -279,6 +280,7 @@ body {
     background-color: #de3b33;
 }
 
+/* Profile Container */
 .profileManage {
     width: 200px;
     height: 200px;
@@ -288,15 +290,25 @@ body {
     right: 50px;
     padding: 10px;
     border-radius: 10px;
-    text-align: center; 
+    text-align: center;
+    opacity: 0; /* Initially hidden */
+    transform: scale(0.8); /* Start scaled down */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Smooth fade and scale */
 }
 
-#profileContainer{
+#profileContainer {
     font-size: 25px;
     color: white;
 }
-.h{
-    display: none;
+
+#profileContainer.show {
+    opacity: 1; /* Fade in */
+    transform: scale(1); /* Zoom in to normal size */
+}
+
+.h {
+    opacity: 0; /* Fade out */
+    transform: scale(0.8); /* Zoom out to start position */
 }
 
 #profileContainer .logoutIcon {
@@ -312,7 +324,191 @@ body {
     cursor: pointer;
 }
 
-/* Drop down */
+
+
+
+
+
+/* Style for the message container */
+#message-container {
+    margin-top: 40px;
+    width: fit-content;
+    margin-left: 550px;
+    overflow: hidden; /* Prevent content overflow */
+    height: 0; /* Initially collapsed */
+    opacity: 0; /* Initially transparent */
+    padding: 0; /* No padding initially */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease, visibility 0.5s ease; /* Smooth transitions */
+}
+
+/* Style for the error message */
+#message-container div {
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    background-color: rgb(248, 74, 91);
+    padding: 10px;
+    border: 1px solid rgb(248, 74, 91);
+    border-radius: 5px;
+}
+
+/* Expanded state of the container */
+#message-container.expand {
+    height: auto; /* Expand height to fit content */
+    opacity: 1; /* Fade in */
+    padding: 10px 0; /* Add padding */
+    visibility: visible; /* Make it visible */
+}
+
+
+
+
+
+
+
+
+
+
+/* Confirmation Dialog Container */
+#confirmationDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: rgb(29, 29, 29);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    z-index: 1000;
+    opacity: 0;
+
+    animation: fadeIn 0.4s forwards, scaleUp 0.3s forwards;
+}
+
+/* Message Text */
+#confirmationDialog p {
+    font-size: 20px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.confirmButton {
+    margin: 10px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* "Yes" Button Style */
+#confirmYes {
+    background-color: #4caf50;
+    /* Green */
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#confirmYes:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* "No" Button Style */
+#confirmNo {
+    background-color: #f44336;
+    /* Red */
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#confirmNo:hover {
+    background-color: #e53935;
+    transform: translateY(-2px);
+}
+
+/* Close Button (Optional) */
+#confirmationDialog .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Hiding the confirmation dialog */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Apply fade-out animation */
+#confirmationDialog.hidden {
+    animation: fadeOut 0.5s forwards;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Ensure it sits on top of everything */
+    display: none; /* Hidden by default */
+}
+
+.confirmationDialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    z-index: 1000; /* Ensures dialog is on top of overlay */
+}
+
+.confirmButton {
+    margin: 10px;
+}
+
+
 /* Dropdown styles */
 .dropdown {
     position: absolute;
@@ -343,8 +539,7 @@ body {
     padding-left: 10px;
 }
 
-/* Selected item style */
-.dropdown-item.selected {
+.dropdown-item.active {
     background-color: #ddd;
     padding-left: 10px;
 }
@@ -355,40 +550,3 @@ body {
     transition: opacity 0.3s ease-out;
 }
 
-.dropdown-item.selected {
-    background-color: #ddd;
-    padding-left: 10px;
-}
-
-
-/* Style for the message container */
-#message-container {
-    margin-top: 40px;
-    width: fit-content;
-    margin-left: 550px;
-    overflow: hidden; /* Prevent content overflow */
-    height: 0; /* Initially collapsed */
-    opacity: 0; /* Initially transparent */
-    padding: 0; /* No padding initially */
-    display: none; /* Hidden by default */
-    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease; /* Smooth transitions */
-}
-
-/* Style for the error message */
-#message-container div {
-    color: rgb(255, 255, 255);
-    font-size: 16px;
-    font-family: 'Arial', sans-serif;
-    background-color: rgb(248, 74, 91);
-    padding: 10px;
-    border: 1px solid rgb(248, 74, 91);
-    border-radius: 5px;
-}
-
-/* Expanded state of the container */
-#message-container.expand {
-    display: block; /* Make it visible */
-    height: auto; /* Expand height to fit content */
-    opacity: 1; /* Fade in */
-    padding: 10px 0; /* Add padding */
-}

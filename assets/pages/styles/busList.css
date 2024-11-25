@@ -32,6 +32,7 @@ header {
     top: 115px;
 }
 
+
 /* Bus list container styling */
 #bus_container {
     display: flex;
@@ -45,7 +46,7 @@ header {
     width: 1500px;
     position: absolute;
     top: 250px;
-    right: 30px;
+    right: 25px;
 }
 
 /* Individual bus item styling */
@@ -79,11 +80,26 @@ header {
     color: #495057;
 }
 
-/* No buses available message styling */
 #bus_list p {
-    color: #000000;
+    color: #495057;
     font-size: 1.1rem;
+    text-align: center; 
+
+}
+
+#bus_list h5 {
+    color: #495057;
+    font-size: 1.2rem;
+    text-align: center; 
+    font-weight: bold;
+    margin-right: 200px;
+}
+
+#bus_list h4{
+    color: #495057;
+    font-size: 1.2rem;
     text-align: center;
+    margin-left: 100px;
 }
 
 .No_buses {
@@ -157,14 +173,15 @@ header {
 }
 
 #busCount {
-    color: #000000;
+    color: #000;
     position: absolute;
-    top: 150px;
-    font-size: 30px;
+    top: 160px;
+    left: 420px;
+    font-size: 25px;
     font-weight: bold;
-    /* Make the count stand out */
-    left: 410px;
 }
+
+
 
 .rating-badge {
     display: inline-flex;
@@ -441,3 +458,92 @@ header {
 .stack:hover{
     box-shadow: 1px 1px 7px 0px black;
 }
+
+/* Loader styles */
+.loader {
+    display: none; /* Initially hidden */
+    border: 8px solid #f3f3f3; /* Light gray */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+  
+  /* Keyframes for spinner */
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Style for the message container */
+#message-container {
+    margin-top: 30px;
+    width: fit-content;
+    margin-right: 400px;
+    overflow: hidden; /* Prevent content overflow */
+    height: 0; /* Initially collapsed */
+    opacity: 0; /* Initially transparent */
+    padding: 0; /* No padding initially */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease, visibility 0.5s ease; /* Smooth transitions */
+}
+
+/* Style for the error message */
+#message-container div {
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    background-color: rgb(248, 74, 91);
+    padding: 10px;
+    border: 1px solid rgb(248, 74, 91);
+    border-radius: 5px;
+}
+
+/* Expanded state of the container */
+#message-container.expand {
+    height: auto; /* Expand height to fit content */
+    opacity: 1; /* Fade in */
+    padding: 10px 0; /* Add padding */
+    visibility: visible; /* Make it visible */
+}
+
+
+/* Initial state of the form is hidden (opacity 0 and scaled down) */
+#dynamicModifyForm {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* When the form is visible (after adding class "show") */
+#dynamicModifyForm.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Styling for the close button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+
