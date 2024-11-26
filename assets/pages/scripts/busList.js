@@ -315,6 +315,193 @@ function loadBusResults() {
             });
     });
 }
+/* // Firebase App (Core) SDK Import
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+// Firebase Setup
+const firebaseConfig = {
+    apiKey: "AIzaSyD2-zKNWSqkRWHsk49coYSbMfBnywCpdO8",
+    authDomain: "smartbus-7443b.firebaseapp.com",
+    projectId: "smartbus-7443b",
+    storageBucket: "smartbus-7443b.appspot.com",
+    messagingSenderId: "35022257891",
+    appId: "1:35022257891:web:8eed74fb4131a414730fd6"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Function to set bus data in Firebase
+function setBusData(busId, busDetails) {
+    const busRef = ref(database, 'buses/' + busId); // Reference to a specific bus by busId
+    set(busRef, busDetails)
+        .then(() => {
+            console.log('Bus data saved successfully!');
+        })
+        .catch((error) => {
+            console.error('Error saving bus data:', error);
+        });
+}
+
+// Function to fetch bus data from Firebase and local JSON file
+function loadBusResults() {
+    const from = localStorage.getItem("searchFrom");
+    const to = localStorage.getItem("searchTo");
+    const date = localStorage.getItem("searchDate");
+    const bus_container = document.getElementById('bus_container');
+    const busList = document.getElementById("bus_list");
+    const side_bar = document.getElementById('side_bar'); // Ensure this element exists
+
+    if (!bus_container || !busList || !side_bar) {
+        console.error('One or more required elements are missing');
+        return;
+    }
+
+    document.title = `${from} To ${to}`;
+
+    if (!from || !to || !date) {
+        busList.innerHTML =
+            "<h4>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</h4>";
+        side_bar.style.display = "none";
+        return;
+    }
+
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+        busList.innerHTML =
+            "<h4>No buses available for past dates. Please select today or a future date.</h4>";
+        side_bar.style.display = "none";
+        return;
+    }
+
+    // Fetch bus data from Firebase
+    const databaseRef = ref(database, "buses"); // Firebase reference
+
+    get(databaseRef)
+        .then((snapshot) => {
+            const firebaseBuses = snapshot.val() || {}; // Getting buses from Firebase
+
+            // Fetch local JSON file with bus data
+            fetch("/assets/pages/scripts/JSON/buses.json")
+                .then((response) => {
+                    if (!response.ok) throw new Error("Failed to load bus data.");
+                    return response.json();
+                })
+                .then((buses) => {
+                    const allBuses = [...buses, ...Object.values(firebaseBuses)]; // Combine JSON and Firebase buses
+
+                    // Filter buses based on the search criteria
+                    const matchingBuses = allBuses.filter(
+                        (bus) =>
+                            bus.from.toLowerCase() === from.toLowerCase() &&
+                            bus.to.toLowerCase() === to.toLowerCase() &&
+                            bus.date === date
+                    );
+
+                    side_bar.style.display = "block";
+
+                    // Reset bus list before appending new results
+                    busList.innerHTML = "";
+
+                    let count = 0;
+
+                    if (matchingBuses.length > 0) {
+                        matchingBuses.forEach((bus) => {
+                            const busItem = document.createElement("div");
+                            busItem.classList.add("bus-item");
+
+                            const ratingBadge = bus.ratingBadge
+                                ? ` 
+                                <div class="${bus.ratingBadge.badgeClass}">
+                                    <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
+                                    <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
+                                </div>
+                                `
+                                : '';
+
+                            busItem.innerHTML = `
+                                <h3 id="busName">${bus.name}</h3>
+                                <p id="fromPlace">${bus.from}</p>
+                                <p id="toPlace">${bus.to}</p>
+                                <p id="busDate">${bus.date}</p>
+                                <p id="DepartureTime">${bus.Departure || "Not available"}</p>
+                                <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
+                                <p id="Duration">${bus.Duration}</p>
+                                <p id="bustype">${bus.bustype}</p>
+                                ${ratingBadge}
+                                <p id="inrRate">INR ${bus.inrRate}</p>
+                                <p id="seatsAvailable">${bus.seatsAvailable}</p>
+                                <p id="single">${bus.single}</p>
+                            `;
+
+                            const viewSeatsButton = document.createElement("button");
+                            viewSeatsButton.textContent = "VIEW SEATS";
+                            viewSeatsButton.classList.add("view-seats-btn");
+                            viewSeatsButton.addEventListener("click", () => {
+                                localStorage.setItem("selectedBus", JSON.stringify(bus));
+                                window.location.href = "../html/seats.html";
+                            });
+
+                            busItem.appendChild(viewSeatsButton);
+                            busList.appendChild(busItem);
+                            count++;
+                        });
+
+                        console.log(`Buses found: ${count}`);
+                    } else {
+                        busList.innerHTML = `<h5 class="No_buses">No buses available for this route on the selected date.</h5>`;
+                        side_bar.style.display = "none";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching local JSON data:", error);
+                    busList.innerHTML =
+                        "<h5>Could not load bus data. Please try again later.</h5>";
+                    side_bar.style.display = "none";
+                });
+        })
+        .catch((error) => {
+            console.error("Error fetching data from Firebase:", error);
+            busList.innerHTML =
+                "<h5>Could not load bus data. Please try again later.</h5>";
+            side_bar.style.display = "none";
+        });
+}
+// Example usage of setting bus data
+const busId = '1'; // Example bus ID
+const busDetails = {
+    name: "Amarnath Travels",
+    from: "Chennai",
+    to: "Madurai",
+    date: "2024-11-25",
+    Departure: "08:00 PM",
+    Arrival: "6:00 AM",
+    Duration: "10h 20m",
+    bustype: "A/C Seater / Sleeper (2 + 1)",
+    ratingBadge: {
+        badgeClass: "rating-badge",
+        starIcon: {
+            iconClass: "star-icon",
+            iconHTML: "&#9733;"
+        },
+        ratingValue: {
+            valueClass: "rating-value",
+            textContent: 4.4
+        }
+    },
+    inrRate: 699,
+    seatsAvailable: "19 Seats Available",
+    single: "7 Single",
+    totalSeat: 46
+};
+// Set bus data in Firebase
+setBusData(busId, busDetails); */
+
 
 
 
