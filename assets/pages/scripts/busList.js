@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
                    const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect invalid characters
                    if (invalidPattern.test(fromValue) || invalidPattern.test(toValue)) {
                        const messageDiv = document.createElement('div');
-                       messageDiv.textContent = "Please enter valid locations without numbers or special characters.";
+                       messageDiv.textContent = "Please enter valid locations.";
                        messageContainer.appendChild(messageDiv);
        
                        messageContainer.style.visibility = 'visible';
