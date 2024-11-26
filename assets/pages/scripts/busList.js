@@ -91,65 +91,89 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 500); // Match the duration of the transition
         });
 
-        // Add event listener for the Search button
-        const searchButton = document.getElementById("searchButton");
-        searchButton.addEventListener("click", () => {
-            const fromValue = modifyFrom.value.trim();
-            const toValue = modifyTo.value.trim();
-            const dateValue = document.getElementById("modifyDate").value.trim();
-
-            const messageContainer = document.getElementById('message-container');
-            messageContainer.innerHTML = '';
-            messageContainer.classList.remove('expand');
-
-            if (!fromValue || !toValue || !dateValue) {
-                const messageDiv = document.createElement('div');
-                messageDiv.textContent = "Please fill in all fields to search for buses.";
-                messageContainer.appendChild(messageDiv);
-
-                messageContainer.style.visibility = 'visible';
-                setTimeout(() => {
-                    messageContainer.classList.add('expand');
-                }, 12);
-
-                setTimeout(() => {
-                    messageContainer.classList.remove('expand');
-                }, 2500);
-
-                setTimeout(() => {
-                    messageContainer.style.visibility = 'hidden';
-                }, 3000);
-
-                return;
-            }
-
-            // Capitalize first letter of input values
-            const capitalizedFromValue = capitalizeFirstLetter(fromValue);
-            const capitalizedToValue = capitalizeFirstLetter(toValue);
-            const capitalizedDateValue = capitalizeFirstLetter(dateValue);
-
-            // Save the values to localStorage
-            localStorage.setItem("searchFrom", capitalizedFromValue);
-            localStorage.setItem("searchTo", capitalizedToValue);
-            localStorage.setItem("searchDate", capitalizedDateValue);
-
-            // Update displayed values with capitalized first letters
-            displayFrom.textContent = capitalizedFromValue;
-            displayTo.textContent = capitalizedToValue;
-            displayDate.textContent = capitalizedDateValue;
-
-            // Remove the dynamic form
-            dynamicForm.classList.remove("show"); // Hide the form smoothly
-            setTimeout(() => {
-                dynamicForm.remove();
-                dynamicForm = null; // Clear the form reference
-            }, 500); // Match the duration of the transition
-
-            // Immediately load updated results
-            loadBusResults();
-
-            window.location.reload();
-        });
+               // Add event listener for the Search button
+               const searchButton = document.getElementById("searchButton");
+               searchButton.addEventListener("click", () => {
+                   const fromValue = modifyFrom.value.trim();
+                   const toValue = modifyTo.value.trim();
+                   const dateValue = document.getElementById("modifyDate").value.trim();
+       
+                   const messageContainer = document.getElementById('message-container');
+                   messageContainer.innerHTML = '';
+                   messageContainer.classList.remove('expand');
+       
+                   // Validation for special characters or numbers in "From" and "To" fields
+                   const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect invalid characters
+                   if (invalidPattern.test(fromValue) || invalidPattern.test(toValue)) {
+                       const messageDiv = document.createElement('div');
+                       messageDiv.textContent = "Please enter valid locations without numbers or special characters.";
+                       messageContainer.appendChild(messageDiv);
+       
+                       messageContainer.style.visibility = 'visible';
+                       setTimeout(() => {
+                           messageContainer.classList.add('expand');
+                       }, 12);
+       
+                       setTimeout(() => {
+                           messageContainer.classList.remove('expand');
+                       }, 2500);
+       
+                       setTimeout(() => {
+                           messageContainer.style.visibility = 'hidden';
+                       }, 3000);
+       
+                       return; // Stop further processing
+                   }
+       
+                   if (!fromValue || !toValue || !dateValue) {
+                       const messageDiv = document.createElement('div');
+                       messageDiv.textContent = "Please fill in all fields to search for buses.";
+                       messageContainer.appendChild(messageDiv);
+       
+                       messageContainer.style.visibility = 'visible';
+                       setTimeout(() => {
+                           messageContainer.classList.add('expand');
+                       }, 12);
+       
+                       setTimeout(() => {
+                           messageContainer.classList.remove('expand');
+                       }, 2500);
+       
+                       setTimeout(() => {
+                           messageContainer.style.visibility = 'hidden';
+                       }, 3000);
+       
+                       return;
+                   }
+       
+                   // Capitalize first letter of input values
+                   const capitalizedFromValue = capitalizeFirstLetter(fromValue);
+                   const capitalizedToValue = capitalizeFirstLetter(toValue);
+                   const capitalizedDateValue = capitalizeFirstLetter(dateValue);
+       
+                   // Save the values to localStorage
+                   localStorage.setItem("searchFrom", capitalizedFromValue);
+                   localStorage.setItem("searchTo", capitalizedToValue);
+                   localStorage.setItem("searchDate", capitalizedDateValue);
+       
+                   // Update displayed values with capitalized first letters
+                   displayFrom.textContent = capitalizedFromValue;
+                   displayTo.textContent = capitalizedToValue;
+                   displayDate.textContent = capitalizedDateValue;
+       
+                   // Remove the dynamic form
+                   dynamicForm.classList.remove("show"); // Hide the form smoothly
+                   setTimeout(() => {
+                       dynamicForm.remove();
+                       dynamicForm = null; // Clear the form reference
+                   }, 500); // Match the duration of the transition
+       
+                   // Immediately load updated results
+                   loadBusResults();
+       
+                   window.location.reload();
+               });
+       
     });
 
     // Load initial bus results on page load
