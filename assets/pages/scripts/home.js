@@ -194,6 +194,29 @@ document.getElementById('search_bus_button').addEventListener('click', function 
     messageContainer.innerHTML = '';
     messageContainer.classList.remove('expand');
 
+    // Check for invalid entries (numbers or special characters in 'from' or 'to')
+    const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect special characters or numbers
+    if (invalidPattern.test(from) || invalidPattern.test(to)) {
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = "Please enter valid locations (no numbers or special characters allowed).";
+        messageContainer.appendChild(messageDiv);
+
+        messageContainer.style.visibility = 'visible';
+        setTimeout(() => {
+            messageContainer.classList.add('expand');
+        }, 12);
+
+        setTimeout(() => {
+            messageContainer.classList.remove('expand');
+        }, 2500);
+
+        setTimeout(() => {
+            messageContainer.style.visibility = 'hidden';
+        }, 3000);
+
+        return;
+    }
+
     // Check for invalid entries (numbers in 'from' or 'to')
     const numberPattern = /\d/; // Regex to detect digits
     if (numberPattern.test(from) || numberPattern.test(to)) {
