@@ -198,7 +198,7 @@ document.getElementById('search_bus_button').addEventListener('click', function 
     const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect special characters or numbers
     if (invalidPattern.test(from) || invalidPattern.test(to)) {
         const messageDiv = document.createElement('div');
-        messageDiv.textContent = "Please enter valid locations (no numbers or special characters allowed).";
+        messageDiv.textContent = "Please enter valid locations.";
         messageContainer.appendChild(messageDiv);
 
         messageContainer.style.visibility = 'visible';
