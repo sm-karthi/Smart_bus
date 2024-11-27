@@ -1,6 +1,6 @@
 // Import Firebase dependencies
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getDatabase, ref, set, get, child,update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
 // Firebase Setup
 const firebaseConfig = {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         event.stopPropagation(); // Prevent click from propagating to document
 
         if (dynamicForm) {
-            
+
             return;
         }
 
@@ -103,89 +103,89 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 500); // Match the duration of the transition
         });
 
-               // Add event listener for the Search button
-               const searchButton = document.getElementById("searchButton");
-               searchButton.addEventListener("click", () => {
-                   const fromValue = modifyFrom.value.trim();
-                   const toValue = modifyTo.value.trim();
-                   const dateValue = document.getElementById("modifyDate").value.trim();
-       
-                   const messageContainer = document.getElementById('message-container');
-                   messageContainer.innerHTML = '';
-                   messageContainer.classList.remove('expand');
-       
-                   // Validation for special characters or numbers in "From" and "To" fields
-                   const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect invalid characters
-                   if (invalidPattern.test(fromValue) || invalidPattern.test(toValue)) {
-                       const messageDiv = document.createElement('div');
-                       messageDiv.textContent = "Please enter valid locations.";
-                       messageContainer.appendChild(messageDiv);
-       
-                       messageContainer.style.visibility = 'visible';
-                       setTimeout(() => {
-                           messageContainer.classList.add('expand');
-                       }, 12);
-       
-                       setTimeout(() => {
-                           messageContainer.classList.remove('expand');
-                       }, 2500);
-       
-                       setTimeout(() => {
-                           messageContainer.style.visibility = 'hidden';
-                       }, 3000);
-       
-                       return; // Stop further processing
-                   }
-       
-                   if (!fromValue || !toValue || !dateValue) {
-                       const messageDiv = document.createElement('div');
-                       messageDiv.textContent = "Please fill in all fields to search for buses.";
-                       messageContainer.appendChild(messageDiv);
-       
-                       messageContainer.style.visibility = 'visible';
-                       setTimeout(() => {
-                           messageContainer.classList.add('expand');
-                       }, 12);
-       
-                       setTimeout(() => {
-                           messageContainer.classList.remove('expand');
-                       }, 2500);
-       
-                       setTimeout(() => {
-                           messageContainer.style.visibility = 'hidden';
-                       }, 3000);
-       
-                       return;
-                   }
-       
-                   // Capitalize first letter of input values
-                   const capitalizedFromValue = capitalizeFirstLetter(fromValue);
-                   const capitalizedToValue = capitalizeFirstLetter(toValue);
-                   const capitalizedDateValue = capitalizeFirstLetter(dateValue);
-       
-                   // Save the values to localStorage
-                   localStorage.setItem("searchFrom", capitalizedFromValue);
-                   localStorage.setItem("searchTo", capitalizedToValue);
-                   localStorage.setItem("searchDate", capitalizedDateValue);
-       
-                   // Update displayed values with capitalized first letters
-                   displayFrom.textContent = capitalizedFromValue;
-                   displayTo.textContent = capitalizedToValue;
-                   displayDate.textContent = capitalizedDateValue;
-       
-                   // Remove the dynamic form
-                   dynamicForm.classList.remove("show"); // Hide the form smoothly
-                   setTimeout(() => {
-                       dynamicForm.remove();
-                       dynamicForm = null; // Clear the form reference
-                   }, 500); // Match the duration of the transition
-       
-                   // Immediately load updated results
-                   loadBusResults();
-       
-                   window.location.reload();
-               });
-       
+        // Add event listener for the Search button
+        const searchButton = document.getElementById("searchButton");
+        searchButton.addEventListener("click", () => {
+            const fromValue = modifyFrom.value.trim();
+            const toValue = modifyTo.value.trim();
+            const dateValue = document.getElementById("modifyDate").value.trim();
+
+            const messageContainer = document.getElementById('message-container');
+            messageContainer.innerHTML = '';
+            messageContainer.classList.remove('expand');
+
+            // Validation for special characters or numbers in "From" and "To" fields
+            const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect invalid characters
+            if (invalidPattern.test(fromValue) || invalidPattern.test(toValue)) {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = "Please enter valid locations.";
+                messageContainer.appendChild(messageDiv);
+
+                messageContainer.style.visibility = 'visible';
+                setTimeout(() => {
+                    messageContainer.classList.add('expand');
+                }, 12);
+
+                setTimeout(() => {
+                    messageContainer.classList.remove('expand');
+                }, 2500);
+
+                setTimeout(() => {
+                    messageContainer.style.visibility = 'hidden';
+                }, 3000);
+
+                return; // Stop further processing
+            }
+
+            if (!fromValue || !toValue || !dateValue) {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = "Please fill in all fields to search for buses.";
+                messageContainer.appendChild(messageDiv);
+
+                messageContainer.style.visibility = 'visible';
+                setTimeout(() => {
+                    messageContainer.classList.add('expand');
+                }, 12);
+
+                setTimeout(() => {
+                    messageContainer.classList.remove('expand');
+                }, 2500);
+
+                setTimeout(() => {
+                    messageContainer.style.visibility = 'hidden';
+                }, 3000);
+
+                return;
+            }
+
+            // Capitalize first letter of input values
+            const capitalizedFromValue = capitalizeFirstLetter(fromValue);
+            const capitalizedToValue = capitalizeFirstLetter(toValue);
+            const capitalizedDateValue = capitalizeFirstLetter(dateValue);
+
+            // Save the values to localStorage
+            localStorage.setItem("searchFrom", capitalizedFromValue);
+            localStorage.setItem("searchTo", capitalizedToValue);
+            localStorage.setItem("searchDate", capitalizedDateValue);
+
+            // Update displayed values with capitalized first letters
+            displayFrom.textContent = capitalizedFromValue;
+            displayTo.textContent = capitalizedToValue;
+            displayDate.textContent = capitalizedDateValue;
+
+            // Remove the dynamic form
+            dynamicForm.classList.remove("show"); // Hide the form smoothly
+            setTimeout(() => {
+                dynamicForm.remove();
+                dynamicForm = null; // Clear the form reference
+            }, 500); // Match the duration of the transition
+
+            // Immediately load updated results
+            loadBusResults();
+
+            window.location.reload();
+        });
+
     });
 
     // Load initial bus results on page load
@@ -267,6 +267,16 @@ async function uploadJSONToFirebase() {
     }
 }
 
+// Sort by letters
+const sortByContainer = document.getElementById("sortBy_bus_result");
+const sortBy = document.getElementById("sortBy");
+const departure = document.getElementById("departure");
+const duration = document.getElementById("duration");
+const arrival = document.getElementById("arrival");
+const ratings = document.getElementById("ratings");
+const fare = document.getElementById("fare");
+const seats_available = document.getElementById("seats_available");
+
 // Function to fetch and display data from Firebase
 async function loadBusResults() {
     simulateLoading(async () => {
@@ -324,13 +334,23 @@ async function loadBusResults() {
                     const busItem = document.createElement("div");
                     busItem.classList.add("bus-item");
 
+                    const ratingValue = bus.ratingBadge.ratingValue.textContent;
+                    let ratingClass = "green"; // Default green
+
+                    if (ratingValue < 4.0 && ratingValue >= 2.5) {
+                        ratingClass = "yellow"; // Yellow for average ratings
+                    } else if (ratingValue < 2.5) {
+                        ratingClass = "red"; // Red for poor ratings
+                    }
+
                     const ratingBadge = bus.ratingBadge
                         ? `
-                        <div class="${bus.ratingBadge.badgeClass}">
-                            <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
-                            <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
-                        </div>`
+    <div class="rating-badge ${ratingClass}">
+        <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
+        <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
+    </div>`
                         : "";
+
 
                     busItem.innerHTML = `
                         <h3 id="busName">${bus.name}</h3>
@@ -360,9 +380,10 @@ async function loadBusResults() {
                     count++;
                 });
 
-                
-                busCount.textContent = `${count} BUSES found`;
+
+                busCount.textContent = `${count} Buses found`;
                 bus_container.appendChild(busCount);
+                sortByContainer.style.display = "block";
             } else {
                 busList.innerHTML = `<h5 class="No_buses">No buses available for this route on the selected date.</h5>`;
                 side_bar.style.display = "none";
@@ -386,44 +407,44 @@ uploadJSONToFirebase();
 
 
 
-        // Call loadBusResults on page load
-        document.addEventListener("DOMContentLoaded", loadBusResults);
+// Call loadBusResults on page load
+document.addEventListener("DOMContentLoaded", loadBusResults);
 
 
-        // Call loadBusResults on page load
-        document.addEventListener("DOMContentLoaded", loadBusResults);
+// Call loadBusResults on page load
+document.addEventListener("DOMContentLoaded", loadBusResults);
 
 
-        // Function to render seats from localStorage
-        function renderSeats() {
-            const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
-            if (!selectedBus) {
-                alert("No bus selected. Please go back and choose a bus.");
-                return;
-            }
+// Function to render seats from localStorage
+function renderSeats() {
+    const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
+    if (!selectedBus) {
+        alert("No bus selected. Please go back and choose a bus.");
+        return;
+    }
 
-            document.getElementById('bus-name').textContent = selectedBus.name;
-            document.getElementById('from').textContent = selectedBus.from;
-            document.getElementById('to').textContent = selectedBus.to;
-            document.getElementById('date').textContent = selectedBus.date;
+    document.getElementById('bus-name').textContent = selectedBus.name;
+    document.getElementById('from').textContent = selectedBus.from;
+    document.getElementById('to').textContent = selectedBus.to;
+    document.getElementById('date').textContent = selectedBus.date;
 
-            const lowerDeck = document.getElementById('lower-deck');
-            selectedBus.lowerDeck.forEach(seat => {
-                const seatDiv = document.createElement('div');
-                seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
-                seatDiv.textContent = seat.seatNumber;
-                lowerDeck.appendChild(seatDiv);
-            });
+    const lowerDeck = document.getElementById('lower-deck');
+    selectedBus.lowerDeck.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
+        seatDiv.textContent = seat.seatNumber;
+        lowerDeck.appendChild(seatDiv);
+    });
 
-            const upperDeck = document.getElementById('upper-deck');
-            selectedBus.upperDeck.forEach(seat => {
-                const seatDiv = document.createElement('div');
-                seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
-                seatDiv.textContent = seat.seatNumber;
-                upperDeck.appendChild(seatDiv);
-            });
-        }
+    const upperDeck = document.getElementById('upper-deck');
+    selectedBus.upperDeck.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
+        seatDiv.textContent = seat.seatNumber;
+        upperDeck.appendChild(seatDiv);
+    });
+}
 
-        // Load bus results on the appropriate page
-        if (document.getElementById("bus_list")) loadBusResults();
-        if (document.getElementById("seats-container")) renderSeats();
+// Load bus results on the appropriate page
+if (document.getElementById("bus_list")) loadBusResults();
+if (document.getElementById("seats-container")) renderSeats();

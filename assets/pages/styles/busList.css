@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
 body {
@@ -39,6 +40,7 @@ header {
     justify-content: center;
     padding: 20px;
     background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Bus list styling */
@@ -68,7 +70,7 @@ header {
 
 /* Bus item title */
 .bus-item h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin: 0 0 10px;
     color: #343a40;
 }
@@ -82,20 +84,20 @@ header {
 
 #bus_list p {
     color: #495057;
-    font-size: 1.1rem;
-    text-align: center; 
+    font-size: 0.9rem;
+    text-align: center;
 
 }
 
 #bus_list h5 {
     color: #495057;
     font-size: 1.2rem;
-    text-align: center; 
+    text-align: center;
     font-weight: bold;
     margin-right: 200px;
 }
 
-#bus_list h4{
+#bus_list h4 {
     color: #495057;
     font-size: 1.2rem;
     text-align: center;
@@ -113,7 +115,7 @@ header {
 #DepartureTime {
     position: relative;
     bottom: 110px;
-    right: 220px;
+    right: 230px;
     font-size: 14px;
     /* Adjusted font size for consistency */
     color: #333;
@@ -131,7 +133,7 @@ header {
     position: relative;
     right: 430px;
     bottom: 140px;
-    font-style: italic;
+    /* font-style: italic; */
     /* Italic style to differentiate */
     font-size: 14px;
     color: #555;
@@ -139,7 +141,7 @@ header {
 
 #fromPlace {
     position: relative;
-    right: 220px;
+    right: 230px;
     top: 45px;
     font-weight: bold;
     /* Highlighted for emphasis */
@@ -175,8 +177,8 @@ header {
 #busCount {
     color: #000;
     position: absolute;
-    top: 160px;
-    left: 420px;
+    top: 140px;
+    left: 410px;
     font-size: 25px;
     font-weight: bold;
 }
@@ -186,35 +188,44 @@ header {
 .rating-badge {
     display: inline-flex;
     align-items: center;
-    background-color: #0e8512;
-    /* Green background */
     color: white;
-    /* White text color */
+    /* Common styles */
     padding: 2px 8px;
-    /* Adjusted padding for better appearance */
     border-radius: 6px;
-    /* Rounded corners */
     font-family: Arial, sans-serif;
     font-size: 16px;
-    /* Adjust font size for readability */
     position: relative;
     bottom: 200px;
     left: 630px;
 }
 
+.rating-badge.green {
+    background-color: #0e8512;
+    /* Green background for ratings >= 4.0 */
+}
+
+.rating-badge.yellow {
+    background-color: #edb715;
+    /* Yellow background for ratings between 2.5 and 4.0 */
+    color: rgb(255, 255, 255);
+    /* Black text for better contrast on yellow */
+}
+
+.rating-badge.red {
+    background-color: #e63946;
+    /* Red background for ratings < 2.5 */
+}
+
 .star-icon {
     margin-right: 5px;
-    /* Space between star and rating */
     font-size: 18px;
-    /* Adjust star size */
     color: white;
-    /* Star color */
 }
 
 .rating-value {
     font-weight: bold;
-    /* Highlight rating value */
 }
+
 
 #startsFrom {
     margin-left: 490px;
@@ -258,7 +269,7 @@ header {
 
 .view-seats-btn {
     position: relative;
-    bottom: 170px;
+    bottom: 190px;
     background-color: rgb(248, 74, 91);
     /* Button background color */
     color: white;
@@ -307,7 +318,7 @@ header {
     display: none;
 }
 
-#displayNames #display_container{
+#displayNames #display_container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -316,7 +327,9 @@ header {
 }
 
 
-#displayFrom, #displayTo, #displayDate {
+#displayFrom,
+#displayTo,
+#displayDate {
     background-color: #fff;
     padding: 10px;
     border-radius: 6px;
@@ -329,9 +342,10 @@ header {
 
 }
 
-#nevArrow{
+#nevArrow {
     margin-top: 45px;
 }
+
 /* Modify button styling */
 #modifyButton {
     background-color: rgb(248, 74, 91);
@@ -353,7 +367,7 @@ header {
 
 #modifyButton:active {
     transform: scale(0.97);
-} 
+}
 
 /* Dynamic form styling */
 #dynamicModifyForm {
@@ -455,15 +469,18 @@ header {
     bottom: 12px;
 }
 
-.stack:hover{
+.stack:hover {
     box-shadow: 1px 1px 7px 0px black;
 }
 
 /* Loader styles */
 .loader {
-    display: none; /* Initially hidden */
-    border: 8px solid #f3f3f3; /* Light gray */
-    border-top: 8px solid #3498db; /* Blue */
+    display: none;
+    /* Initially hidden */
+    border: 8px solid #f3f3f3;
+    /* Light gray */
+    border-top: 8px solid #3498db;
+    /* Blue */
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -473,30 +490,37 @@ header {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
-  }
-  
-  /* Keyframes for spinner */
-  @keyframes spin {
+}
+
+/* Keyframes for spinner */
+@keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  
-  /* Style for the message container */
+}
+
+/* Style for the message container */
 #message-container {
     position: fixed;
     top: 530px;
     width: fit-content;
     left: 550px;
-    overflow: hidden; /* Prevent content overflow */
-    height: 30px; /* Initially collapsed */
-    opacity: 0; /* Initially transparent */
-    padding: 0; /* No padding initially */
-    visibility: hidden; /* Hidden by default */
-    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease, visibility 0.5s ease; /* Smooth transitions */
+    overflow: hidden;
+    /* Prevent content overflow */
+    height: 30px;
+    /* Initially collapsed */
+    opacity: 0;
+    /* Initially transparent */
+    padding: 0;
+    /* No padding initially */
+    visibility: hidden;
+    /* Hidden by default */
+    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease, visibility 0.5s ease;
+    /* Smooth transitions */
 }
 
 /* Style for the error message */
@@ -512,10 +536,14 @@ header {
 
 /* Expanded state of the container */
 #message-container.expand {
-    height: auto; /* Expand height to fit content */
-    opacity: 1; /* Fade in */
-    padding: 10px 0; /* Add padding */
-    visibility: visible; /* Make it visible */
+    height: auto;
+    /* Expand height to fit content */
+    opacity: 1;
+    /* Fade in */
+    padding: 10px 0;
+    /* Add padding */
+    visibility: visible;
+    /* Make it visible */
 }
 
 
@@ -548,3 +576,62 @@ header {
 }
 
 
+#sortBy_bus_result {
+    display: flex;
+    position: absolute;
+    top: 180px;
+    display: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+#sortBy {
+    font-weight: bold;
+    position: relative;
+    right: 60px;
+    font-size: 16px;
+    top: 22px;
+    font-family: 'Poppins', sans-serif;
+}
+
+#seats_available {
+    position: relative;
+    left: 470px;
+}
+
+#fare {
+    position: relative;
+    left: 340px;
+}
+
+#ratings {
+    position: relative;
+    left: 274px;
+}
+
+#arrival {
+    position: relative;
+    left: 198px;
+}
+
+#duration {
+    position: relative;
+    left: 145px;
+}
+
+#departure {
+    position: relative;
+    left: 95px;
+}
+
+
+/* Side bar styles */
+#busType {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    margin-left: 50px;
+    gap: 20px;
+    font-weight: bold;
+}
