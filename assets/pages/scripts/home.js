@@ -93,9 +93,10 @@ profile.addEventListener("click", (e) => {
         profileContainer.setAttribute("id", "profileContainer");
         profileContainer.classList.add("profileManage");
 
+
         profileContainer.innerHTML = userName
-            ? `<p id = "profile_letters">Hello, ${userName}!</p>`
-            : "<p>No username found. Please login.</p>";
+            ? `<p>Hello, ${userName}!</p>`
+            : `<p id = "profile_letters">No username found. Please login.</p>`;
 
         // Create and append the logout icon
         const logoutIcon = document.createElement("i");
