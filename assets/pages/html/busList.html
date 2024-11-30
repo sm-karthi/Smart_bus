@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="../styles/busList.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -42,7 +45,7 @@
     </header>
 
     <!-- Bus results container -->
-    <div id="busResults" style="margin-top: 20px;"></div>
+    <div id="busResults"></div>
 
 
 
@@ -50,13 +53,55 @@
 
 
 
-    <aside id="side_bar">
+    <div id="side_bar">
+        <!--  <div id="sideBar">
+            <div id="busType">
+                <h3>BUS TYPE</h3>
+                <label>
+                    <input type="checkbox" id="acBus" value="AC"> AC Bus
+                </label>
+                <label>
+                    <input type="checkbox" id="nonAcBus" value="Non-AC"> Non-AC Bus
+                </label>
+                <label>
+                    <input type="checkbox" id="sleeperBus" value="Sleeper"> Sleeper Bus
+                </label>
+            </div>
 
-    </aside>
+            <div id="seatAvailability">
+                <h3>SEAT AVAILABILITY</h3>
+                <label>
+                    <input type="checkbox" id="availableSeats" value="Available"> Available Seats Only
+                </label>
+            </div>
+
+            <div id="amenities">
+                <h3>AMENITIES</h3>
+                <span id="water_bottle">Water Bottle (3)</span>
+                <span id="blankets">Blankets (2)</span>
+                <span id="charging_point">Charging Point (5)</span>
+            </div>
+        </div> -->
+    </div>
+
+
+
+
 
     <main id="bus_container">
+        <div id="sortBy_bus_result">
+            <div id="sortBy">SORT BY :</div>
+
+            <span id="departure">Departure</span>
+            <span id="duration">Duration</span>
+            <span id="arrival">Arrival</span>
+            <span id="ratings">Ratings</span>
+            <span id="fare">Fare</span>
+            <span id="seats_available">Seats Available</span>
+
+        </div>
+        
         <div id="bus_list"></div>
-        <!-- <div id="busCount"></div> -->
         <div id="loader" class="loader"></div>
 
     </main>

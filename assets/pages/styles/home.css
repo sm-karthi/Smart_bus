@@ -52,6 +52,16 @@ header {
     margin-top: 35px;
 }
 
+.profileManage{
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+.profileManage p {
+    font-size: 21px;
+}
+
+
 body {
     background-image: url("../../image/background\ bus\ image.webp");
     background-repeat: no-repeat;
