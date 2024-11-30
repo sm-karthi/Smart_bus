@@ -43,10 +43,10 @@ window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
 });
 
-// Check if the user is logged in
+/* // Check if the user is logged in
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "/index.html"; // Redirect to login page if not logged in
-}
+} */
 
 // Arrow click functionality to swap 'from' and 'to' inputs
 const arrow = document.querySelector(".stack");
@@ -94,7 +94,7 @@ profile.addEventListener("click", (e) => {
         profileContainer.classList.add("profileManage");
 
         profileContainer.innerHTML = userName
-            ? `<p>Hello, ${userName}!</p>`
+            ? `<p id = "profile_letters">Hello, ${userName}!</p>`
             : "<p>No username found. Please login.</p>";
 
         // Create and append the logout icon

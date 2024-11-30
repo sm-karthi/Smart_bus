@@ -231,7 +231,7 @@ side_bar.style.display = "none";
 
 /**
  * Function to update Firebase with new JSON data
- * @param {Array} buses - The JSON array of buses to save in Firebase
+  @param {Array} buses //- The JSON array of buses to save in Firebase
  */
 async function updateJSONToFirebase(buses) {
     try {
@@ -410,41 +410,3 @@ uploadJSONToFirebase();
 // Call loadBusResults on page load
 document.addEventListener("DOMContentLoaded", loadBusResults);
 
-
-// Call loadBusResults on page load
-document.addEventListener("DOMContentLoaded", loadBusResults);
-
-
-// Function to render seats from localStorage
-function renderSeats() {
-    const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
-    if (!selectedBus) {
-        alert("No bus selected. Please go back and choose a bus.");
-        return;
-    }
-
-    document.getElementById('bus-name').textContent = selectedBus.name;
-    document.getElementById('from').textContent = selectedBus.from;
-    document.getElementById('to').textContent = selectedBus.to;
-    document.getElementById('date').textContent = selectedBus.date;
-
-    const lowerDeck = document.getElementById('lower-deck');
-    selectedBus.lowerDeck.forEach(seat => {
-        const seatDiv = document.createElement('div');
-        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
-        seatDiv.textContent = seat.seatNumber;
-        lowerDeck.appendChild(seatDiv);
-    });
-
-    const upperDeck = document.getElementById('upper-deck');
-    selectedBus.upperDeck.forEach(seat => {
-        const seatDiv = document.createElement('div');
-        seatDiv.classList.add('seat', seat.isAvailable ? 'available' : 'unavailable');
-        seatDiv.textContent = seat.seatNumber;
-        upperDeck.appendChild(seatDiv);
-    });
-}
-
-// Load bus results on the appropriate page
-if (document.getElementById("bus_list")) loadBusResults();
-if (document.getElementById("seats-container")) renderSeats();

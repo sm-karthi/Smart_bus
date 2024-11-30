@@ -53,37 +53,54 @@
 
 
 
-    <aside id="side_bar">
-        
-            <div id="busType"> BUS TYPE
+    <div id="side_bar">
+        <!--  <div id="sideBar">
+            <div id="busType">
+                <h3>BUS TYPE</h3>
                 <label>
                     <input type="checkbox" id="acBus" value="AC"> AC Bus
                 </label>
-                
                 <label>
                     <input type="checkbox" id="nonAcBus" value="Non-AC"> Non-AC Bus
                 </label>
-                
                 <label>
                     <input type="checkbox" id="sleeperBus" value="Sleeper"> Sleeper Bus
                 </label>
             </div>
-        
-        
-    </aside>
+
+            <div id="seatAvailability">
+                <h3>SEAT AVAILABILITY</h3>
+                <label>
+                    <input type="checkbox" id="availableSeats" value="Available"> Available Seats Only
+                </label>
+            </div>
+
+            <div id="amenities">
+                <h3>AMENITIES</h3>
+                <span id="water_bottle">Water Bottle (3)</span>
+                <span id="blankets">Blankets (2)</span>
+                <span id="charging_point">Charging Point (5)</span>
+            </div>
+        </div> -->
+    </div>
+
+
+
+
 
     <main id="bus_container">
         <div id="sortBy_bus_result">
             <div id="sortBy">SORT BY :</div>
-                
-                <span id="departure">Departure</span>
-                <span id="duration">Duration</span>
-                <span id="arrival">Arrival</span>
-                <span id="ratings">Ratings</span>
-                <span id="fare">Fare</span>
-                <span id="seats_available">Seats Available</span>
-            
+
+            <span id="departure">Departure</span>
+            <span id="duration">Duration</span>
+            <span id="arrival">Arrival</span>
+            <span id="ratings">Ratings</span>
+            <span id="fare">Fare</span>
+            <span id="seats_available">Seats Available</span>
+
         </div>
+        
         <div id="bus_list"></div>
         <div id="loader" class="loader"></div>
 

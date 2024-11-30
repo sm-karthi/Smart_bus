@@ -597,41 +597,36 @@ header {
 #seats_available {
     position: relative;
     left: 470px;
+    cursor: pointer;
 }
 
 #fare {
     position: relative;
     left: 340px;
+    cursor: pointer;
 }
 
 #ratings {
     position: relative;
     left: 274px;
+    cursor: pointer;
 }
 
 #arrival {
     position: relative;
     left: 198px;
+    cursor: pointer;
 }
 
 #duration {
     position: relative;
     left: 145px;
+    cursor: pointer;
 }
 
 #departure {
     position: relative;
     left: 95px;
+    cursor: pointer;
 }
 
-
-/* Side bar styles */
-#busType {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    flex-direction: column;
-    margin-top: 100px;
-    margin-left: 50px;
-    gap: 20px;
-    font-weight: bold;
-}

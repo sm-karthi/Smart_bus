@@ -193,6 +193,9 @@ signUpForm.addEventListener("submit", async (e) => {
         if (formValid) {
             const email = signUpEmail.value;
             const password = passInput.value;
+            localStorage.setItem("username", signUpName.value);
+            console.log(signUpName.value);
+            
 
             createUserWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
@@ -227,7 +230,6 @@ signUpForm.addEventListener("submit", async (e) => {
                     });
 
                     // Store the username in local storage
-                    localStorage.setItem("username", signUpName.value);
 
                     switchToLogin();
                 })
@@ -255,7 +257,8 @@ function switchToLogin() {
 // Login form validation 
 loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
-
+    console.log(localStorage.getItem("username"))
+    
     let hasError = false;
 
     // Clear previous error messages
@@ -298,7 +301,7 @@ loginForm.addEventListener("submit", (event) => {
 
         const storedUsername = localStorage.getItem("username");
 
-        if (storedUsername && loginName.value !== storedUsername) {
+        if (loginName.value !== storedUsername) {
             loginNameError.textContent = "Username does not match.";
             return; // Stop further execution if usernames do not match
         }

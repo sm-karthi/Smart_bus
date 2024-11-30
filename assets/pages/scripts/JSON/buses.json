@@ -199,10 +199,10 @@
         "name": "AKS Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
-        "Departure": "08:00 PM",
-        "Arrival": "6:00 AM",
-        "Duration": "10h 20m",
+        "date": "2024-11-30",
+        "Departure": "10:00 PM",
+        "Arrival": "8:00 AM",
+        "Duration": "12h 20m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
@@ -215,8 +215,8 @@
                 "textContent": 3.3
             }
         },
-        "inrRate": "699",
-        "seatsAvailable": "19 Seats Available",
+        "inrRate": "1000",
+        "seatsAvailable": "32 Seats Available",
         "single": "7 Single",
         "lowerDeck": [
             { "seatNumber": "1A", "isAvailable": true },
@@ -235,10 +235,10 @@
         "name": "Amarnath Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
-        "Departure": "08:00 PM",
+        "date": "2024-11-30",
+        "Departure": "10:00 PM",
         "Arrival": "6:00 AM",
-        "Duration": "10h 20m",
+        "Duration": "11h 20m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
@@ -251,8 +251,8 @@
                 "textContent": 1.5
             }
         },
-        "inrRate": "699",
-        "seatsAvailable": "19 Seats Available",
+        "inrRate": "800",
+        "seatsAvailable": "35 Seats Available",
         "single": "7 Single",
         "lowerDeck": [
             { "seatNumber": "1A", "isAvailable": true },
@@ -271,10 +271,10 @@
         "name": "GKR Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
-        "Departure": "08:00 PM",
-        "Arrival": "6:00 AM",
-        "Duration": "10h 20m",
+        "date": "2024-11-30",
+        "Departure": "09:00 PM",
+        "Arrival": "5:00 AM",
+        "Duration": "08h 20m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
@@ -284,11 +284,11 @@
             },
             "ratingValue": {
                 "valueClass": "rating-value",
-                "textContent": 4.4
+                "textContent": 4.8
             }
         },
-        "inrRate": "699",
-        "seatsAvailable": "19 Seats Available",
+        "inrRate": "1200",
+        "seatsAvailable": "25 Seats Available",
         "single": "7 Single",
         "lowerDeck": [
             { "seatNumber": "1A", "isAvailable": true },
@@ -307,9 +307,9 @@
         "name": "Logesh Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
+        "date": "2024-11-30",
         "Departure": "08:00 PM",
-        "Arrival": "6:00 AM",
+        "Arrival": "07h:00 AM",
         "Duration": "10h 20m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
@@ -320,11 +320,11 @@
             },
             "ratingValue": {
                 "valueClass": "rating-value",
-                "textContent": 4.4
+                "textContent": 1.2
             }
         },
-        "inrRate": "699",
-        "seatsAvailable": "19 Seats Available",
+        "inrRate": "600",
+        "seatsAvailable": "20 Seats Available",
         "single": "7 Single",
         "lowerDeck": [
             { "seatNumber": "1A", "isAvailable": true },
@@ -343,10 +343,10 @@
         "name": "Krishna Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
-        "Departure": "08:00 PM",
-        "Arrival": "6:00 AM",
-        "Duration": "10h 20m",
+        "date": "2024-11-30",
+        "Departure": "08:30 PM",
+        "Arrival": "6:30 AM",
+        "Duration": "10h 50m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
@@ -356,7 +356,7 @@
             },
             "ratingValue": {
                 "valueClass": "rating-value",
-                "textContent": 4.4
+                "textContent": 2.8
             }
         },
         "inrRate": "699",
@@ -367,10 +367,10 @@
         "name": "Logesh Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
-        "Departure": "08:00 PM",
-        "Arrival": "6:00 AM",
-        "Duration": "10h 20m",
+        "date": "2024-11-30",
+        "Departure": "07:00 PM",
+        "Arrival": "9:00 AM",
+        "Duration": "15h 20m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
@@ -380,21 +380,21 @@
             },
             "ratingValue": {
                 "valueClass": "rating-value",
-                "textContent": 4.4
+                "textContent": 3.9
             }
         },
-        "inrRate": "699",
-        "seatsAvailable": "19 Seats Available",
+        "inrRate": "799",
+        "seatsAvailable": "23 Seats Available",
         "single": "7 Single"
     },
     {
         "name": "Priya Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
-        "Departure": "08:00 PM",
-        "Arrival": "6:00 AM",
-        "Duration": "10h 20m",
+        "date": "2024-11-30",
+        "Departure": "08:25 PM",
+        "Arrival": "6:30 AM",
+        "Duration": "09h 20m",
         "bustype": "A/C Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
@@ -404,18 +404,18 @@
             },
             "ratingValue": {
                 "valueClass": "rating-value",
-                "textContent": 4.4
+                "textContent": 2.7
             }
         },
-        "inrRate": "699",
-        "seatsAvailable": "19 Seats Available",
+        "inrRate": "550",
+        "seatsAvailable": "15 Seats Available",
         "single": "7 Single"
     },
     {
         "name": "AKS Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-11-29",
+        "date": "2024-11-30",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
