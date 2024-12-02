@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Click the bus logo reload the page
+document.getElementById("Bus_logo").addEventListener("click", () => {
+    window.location.reload();
+});
+
 // Save input values to localStorage as the user types
 const fromInput = document.getElementById('from');
 const toInput = document.getElementById('to');

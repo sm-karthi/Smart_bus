@@ -7,6 +7,8 @@
     <title>Bus Results</title>
     <link rel="stylesheet" href="../styles/busList.css">
 
+    <link rel="icon" href="../../image/icon_logo.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,36 +55,27 @@
 
 
 
-    <div id="side_bar">
-        <!--  <div id="sideBar">
-            <div id="busType">
-                <h3>BUS TYPE</h3>
-                <label>
-                    <input type="checkbox" id="acBus" value="AC"> AC Bus
-                </label>
-                <label>
-                    <input type="checkbox" id="nonAcBus" value="Non-AC"> Non-AC Bus
-                </label>
-                <label>
-                    <input type="checkbox" id="sleeperBus" value="Sleeper"> Sleeper Bus
-                </label>
-            </div>
+    <aside id="side_bar">
+        <div id="bus_type">
+            <h3>BUS TYPES</h3>
+            <span id="ac_bus">AC</span>
+            <span id="nonac_bus">NON AC</span>
+            <span id="sleeper_bus">SLEEPER</span>
+        </div>
 
-            <div id="seatAvailability">
-                <h3>SEAT AVAILABILITY</h3>
-                <label>
-                    <input type="checkbox" id="availableSeats" value="Available"> Available Seats Only
-                </label>
-            </div>
+        <div id="seat_available">
+            <h3>SEAT AVAILABILITY</h3>
+            <span id="single_seat">Single seats</span>
+        </div>
 
-            <div id="amenities">
-                <h3>AMENITIES</h3>
-                <span id="water_bottle">Water Bottle (3)</span>
-                <span id="blankets">Blankets (2)</span>
-                <span id="charging_point">Charging Point (5)</span>
-            </div>
-        </div> -->
-    </div>
+        <div id="amenities">
+            <h3>AMENITIES</h3>
+            <span id="water_bottle">Water Bottle</span>
+            <span id="blankets">Blankets</span>
+            <span id="charging_point">Charging Point</span>
+        </div>
+    </aside>
+
 
 
 
@@ -100,7 +93,7 @@
             <span id="seats_available">Seats Available</span>
 
         </div>
-        
+
         <div id="bus_list"></div>
         <div id="loader" class="loader"></div>
 

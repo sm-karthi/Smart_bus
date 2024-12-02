@@ -15,6 +15,7 @@ const firebaseConfig = {
 // Initialize Firebase and Realtime Database
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+let displayedBuses = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     const modifyButton = document.getElementById("modifyButton");
@@ -222,7 +223,7 @@ function simulateLoading(callback) {
         if (typeof callback === "function") {
             callback(); // Execute the callback (e.g., display bus results)
         }
-    }, 3000); // 3000ms = 3 seconds
+    }, 2000); // 3000ms = 3 seconds
 }
 
 const side_bar = document.getElementById('side_bar');
@@ -269,13 +270,6 @@ async function uploadJSONToFirebase() {
 
 // Sort by letters
 const sortByContainer = document.getElementById("sortBy_bus_result");
-const sortBy = document.getElementById("sortBy");
-const departure = document.getElementById("departure");
-const duration = document.getElementById("duration");
-const arrival = document.getElementById("arrival");
-const ratings = document.getElementById("ratings");
-const fare = document.getElementById("fare");
-const seats_available = document.getElementById("seats_available");
 
 // Function to fetch and display data from Firebase
 async function loadBusResults() {
@@ -313,7 +307,7 @@ async function loadBusResults() {
             if (!snapshot.exists()) throw new Error("No data found in Firebase.");
             const buses = snapshot.val();
 
-            const matchingBuses = Object.values(buses).filter(
+            displayedBuses = Object.values(buses).filter(
                 (bus) =>
                     bus.from.toLowerCase() === from.toLowerCase() &&
                     bus.to.toLowerCase() === to.toLowerCase() &&
@@ -329,8 +323,8 @@ async function loadBusResults() {
 
             let count = 0;
 
-            if (matchingBuses.length > 0) {
-                matchingBuses.forEach((bus) => {
+            if (displayedBuses.length > 0) {
+                displayedBuses.forEach((bus) => {
                     const busItem = document.createElement("div");
                     busItem.classList.add("bus-item");
 
@@ -400,13 +394,161 @@ async function loadBusResults() {
 // Upload local JSON data to Firebase when the page loads
 uploadJSONToFirebase();
 
-
-
-
-
-
-
-
 // Call loadBusResults on page load
 document.addEventListener("DOMContentLoaded", loadBusResults);
+
+
+
+
+
+
+
+
+
+
+let sortOrder = "asc"; // Default sort order (ascending)
+ // Store the fetched buses
+
+// Attach event listeners to the sorting options
+const sortingHeaders = {
+    departure: "Departure",
+    duration: "Duration",
+    arrival: "Arrival",
+    ratings: "rating",
+    fare: "inrRate",
+    seats_available: "seatsAvailable",
+};
+
+Object.keys(sortingHeaders).forEach((id) => {
+    document.getElementById(id).addEventListener("click", () => {
+        highlightSortingHeader(id);
+        sortAndReloadBusList(sortingHeaders[id]);
+    });
+});
+
+// Function to highlight the clicked column header and toggle arrow
+function highlightSortingHeader(activeId) {
+    // Reset all headers
+    Object.keys(sortingHeaders).forEach((id) => {
+        const header = document.getElementById(id);
+        header.style.color = ""; // Reset color
+        header.innerHTML = header.textContent.replace(/ ↑| ↓/, ""); // Remove arrow
+    });
+
+    // Highlight active header
+    const activeHeader = document.getElementById(activeId);
+    activeHeader.style.color = "rgb(248, 74, 91)"; // Change to your preferred highlight color
+    activeHeader.textContent += sortOrder === "asc" ? " ↓" : " ↑"; // Add arrow
+}
+
+// Function to fetch bus data (only once when the page loads)
+async function fetchBuses() {
+    const dbRef = ref(database);
+    const snapshot = await get(child(dbRef, "buses/"));
+    if (!snapshot.exists()) throw new Error("No data found in Firebase.");
+    return Object.values(snapshot.val()); // Return buses array
+}
+
+// Function to render the bus list
+function renderBusList(buses) {
+    const busList = document.getElementById("bus_list");
+    busList.innerHTML = ""; // Clear the list
+
+    buses.forEach((bus) => {
+       const busItem = document.createElement("div");
+                    busItem.classList.add("bus-item");
+
+                    const ratingValue = bus.ratingBadge.ratingValue.textContent;
+                    let ratingClass = "green"; // Default green
+
+                    if (ratingValue < 4.0 && ratingValue >= 2.5) {
+                        ratingClass = "yellow"; // Yellow for average ratings
+                    } else if (ratingValue < 2.5) {
+                        ratingClass = "red"; // Red for poor ratings
+                    }
+
+        const ratingBadge = bus.ratingBadge
+                        ? `
+    <div class="rating-badge ${ratingClass}">
+        <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
+        <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
+    </div>`
+                        : "";
+
+                        busItem.innerHTML = `
+                        <h3 id="busName">${bus.name}</h3>
+                        <p id="fromPlace">${bus.from}</p>
+                        <p id="toPlace">${bus.to}</p>
+                        <p id="busDate">${bus.date}</p>
+                        <p id="DepartureTime">${bus.Departure || "Not available"}</p>
+                        <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
+                        <p id="Duration">${bus.Duration}</p>
+                        <p id="bustype">${bus.bustype}</p>
+                        ${ratingBadge}
+                        <p id="inrRate">INR ${bus.inrRate}</p>
+                        <p id="seatsAvailable">${bus.seatsAvailable}</p>
+                        <p id="single">${bus.single}</p>
+                    `;
+
+        const viewSeatsButton = document.createElement("button");
+        viewSeatsButton.textContent = "VIEW SEATS";
+        viewSeatsButton.classList.add("view-seats-btn");
+        viewSeatsButton.addEventListener("click", () => {
+            localStorage.setItem("selectedBus", JSON.stringify(bus));
+            window.location.href = "../html/seats.html";
+        });
+
+        busItem.appendChild(viewSeatsButton);
+        busList.appendChild(busItem);
+    });
+}
+
+// Function to sort the bus list based on the selected property and reload the sorted list
+function sortAndReloadBusList(property) {
+    if (displayedBuses.length === 0) {
+        console.log("No buses available to sort.");
+        return;
+    }
+    console.log(displayedBuses);
+    // Sort buses based on the selected property
+    if (property === "rating"){
+        // Handle rating as a number
+        
+        
+        displayedBuses.sort((a, b) => {
+            const ratingA = parseFloat(a.ratingBadge.ratingValue.textContent) || 0; // Ensure valid ratings
+            const ratingB = parseFloat(b.ratingBadge.ratingValue.textContent) || 0;
+            return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
+        });
+    } 
+    
+    
+    else if(property=="inrRate"){
+        displayedBuses.sort((a, b) => {
+            const ratingA = parseFloat(a.inrRate) || 0; // Ensure valid ratings
+            const ratingB = parseFloat(b.inrRate) || 0;
+            return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
+        });
+    }
+    else {
+        // General sorting logic for other properties
+        displayedBuses.sort((a, b) => {
+            if (a[property] < b[property]) return sortOrder === "asc" ? -1 : 1;
+            if (a[property] > b[property]) return sortOrder === "asc" ? 1 : -1;
+            return 0;
+        });
+    }
+
+    // Toggle sort order
+    sortOrder = sortOrder === "asc" ? "desc" : "asc";
+
+    // Render the sorted buses
+    renderBusList(displayedBuses);
+}
+
+
+
+// Side bar code
+
+
 
