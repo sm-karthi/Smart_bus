@@ -22,7 +22,10 @@
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
         "single": "7 Single",
-        "seat": 34
+        "seat": 34,
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "MRM Travels",
@@ -47,7 +50,10 @@
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
         "single": "7 Single",
-        "seat": 32
+        "seat": 32,
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Amarnath Travels",
@@ -71,7 +77,10 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Lakshmi Travels",
@@ -95,7 +104,10 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "SRM Travels",
@@ -119,7 +131,10 @@
         },
         "inrRate": "1000",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Amarnath Travels",
@@ -193,17 +208,20 @@
 
         { "seatNumber": "1A", "isAvailable": true },
         { "seatNumber": "1B", "isAvailable": false }
-    ]
+    ],
+    "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "AKS Travels",
         "from": "Chennai",
         "to": "Thoothukudi",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "10:00 PM",
         "Arrival": "8:00 AM",
         "Duration": "12h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C/ Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -229,17 +247,20 @@
             { "seatNumber": "U1B", "isAvailable": true },
             { "seatNumber": "U2A", "isAvailable": false },
             { "seatNumber": "U2B", "isAvailable": true }
-        ]
+        ],
+        "WaterBottle": false,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Amarnath Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "10:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "11h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -265,17 +286,20 @@
             { "seatNumber": "U1B", "isAvailable": true },
             { "seatNumber": "U2A", "isAvailable": false },
             { "seatNumber": "U2B", "isAvailable": true }
-        ]
+        ],
+        "WaterBottle": false,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "GKR Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "09:00 PM",
         "Arrival": "5:00 AM",
         "Duration": "08h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C / Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -301,17 +325,20 @@
             { "seatNumber": "U1B", "isAvailable": true },
             { "seatNumber": "U2A", "isAvailable": false },
             { "seatNumber": "U2B", "isAvailable": true }
-        ]
+        ],
+        "WaterBottle": false,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Logesh Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "08:00 PM",
         "Arrival": "7:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C / Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -337,17 +364,20 @@
             { "seatNumber": "U1B", "isAvailable": true },
             { "seatNumber": "U2A", "isAvailable": false },
             { "seatNumber": "U2B", "isAvailable": true }
-        ]
+        ],
+        "WaterBottle": false,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Krishna Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "08:30 PM",
         "Arrival": "6:30 AM",
         "Duration": "10h 50m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C /Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -361,17 +391,20 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Logesh Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "07:00 PM",
         "Arrival": "9:00 AM",
         "Duration": "15h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -385,17 +418,20 @@
         },
         "inrRate": "799",
         "seatsAvailable": "23 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": false,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Priya Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "08:25 PM",
         "Arrival": "6:30 AM",
         "Duration": "09h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C /Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -409,17 +445,20 @@
         },
         "inrRate": "550",
         "seatsAvailable": "15 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "AKS Travels",
         "from": "Chennai",
         "to": "Madurai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "10h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C /Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -433,17 +472,20 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": false,
+        "Blankets":true,
+        "ChargingPoint":false
     },
     {
         "name": "GKR Travels",
         "from": "Thanjavur",
         "to": "Chennai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "09:00 PM",
         "Arrival": "6:30 AM",
         "Duration": "24h 00m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C / Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -457,17 +499,20 @@
         },
         "inrRate": "699",
         "seatsAvailable": "19 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "Amarnath Travels",
         "from": "Thanjavur",
         "to": "Chennai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "08:00 PM",
         "Arrival": "6:00 AM",
         "Duration": "23h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C /Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -481,17 +526,20 @@
         },
         "inrRate": "1000",
         "seatsAvailable": "30 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     },
     {
         "name": "AKS Travels",
         "from": "Thanjavur",
         "to": "Chennai",
-        "date": "2024-12-03",
+        "date": "2024-12-07",
         "Departure": "10:00 PM",
         "Arrival": "7:00 AM",
         "Duration": "00h 20m",
-        "bustype": "A/C Seater / Sleeper (2 + 1)",
+        "bustype": "A/C /Seater / Sleeper (2 + 1)",
         "ratingBadge": {
             "badgeClass": "rating-badge",
             "starIcon": {
@@ -503,8 +551,11 @@
                 "textContent": 3.5
             }
         },
-        "inrRate": "1500",
+        "inrRate": "1200",
         "seatsAvailable": "39 Seats Available",
-        "single": "7 Single"
+        "single": "7 Single",
+        "WaterBottle": true,
+        "Blankets":true,
+        "ChargingPoint":true
     }
 ]

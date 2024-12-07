@@ -18,6 +18,7 @@
 <body>
     <header>
 
+        <i class="fa-solid fa-left-long" id="leftArrow" title="Go to home page"></i>
         <form id="displayNames">
             <!-- Displaying current values -->
             <div id="display_container">
@@ -61,6 +62,7 @@
             <span id="ac_bus">AC</span>
             <span id="nonac_bus">NON AC</span>
             <span id="sleeper_bus">SLEEPER</span>
+            <span id="seater_bus">SEATER</span>
         </div>
 
         <div id="seat_available">
@@ -82,7 +84,7 @@
 
 
     <main id="bus_container">
-        <div id="sortBy_bus_result">
+        <div id="sortBy_bus_result" class="filterHeaders">
             <div id="sortBy">SORT BY :</div>
 
             <span id="departure">Departure</span>
@@ -93,6 +95,7 @@
             <span id="seats_available">Seats Available</span>
 
         </div>
+ 
 
         <div id="bus_list"></div>
         <div id="loader" class="loader"></div>
