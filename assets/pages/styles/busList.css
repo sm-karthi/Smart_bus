@@ -48,28 +48,29 @@ header #leftArrow:hover {
 #bus_container {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    /* padding: 20px; */
     font-family: 'Poppins', sans-serif;
 }
 
 /* Bus list styling */
 #bus_list {
-    width: 1500px;
+
     position: absolute;
     top: 250px;
-    right: 25px;
+   
 }
 
 /* Individual bus item styling */
 .bus-item {
+    width: 1110px;
     background-color: #ffffff;
     border: 1px solid #dddddd;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    margin-left: 400px;
+    transition: box-shadow 0.4s ease;
+    margin-left: 340px;
     height: 230px;
 }
 
@@ -177,8 +178,8 @@ header #leftArrow:hover {
 
 #Duration {
     position: relative;
-    bottom: 110px;
-    right: 110px;
+    bottom: 140px;
+    right: 113px;
     font-size: 14px;
     color: #333;
 }
@@ -205,7 +206,7 @@ header #leftArrow:hover {
     font-size: 16px;
     position: relative;
     bottom: 200px;
-    left: 630px;
+    left: 650px;
 }
 
 .rating-badge.green {
@@ -236,20 +237,20 @@ header #leftArrow:hover {
 }
 
 
-#startsFrom {
+/* #startsFrom {
     margin-left: 490px;
     position: relative;
     bottom: 250px;
     font-size: 1.5rem;
     font-weight: bold;
-    /* Emphasize price label */
+    /* Emphasize price label 
     color: #333;
-}
+} */
 
 #inrRate {
     position: relative;
     bottom: 240px;
-    margin-left: 490px;
+    margin-left: 530px;
     font-size: 1.2rem;
     /* Make INR rate prominent */
     color: #333;
@@ -615,19 +616,19 @@ header #leftArrow:hover {
 
 #fare {
     position: relative;
-    left: 340px;
+    left: 364px;
     cursor: pointer;
 }
 
 #ratings {
     position: relative;
-    left: 274px;
+    left: 289px;
     cursor: pointer;
 }
 
 #arrival {
     position: relative;
-    left: 198px;
+    left: 200px;
     cursor: pointer;
 }
 
@@ -825,7 +826,7 @@ header #leftArrow:hover {
     content: attr(data-tooltip); /* Show the tooltip text */
     position: absolute;
     bottom: 125%; /* Position the tooltip above the icon */
-    left: 5%;
+    left: 7%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.8); /* Dark background */
     color: #fff; /* White text */
@@ -833,7 +834,6 @@ header #leftArrow:hover {
     border-radius: 5px;
     font-size: 12px;
     white-space: nowrap;
-    z-index: 10;
     opacity: 1;
     transition: opacity 0.3s;
 }
@@ -847,7 +847,6 @@ header #leftArrow:hover {
     border-width: 5px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* Triangle pointing down */
-    z-index: 10;
 }
 
 .feature[data-tooltip]::after,

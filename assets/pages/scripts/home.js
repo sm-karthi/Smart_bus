@@ -341,7 +341,8 @@ const places = [
     "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Vedasandur",
     "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi",
     "Chengalpattu", "Namakkal", "Sivagangai", "Virudhunagar", "Nilgiris", "Tenkasi",
-    "Thiruvarur", "Thoothukudi", "Nagalapuram"
+    "Thiruvarur", "Thoothukudi", "Nagalapuram", "Ariyalur", "Mayiladuthurai",
+    "Ranipet", "Tirupattur", "Tiruppur",
 ];
 
 // State for selected index

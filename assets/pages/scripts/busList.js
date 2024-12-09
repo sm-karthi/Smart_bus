@@ -53,10 +53,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
+     // Function to format date from yyyy-mm-dd to dd-mm-yyyy
+     function formatDate(dateStr) {
+        const dateObj = new Date(dateStr);
+        const day = ("0" + dateObj.getDate()).slice(-2);  // Add leading zero to day
+        const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // Add leading zero to month
+        const year = dateObj.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
     // Initialize displayed values with capitalization
-    displayFrom.textContent = capitalizeFirstLetter(localStorage.getItem("searchFrom") || "Enter From");
-    displayTo.textContent = capitalizeFirstLetter(localStorage.getItem("searchTo") || "Enter To");
-    displayDate.textContent = capitalizeFirstLetter(localStorage.getItem("searchDate") || "Select Date");
+    const savedFrom = localStorage.getItem("searchFrom") || "Enter From";
+    const savedTo = localStorage.getItem("searchTo") || "Enter To";
+    const savedDate = localStorage.getItem("searchDate") || "2024-12-08";
+    displayFrom.textContent = capitalizeFirstLetter(savedFrom);
+    displayTo.textContent = capitalizeFirstLetter(savedTo);
+    displayDate.textContent = formatDate(savedDate);
 
     // Handle Modify button click
     modifyButton.addEventListener("click", (event) => {
@@ -92,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyDateContainer">
                 <label for="modifyDate">Date</label>
                 <input type="date" id="modifyDate" name="modifyDate" 
-                    value="${displayDate.textContent === "Select Date" ? "" : displayDate.textContent}" />
+                    value="${savedDate}"/>
             </div>
             <button id="searchButton" type="button">Search</button>
         `;
@@ -356,11 +368,6 @@ const side_bar = document.getElementById('side_bar');
 side_bar.style.display = "none";
 
 
-/**
- * Function to update Firebase with new JSON data
-  @param {Array} buses //- The JSON array of buses to save in Firebase
- */
-
 
 
 
@@ -380,7 +387,7 @@ async function loadBusResults() {
         const bus_container = document.getElementById("bus_container");
         const busList = document.getElementById("bus_list");
 
-        document.title = `${from} To ${to}`;
+        document.title = `${from} to ${to}`;
 
         if (!from || !to || !date) {
             busList.innerHTML =
@@ -449,7 +456,7 @@ async function loadBusResults() {
                            </div>`
                         : "";
                     const chargingPointIcon = bus.ChargingPoint
-                        ? `<div class="feature chargingPoint" data-tooltip="Charging Point Available">
+                        ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
                            <i class="fas fa-plug"></i>
                            </div>`
                         : "";
@@ -468,7 +475,7 @@ async function loadBusResults() {
                         <h3 id="busName">${bus.name}</h3>
                         <p id="fromPlace">${bus.from}</p>
                         <p id="toPlace">${bus.to}</p>
-                        <p id="busDate">${bus.date}</p>
+                        <p id="busDate">${bus.ArrivalDate}</p>
                         <p id="DepartureTime">${bus.Departure || "Not available"}</p>
                         <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
                         <p id="Duration">${bus.Duration}</p>
@@ -602,7 +609,7 @@ function renderBusList(buses) {
            </div>`
             : "";
         const chargingPointIcon = bus.ChargingPoint
-            ? `<div class="feature chargingPoint" data-tooltip="Charging Point Available">
+            ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
            <i class="fas fa-plug"></i>
            </div>`
             : "";
@@ -620,7 +627,7 @@ function renderBusList(buses) {
                         <h3 id="busName">${bus.name}</h3>
                         <p id="fromPlace">${bus.from}</p>
                         <p id="toPlace">${bus.to}</p>
-                        <p id="busDate">${bus.date}</p>
+                        <p id="busDate">${bus.ArrivalDate}</p>
                         <p id="DepartureTime">${bus.Departure || "Not available"}</p>
                         <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
                         <p id="Duration">${bus.Duration}</p>
@@ -746,6 +753,7 @@ const filteredChargingPoint = document.getElementById("charging_point");
 // Event listeners for filtering by bus type
 filteredACbuses.addEventListener("click", () => {
     if (acBuses) {
+        filterOn = false;
         acBuses = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -756,7 +764,7 @@ filteredACbuses.addEventListener("click", () => {
         filterOn = true;
         acBuses = true;
         window.scrollTo(0, 0);
-        filterBusesByType("A/C");
+        filterBusesByType("A/C /");
         setActiveButton("ac_bus");
         nonAcBuses = false;
         sleeperBuses = false;
@@ -770,6 +778,7 @@ filteredACbuses.addEventListener("click", () => {
 filteredNonAcBuses.addEventListener("click", () => {
 
     if (nonAcBuses) {
+        filterOn = false;
         nonAcBuses = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -780,7 +789,7 @@ filteredNonAcBuses.addEventListener("click", () => {
         filterOn = true;
         nonAcBuses = true;
         window.scrollTo(0, 0);
-        filterBusesByType("NON A/C");
+        filterBusesByType("NON");
         setActiveButton("nonac_bus");
         acBuses = false;
         sleeperBuses = false;
@@ -794,6 +803,7 @@ filteredNonAcBuses.addEventListener("click", () => {
 });
 filteredSleeperBuses.addEventListener("click", () => {
     if (sleeperBuses) {
+        filterOn = false;
         sleeperBuses = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -817,6 +827,7 @@ filteredSleeperBuses.addEventListener("click", () => {
 });
 filteredSeaterBuses.addEventListener("click", () => {
     if (seaterBuses) {
+        filterOn = false;
         seaterBuses = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -842,6 +853,7 @@ filteredSeaterBuses.addEventListener("click", () => {
 
 filteredSingleSeatBuses.addEventListener("click", () => {
     if (singleSeatsBuses) {
+        filterOn = false;
         singleSeatsBuses = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -869,6 +881,7 @@ filteredSingleSeatBuses.addEventListener("click", () => {
 // Event listeners for filtering buses by features
 filteredWaterBottle.addEventListener("click", () => {
     if (waterBottle) {
+        filterOn = false;
         waterBottle = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -893,6 +906,7 @@ filteredWaterBottle.addEventListener("click", () => {
 });
 filteredBlankets.addEventListener("click", () => {
     if (blankets) {
+        filterOn = false;
         blankets = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -916,6 +930,7 @@ filteredBlankets.addEventListener("click", () => {
 });
 filteredChargingPoint.addEventListener("click", () => {
     if (chargingPoint) {
+        filterOn = false;
         chargingPoint = false;
         loadBusResults();
         window.scrollTo(0, 0);
@@ -1069,7 +1084,7 @@ function renderFilteredBuses(filteredBuses, filterType) {
                </div>`
             : "";
         const chargingPointIcon = bus.ChargingPoint
-            ? `<div class="feature chargingPoint" data-tooltip="Charging Point Available">
+            ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
                <i class="fas fa-plug"></i>
                </div>`
             : "";
@@ -1087,7 +1102,7 @@ function renderFilteredBuses(filteredBuses, filterType) {
                 <h3 id="busName">${bus.name}</h3>
                 <p id="fromPlace">${bus.from}</p>
                 <p id="toPlace">${bus.to}</p>
-                <p id="busDate">${bus.date}</p>
+                <p id="busDate">${bus.ArrivalDate}</p>
                 <p id="DepartureTime">${bus.Departure || "Not available"}</p>
                 <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
                 <p id="Duration">${bus.Duration}</p>
