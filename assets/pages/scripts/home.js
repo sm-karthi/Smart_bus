@@ -1,3 +1,19 @@
+// Get today's date dynamically
+const today = new Date();
+  
+// Format the date in YYYY-MM-DD
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0'); // month is 0-indexed
+const day = String(today.getDate()).padStart(2, '0'); // Add leading zero to the day if needed
+
+const currentDate = `${year}-${month}-${day}`;
+
+// Set the min attribute to today's date
+document.getElementById("date").setAttribute("min", currentDate);
+
+
+
+
 // Listen for the page load to set initial values from localStorage
 document.addEventListener('DOMContentLoaded', function () {
     const fromInput = document.getElementById('from');
@@ -14,6 +30,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem('dateValue')) {
         dateInput.value = localStorage.getItem('dateValue');
     }
+});
+
+// Click the bus logo reload the page
+document.getElementById("Bus_logo").addEventListener("click", () => {
+    window.location.reload();
 });
 
 // Save input values to localStorage as the user types
@@ -93,9 +114,10 @@ profile.addEventListener("click", (e) => {
         profileContainer.setAttribute("id", "profileContainer");
         profileContainer.classList.add("profileManage");
 
+
         profileContainer.innerHTML = userName
-            ? `<p id = "profile_letters">Hello, ${userName}!</p>`
-            : "<p>No username found. Please login.</p>";
+            ? `<p>Hello, ${userName}!</p>`
+            : `<p id = "profile_letters">No username found. Please login.</p>`;
 
         // Create and append the logout icon
         const logoutIcon = document.createElement("i");
@@ -161,7 +183,7 @@ function showLogoutConfirmation() {
 
     // Add event listeners for Yes/No buttons
     document.getElementById("confirmYes").addEventListener("click", () => {
-        localStorage.removeItem("usersName");
+        // localStorage.removeItem("usersName");
         localStorage.removeItem("loggedIn");
         window.location.href = "/index.html";
     });
@@ -193,6 +215,28 @@ document.getElementById('search_bus_button').addEventListener('click', function 
     const messageContainer = document.getElementById('message-container');
     messageContainer.innerHTML = '';
     messageContainer.classList.remove('expand');
+
+
+    if(from === to){
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = "Please enter valid locations.";
+        messageContainer.appendChild(messageDiv);
+
+        messageContainer.style.visibility = 'visible';
+        setTimeout(() => {
+            messageContainer.classList.add('expand');
+        }, 12);
+
+        setTimeout(() => {
+            messageContainer.classList.remove('expand');
+        }, 2500);
+
+        setTimeout(() => {
+            messageContainer.style.visibility = 'hidden';
+        }, 3000);
+
+        return;
+    }
 
     // Check for invalid entries (numbers or special characters in 'from' or 'to')
     const invalidPattern = /[^a-zA-Z\s]/; // Regex to detect special characters or numbers
@@ -289,7 +333,7 @@ toInput.parentNode.appendChild(toDropdown);
 
 // List of places
 const places = [
-    "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
+    "Villathikulam","Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
     "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari",
     "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam",
     "Arakkonam", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai",
@@ -297,7 +341,8 @@ const places = [
     "Srirangam", "Kovilpatti", "Karaikkudi", "Ariyalur", "Vedasandur",
     "Thiruvallur", "Perambalur", "Azhagiapandipuram", "Rajapalayam", "Kallakurichi",
     "Chengalpattu", "Namakkal", "Sivagangai", "Virudhunagar", "Nilgiris", "Tenkasi",
-    "Thiruvarur", "Thoothukudi"
+    "Thiruvarur", "Thoothukudi", "Nagalapuram", "Ariyalur", "Mayiladuthurai",
+    "Ranipet", "Tirupattur", "Tiruppur",
 ];
 
 // State for selected index
@@ -349,6 +394,7 @@ function handleKeyNavigation(event, input, dropdown, selectedIndex, setIndexCall
             localStorage.setItem(input.id === "from" ? "searchFrom" : "searchTo", input.value);
             dropdown.style.display = "none";
         }
+        
     }
     setIndexCallback(selectedIndex);
     showDropdown(input, dropdown, filteredPlaces, selectedIndex);

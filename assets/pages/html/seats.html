@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View seats</title>
+  <link rel="stylesheet" href="../styles/seats.css">
+
+  <link rel="icon" href="../../image/icon_logo.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <header>
+    <i class="fa-solid fa-left-long" id="leftArrow" title="Go back"></i>
+  </header>
+
+  <main>
+    <!-- Seat legend -->
+    <div class="seat_legend">
+      <h2 id="seatLengend">Seat legend</h2>
+
+      <div id="availableDiv">
+        <div id="colorBox"></div>
+        <div id="Available">Available</div>
+      </div>
+
+      <div id="unAvailableDiv">
+        <div id="unColorBox"></div>
+        <div id="unAvailabe">Unavailable</div>
+      </div>
+
+      <div id="femaleDiv">
+        <div id="femaleColorBox"></div>
+        <div id="female">Female</div>
+      </div>
+    </div>
+
+    <!-- Seats code -->
+    <div class="seats">
+      <h3 id="lowerDeckHeading">Lower deck</h3>
+      <div id="lowerDeckDiv">
+        <i class="fas fa-steering-wheel" style="font-size: 50px;"></i>
+
+      </div>
+
+      <h3 id="upperDeckHeading">Upper deck</h3>
+      <div id="upperDeckDiv"></div>
+    </div>
+  </main>
+</body>
+  <script type="module" src="../scripts/seats.js"></script>
+</html>

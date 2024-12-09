@@ -1,0 +1,83 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #e2e2e2;
+    font-family: "Poppins", sans-serif;
+}
+
+header #leftArrow {
+    font-size: 1.5rem;
+    background-color: rgb(248, 74, 91);
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    margin-top: 35px;
+    margin-left: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+header #leftArrow:hover {
+    background-color: #b10f07;
+}
+
+.seat_legend {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    right: 400px;
+    top: 200px;
+}
+
+#availableDiv, #unAvailableDiv, #femaleDiv {
+    display: flex;
+    gap: 10px;
+}
+
+#colorBox {
+    width: 50px;
+    height: 25px;
+    background-color: rgb(255, 255, 255);
+    border: 1.5px solid black;
+}
+
+#unColorBox {
+    width: 50px;
+    height: 25px;
+    background-color: rgb(130, 130, 130);
+    border: 1.5px solid black;
+}
+
+#femaleColorBox {
+    width: 50px;
+    height: 25px;
+    border: 1.5px solid rgb(255, 182, 182);
+}
+
+.seats{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 130px;
+    margin-top: 80px;
+}
+#lowerDeckDiv, #upperDeckDiv{
+    background-color: #fff;
+    width: 540px;
+    height: 230px;
+    
+}
+
+#steering{
+    font-size: 50px;
+    color: rgb(0, 0, 0);
+    z-index: 10000;
+
+}
