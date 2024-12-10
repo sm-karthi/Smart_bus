@@ -129,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
         function addDropdownFunctionality(inputId, dropdownId) {
             const inputField = document.getElementById(inputId);
             const dropdown = document.getElementById(dropdownId);
-            let highlightedIndex = -1; // To keep track of highlighted suggestion
 
             inputField.addEventListener("input", () => {
                 const inputValue = inputField.value.toLowerCase();
@@ -163,39 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-            // Keydown listener for navigating the dropdown using keys
-            inputField.addEventListener("keydown", (event) => {
-                const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
-                if (event.key === "ArrowDown") {
-                    // Highlight next item
-                    if (highlightedIndex < dropdownItems.length - 1) {
-                        highlightedIndex++;
-                    } else {
-                        highlightedIndex = 0; // Loop to the top
-                    }
-                    updateHighlightedItem(dropdownItems);
-                } else if (event.key === "ArrowUp") {
-                    // Highlight previous item
-                    if (highlightedIndex > 0) {
-                        highlightedIndex--;
-                    } else {
-                        highlightedIndex = dropdownItems.length - 1; // Loop to the bottom
-                    }
-                    updateHighlightedItem(dropdownItems);
-                } else if (event.key === "Enter" && highlightedIndex > -1) {
-                    inputField.value = dropdownItems[highlightedIndex].textContent; // Set input value to highlighted item
-                    dropdown.innerHTML = ""; // Clear dropdown
-                    highlightedIndex = -1; // Reset highlighted index
-                }
-            });
-
-            // Helper function to update the highlighted item in the dropdown
-            function updateHighlightedItem(dropdownItems) {
-                dropdownItems.forEach(item => item.classList.remove("highlighted"));
-                if (highlightedIndex > -1) {
-                    dropdownItems[highlightedIndex].classList.add("highlighted");
-                }
-            }
+           
 
             // Hide dropdown when clicking outside
             document.addEventListener("click", (event) => {
