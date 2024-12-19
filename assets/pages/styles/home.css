@@ -68,7 +68,7 @@ header {
 
 
 body {
-    background-image: url("../../image/background\ bus\ image.webp");
+    background-image: url("../../image/background_bus_img.webp");
     background-repeat: no-repeat;
     background-size: cover;
     background-position-y: 115px;
@@ -299,7 +299,7 @@ body {
     border-radius: 0px 20px 20px 0px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Add transition for color change */
+    transition: background-color 0.3s ease; 
 }
 
 #search_bus_button:hover {
@@ -317,9 +317,9 @@ body {
     padding: 10px;
     border-radius: 10px;
     text-align: center;
-    opacity: 0; /* Initially hidden */
-    transform: scale(0.8); /* Start scaled down */
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Smooth fade and scale */
+    opacity: 0; 
+    transform: scale(0.8); 
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
 }
 
 #profileContainer {
@@ -328,13 +328,13 @@ body {
 }
 
 #profileContainer.show {
-    opacity: 1; /* Fade in */
-    transform: scale(1); /* Zoom in to normal size */
+    opacity: 1; 
+    transform: scale(1); 
 }
 
 .h {
-    opacity: 0; /* Fade out */
-    transform: scale(0.8); /* Zoom out to start position */
+    opacity: 0; 
+    transform: scale(0.8); 
 }
 
 #profileContainer .logoutIcon {

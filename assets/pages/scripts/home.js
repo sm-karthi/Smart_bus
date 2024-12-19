@@ -12,7 +12,10 @@ const currentDate = `${year}-${month}-${day}`;
 document.getElementById("date").setAttribute("min", currentDate);
 
 
-
+// click the My booking button go to booking page
+document.getElementById("myBooking").addEventListener("click", () => {
+    window.location="../html/booking.html"
+})
 
 // Listen for the page load to set initial values from localStorage
 document.addEventListener('DOMContentLoaded', function () {
@@ -42,21 +45,6 @@ const fromInput = document.getElementById('from');
 const toInput = document.getElementById('to');
 const dateInput = document.getElementById('date');
 
-// Save the values to localStorage
-fromInput.addEventListener('input', () => {
-    localStorage.setItem('fromValue', fromInput.value);
-});
-
-toInput.addEventListener('input', () => {
-    localStorage.setItem('toValue', toInput.value);
-});
-
-dateInput.addEventListener('input', () => {
-    localStorage.setItem('dateValue', dateInput.value);
-});
-
-
-
 
 // Prevent the user from using the back button
 window.history.pushState(null, null, window.location.href);
@@ -64,10 +52,6 @@ window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
 });
 
-/* // Check if the user is logged in
-if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "/index.html"; // Redirect to login page if not logged in
-} */
 
 // Arrow click functionality to swap 'from' and 'to' inputs
 const arrow = document.querySelector(".stack");
@@ -116,7 +100,7 @@ profile.addEventListener("click", (e) => {
 
 
         profileContainer.innerHTML = userName
-            ? `<p>Hello, ${userName}!</p>`
+            ? `<p>Wellcome, ${userName}!</p>`
             : `<p id = "profile_letters">No username found. Please login.</p>`;
 
         // Create and append the logout icon
@@ -175,7 +159,6 @@ function showLogoutConfirmation() {
     overlay.setAttribute("id", "overlay");
     overlay.classList.add("overlay");
     document.body.appendChild(overlay);
-
     document.body.appendChild(confirmationDialog);
 
     // Prevent interaction with the background
@@ -306,12 +289,12 @@ document.getElementById('search_bus_button').addEventListener('click', function 
         return;
     }
 
-    // Store search parameters in localStorage
+    /* // Store search parameters in localStorage
     localStorage.setItem('searchFrom', from);
     localStorage.setItem('searchTo', to);
-    localStorage.setItem('searchDate', date);
+    localStorage.setItem('searchDate', date); */
 
-    // Redirect to bus_show.html
+    // Redirect to bus_list.html
     window.location.href = "/assets/pages/html/busList.html";
 });
 
@@ -323,7 +306,6 @@ const toDropdown = document.createElement("div");
 
 // Message and selected values container
 const messageContainer = document.getElementById("message-container");
-const selectedValuesContainer = document.getElementById("selected-values");
 
 // Add dropdown elements to DOM
 fromDropdown.classList.add("dropdown");

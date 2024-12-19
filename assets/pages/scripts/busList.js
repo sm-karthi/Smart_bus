@@ -15,7 +15,7 @@ const firebaseConfig = {
 let filterOn = false;
 let filteredBusesList;
 
-// Redirect to home page on custom back arrow click
+// Click the back arrow go to home page
 document.getElementById("leftArrow").addEventListener("click", () => {
     window.location = "../html/home.html";
 });
@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const displayTo = document.getElementById("displayTo");
     const displayDate = document.getElementById("displayDate");
 
-    let dynamicForm = null; // Track the dynamic form
+    let dynamicForm; // Track the dynamic form
 
-    // Predefined locations for suggestions
+    // dropdown locations
     const locations = [
         "Villathikulam", "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
         "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari",
@@ -47,32 +47,30 @@ document.addEventListener("DOMContentLoaded", () => {
         "Thiruvarur", "Thoothukudi", "Nagalapuram"
     ];
 
-    // Function to capitalize the first letter of a string
+    // Function to capitalize the first letter of a location
     function capitalizeFirstLetter(str) {
-        if (!str) return str; // Check for empty or null string
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
      // Function to format date from yyyy-mm-dd to dd-mm-yyyy
      function formatDate(dateStr) {
-        const dateObj = new Date(dateStr);
-        const day = ("0" + dateObj.getDate()).slice(-2);  // Add leading zero to day
-        const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // Add leading zero to month
-        const year = dateObj.getFullYear();
+        const dateObj = new Date(dateStr); // Date is access the bellow methods
+        const day = ("0" + dateObj.getDate()).slice(-2);  // Only show the last two numbers like 1 instead of 01 and 023 instead of 23
+        const month = ("0" + (dateObj.getMonth()+1)).slice(-2);  // Zero based method like jan is 0, dec is 11 so add 1 jan is 1, dec is 12 
+        const year = dateObj.getFullYear(); // This method is give a four digit number like 2024
         return `${day}-${month}-${year}`;
     }
 
     // Initialize displayed values with capitalization
-    const savedFrom = localStorage.getItem("searchFrom") || "Enter From";
-    const savedTo = localStorage.getItem("searchTo") || "Enter To";
-    const savedDate = localStorage.getItem("searchDate") || "2024-12-08";
+    const savedFrom = localStorage.getItem("searchFrom");
+    const savedTo = localStorage.getItem("searchTo");
+    const savedDate = localStorage.getItem("searchDate");
     displayFrom.textContent = capitalizeFirstLetter(savedFrom);
     displayTo.textContent = capitalizeFirstLetter(savedTo);
     displayDate.textContent = formatDate(savedDate);
 
     // Handle Modify button click
-    modifyButton.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent click from propagating
+    modifyButton.addEventListener("click", () => {
 
         if (dynamicForm) {
             return; // Prevent creating multiple forms
@@ -87,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyFromContainer">
                 <label for="modifyFrom">From</label>
                 <input type="text" id="modifyFrom" name="modifyFrom" 
-                    value="${displayFrom.textContent === "Enter From" ? "" : displayFrom.textContent}" autocomplete="off"/>
+                    value="${displayFrom.textContent =displayFrom.textContent}" autocomplete="off"/>
                 <div class="dropdown" id="fromDropdown"></div>
             </div>
             <div class="stack">
@@ -98,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyToContainer">
                 <label for="modifyTo">To</label>
                 <input type="text" id="modifyTo" name="modifyTo" 
-                    value="${displayTo.textContent === "Enter To" ? "" : displayTo.textContent}" autocomplete="off"/>
+                    value="${displayTo.textContent =displayTo.textContent}" autocomplete="off"/>
                 <div class="dropdown" id="toDropdown"></div>
             </div>
             <div id="modifyDateContainer">
@@ -110,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         // Append the form after the modify button
-        modifyButton.parentNode.insertBefore(dynamicForm, modifyButton.nextSibling);
+        modifyButton.parentNode.insertBefore(dynamicForm, modifyButton.nextSibling); //Syntax: parentNode.insertBefore(newNode, referenceNode)
 
         // Add animation to show the form smoothly
         setTimeout(() => {
@@ -118,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 10);
 
         const arrowStack = document.querySelector(".stack");
-        arrowStack.addEventListener("click", (e) => {
+        arrowStack.addEventListener("click", () => {
             // Swap the values between the "From" and "To" fields
             const temp = modifyFrom.value;
             modifyFrom.value = modifyTo.value;
@@ -161,12 +159,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
 
-
-           
-
             // Hide dropdown when clicking outside
             document.addEventListener("click", (event) => {
-                if (!dropdown.contains(event.target) && event.target !== inputField) {
+                if (!dropdown.contains(event.target) && event.target !== inputField) { // contains is check if clicked event.target is click any where
                     dropdown.style.display = "none";
                 }
             });
@@ -281,7 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
             dynamicForm.classList.remove("show");
             setTimeout(() => {
                 dynamicForm.remove();
-                dynamicForm = null;
             }, 500);
 
             // Immediately load updated results
@@ -290,13 +284,6 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.reload();
         });
     });
-
-    // Load initial bus results on page load
-    if (typeof loadBusResults === "function") {
-        loadBusResults();
-    } else {
-        console.error("loadBusResults function is not defined!");
-    }
 });
 
 
@@ -320,7 +307,7 @@ function hideLoader() {
     loader.style.display = "none";
 }
 
-// Function to simulate loading for 3 seconds
+// Function to simulate loading for 1.8 seconds
 function simulateLoading(callback) {
     showLoader(); // Show loader
     setTimeout(() => {
@@ -338,7 +325,7 @@ side_bar.style.display = "none";
 
 
 
-// Sort by letters
+// Sort by container
 const sortByContainer = document.getElementById("sortBy_bus_result");
 
 const busCount = document.createElement("div");
@@ -356,12 +343,7 @@ async function loadBusResults() {
 
         document.title = `${from} to ${to}`;
 
-        if (!from || !to || !date) {
-            busList.innerHTML =
-                "<h4>Please enter search criteria for 'from', 'to', and 'date' on the previous page.</h4>";
-            side_bar.style.display = "none";
-            return;
-        }
+       
 
         const selectedDate = new Date(date);
         const today = new Date();
@@ -627,12 +609,6 @@ function renderBusList(buses) {
 function sortAndReloadBusList(property) {
     let busesToRender = filterOn ? filteredBusesList : displayedBuses;
 
-
-    if (busesToRender.length === 0) {
-        console.log("No buses available to sort.");
-        return;
-    }
-    console.log(busesToRender);
     // Sort buses based on the selected property
     if (property === "rating") {
         // Handle rating as a number
@@ -641,16 +617,16 @@ function sortAndReloadBusList(property) {
         busesToRender.sort((a, b) => {
             const ratingA = parseFloat(a.ratingBadge.ratingValue.textContent) || 0; // Ensure valid ratings
             const ratingB = parseFloat(b.ratingBadge.ratingValue.textContent) || 0;
-            return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
+            return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;  // first is asc show the desc order
         });
     }
 
 
     else if (property == "inrRate") {
         busesToRender.sort((a, b) => {
-            const ratingA = parseFloat(a.inrRate) || 0; // Ensure valid ratings
-            const ratingB = parseFloat(b.inrRate) || 0;
-            return sortOrder === "asc" ? ratingA - ratingB : ratingB - ratingA;
+            const rateA = parseFloat(a.inrRate) || 0; // Ensure valid ratings
+            const rateB = parseFloat(b.inrRate) || 0;
+            return sortOrder === "asc" ? rateA - rateB : rateB - rateA;
         });
     }
     else {
@@ -658,7 +634,7 @@ function sortAndReloadBusList(property) {
         busesToRender.sort((a, b) => {
             if (a[property] < b[property]) return sortOrder === "asc" ? -1 : 1;
             if (a[property] > b[property]) return sortOrder === "asc" ? 1 : -1;
-            return 0;
+            return;
         });
     }
 
@@ -695,7 +671,7 @@ function setActiveButton(activeButtonId) {
     // Set the active button's color
     const activeButton = document.getElementById(activeButtonId);
     activeButton.style.backgroundColor = "#c3c3c3"; // Active background color
-    activeButton.style.boxShadow = "0px 4px 8px 0 rgba(0, 0, 0, 0.3)"; // Active text color
+    activeButton.style.boxShadow = "0px 4px 8px 0 rgba(0, 0, 0, 0.3)"; 
 }
 
 let acBuses = false;

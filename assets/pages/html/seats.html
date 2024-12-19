@@ -46,15 +46,117 @@
     <div class="seats">
       <h3 id="lowerDeckHeading">Lower Deck</h3>
       <div id="lowerDeckDiv">
-          <img src="../../image/steering-wheel.png" alt="steering_image" id="steering">
-          <div id="driverLine"></div>
+        <img src="../../image/steering-wheel.png" alt="steering_image" id="steering" draggable="false">
+        <div id="driverLine"></div>
+        <div id="seatAlignment">
+          <div class="seat2">L1</div>
+          <div class="seat">L4</div>
+          <div class="seat">L7</div>
+          <div class="seat">L10</div>
+          <div class="seat">L13</div>
+          <div class="seat">L16</div>
+          <div class="seat">L2</div>
+          <div class="seat">L5</div>
+          <div class="seat2">L8</div>
+          <div class="seat">L11</div>
+          <div class="seat">L14</div>
+          <div class="seat">L17</div>
+        </div>
+        <div id="seatAlignment2">
+          <div class="seat">L3</div>
+          <div class="seat2">L6</div>
+          <div class="seat">L9</div>
+          <div class="seat">L12</div>
+          <div class="seat">L15</div>
+          <div class="seat">L18</div>
+        </div>
       </div>
-  
+
       <h3 id="upperDeckHeading">Upper Deck</h3>
-      <div id="upperDeckDiv"></div>
+      <div id="upperDeckDiv">
+        <div id="seatAlignment">
+          <div class="seat">U1</div>
+          <div class="seat">U4</div>
+          <div class="seat">U7</div>
+          <div class="seat2">U10</div>
+          <div class="seat">U13</div>
+          <div class="seat">U16</div>
+          <div class="seat2">U2</div>
+          <div class="seat">U5</div>
+          <div class="seat">U8</div>
+          <div class="seat">U11</div>
+          <div class="seat">U14</div>
+          <div class="seat">U17</div>
+        </div>
+        <div id="seatAlignment2">
+          <div class="seat2">U3</div>
+          <div class="seat">U6</div>
+          <div class="seat">U9</div>
+          <div class="seat">U12</div>
+          <div class="seat">U15</div>
+          <div class="seat">U18</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message container for displaying error -->
+    <div id="message-container"></div>
+    </main>
+
+
+<!-- Modal for selecting boarding and dropping points -->
+<div id="pointModal" class="modal">
+  <div class="modal-content">
+    <div class="tab-container">
+      <h3 id="boardingTab" class="tab active">Boarding Point</h3>
+      <h3 id="droppingTab" class="tab">Dropping Point</h3>
+    </div>
+    <div id="boardingLocations" class="locations active">
+      <div class="location" data-location="Point A">Chromepet (19:00)</div>
+      <div class="location" data-location="Point B">Tambaram (19:30)</div>
+      <div class="location" data-location="Point C">Vandalur (19:45)</div>
+      <div class="location" data-location="Point D">Kilambakkam bus stand (20:00)</div>
+      <div class="location" data-location="Point E">chengalpattu (20:30)</div>
+    </div>
+    <div id="droppingLocations" class="locations">
+      <div class="location" data-location="Point G">Thoothukudi (06:20)</div>
+      <div class="location" data-location="Point H">Spic nagar (06:45)</div>
+      <div class="location" data-location="Point I">Muthaiyapuram (07:15)</div>
+    </div>
   </div>
-  
-  </main>
+  <div id="total-amount">Total Amount: ₹0</div>
+</div>
+
+
+
+<!-- <div id="passengerForm">
+  <h3>Passenger Details</h3>
+  <form>
+    <label for="passengerName">Full Name</label>
+    <input type="text" id="passengerName" placeholder="Enter full name" required />
+
+    <label for="passengerAge">Age</label>
+    <input type="number" id="passengerAge" placeholder="Enter age" required />
+
+    <label for="passengerGender">Gender</label>
+    <select id="passengerGender" required>
+      <option value="" disabled selected>Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="passengerContact">Contact Number</label>
+    <input type="tel" id="passengerContact" placeholder="Enter contact number" required />
+
+    <button type="submit">Confirm Booking</button>
+  </form>
+</div> -->
+
+
+
+
 </body>
-  <script type="module" src="../scripts/seats.js"></script>
+<script type="module" src="../scripts/seats.js"></script>
+
 </html>

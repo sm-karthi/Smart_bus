@@ -229,7 +229,6 @@ signUpForm.addEventListener("submit", async (e) => {
                         x.value = "";
                     });
 
-                    // Store the username in local storage
 
                     switchToLogin();
                 })
