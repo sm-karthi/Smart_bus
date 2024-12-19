@@ -217,8 +217,7 @@ header #leftArrow:hover {
 .rating-badge.yellow {
     background-color: #edb715;
     /* Yellow background for ratings between 2.5 and 4.0 */
-    color: rgb(255, 255, 255);
-    /* Black text for better contrast on yellow */
+
 }
 
 .rating-badge.red {
