@@ -1,6 +1,6 @@
 // Import Firebase dependencies
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getDatabase, ref, get, child} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
 // Firebase Setup
 const firebaseConfig = {
@@ -52,11 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
-     // Function to format date from yyyy-mm-dd to dd-mm-yyyy
-     function formatDate(dateStr) {
+    // Function to format date from yyyy-mm-dd to dd-mm-yyyy
+    function formatDate(dateStr) {
         const dateObj = new Date(dateStr); // Date is access the bellow methods
         const day = ("0" + dateObj.getDate()).slice(-2);  // Only show the last two numbers like 1 instead of 01 and 023 instead of 23
-        const month = ("0" + (dateObj.getMonth()+1)).slice(-2);  // Zero based method like jan is 0, dec is 11 so add 1 jan is 1, dec is 12 
+        const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // Zero based method like jan is 0, dec is 11 so add 1 jan is 1, dec is 12 
         const year = dateObj.getFullYear(); // This method is give a four digit number like 2024
         return `${day}-${month}-${year}`;
     }
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyFromContainer">
                 <label for="modifyFrom">From</label>
                 <input type="text" id="modifyFrom" name="modifyFrom" 
-                    value="${displayFrom.textContent =displayFrom.textContent}" autocomplete="off"/>
+                    value="${displayFrom.textContent = displayFrom.textContent}" autocomplete="off"/>
                 <div class="dropdown" id="fromDropdown"></div>
             </div>
             <div class="stack">
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyToContainer">
                 <label for="modifyTo">To</label>
                 <input type="text" id="modifyTo" name="modifyTo" 
-                    value="${displayTo.textContent =displayTo.textContent}" autocomplete="off"/>
+                    value="${displayTo.textContent = displayTo.textContent}" autocomplete="off"/>
                 <div class="dropdown" id="toDropdown"></div>
             </div>
             <div id="modifyDateContainer">
@@ -343,7 +343,7 @@ async function loadBusResults() {
 
         document.title = `${from} to ${to}`;
 
-       
+
 
         const selectedDate = new Date(date);
         const today = new Date();
@@ -356,6 +356,9 @@ async function loadBusResults() {
             return;
         }
 
+        const currentTime = new Date(); // Current time including hours and minutes
+
+
         // Fetch data from Firebase
         const dbRef = ref(database);
         try {
@@ -367,7 +370,9 @@ async function loadBusResults() {
                 (bus) =>
                     bus.from.toLowerCase() === from.toLowerCase() &&
                     bus.to.toLowerCase() === to.toLowerCase() &&
-                    bus.date === date
+                    bus.date === date &&
+                    new Date(`${date} ${bus.Departure}`) >= currentTime
+
             );
 
 
@@ -392,6 +397,11 @@ async function loadBusResults() {
                         ratingClass = "red"; // Red for poor ratings
                     }
 
+
+                    // Calculate available seats
+                    const availableSeatsCount = Object.values(bus.seats || {}).filter(
+                        (seat) => seat === true
+                    ).length;
 
                     // Prepare feature icons based on boolean values
                     const waterBottleIcon = bus.WaterBottle
@@ -431,7 +441,7 @@ async function loadBusResults() {
                         <p id="bustype">${bus.bustype}</p>
                         ${ratingBadge}
                         <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${bus.seatsAvailable}</p>
+                        <p id="seatsAvailable">${availableSeatsCount} Seats available</p>
                         <p id="single">${bus.single}</p>
                         <div class="features-row">
                          ${waterBottleIcon}
@@ -545,6 +555,11 @@ function renderBusList(buses) {
             ratingClass = "red"; // Red for poor ratings
         }
 
+        // Calculate available seats
+        const availableSeatsCount = Object.values(bus.seats || {}).filter(
+            (seat) => seat === true
+        ).length;
+
 
         // Prepare feature icons based on boolean values
         const waterBottleIcon = bus.WaterBottle
@@ -583,7 +598,7 @@ function renderBusList(buses) {
                         <p id="bustype">${bus.bustype}</p>
                         ${ratingBadge}
                         <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${bus.seatsAvailable}</p>
+                        <p id="seatsAvailable">${availableSeatsCount} Seats available</p>
                         <p id="single">${bus.single}</p>
                         <div class="features-row">
                          ${waterBottleIcon}
@@ -671,7 +686,7 @@ function setActiveButton(activeButtonId) {
     // Set the active button's color
     const activeButton = document.getElementById(activeButtonId);
     activeButton.style.backgroundColor = "#c3c3c3"; // Active background color
-    activeButton.style.boxShadow = "0px 4px 8px 0 rgba(0, 0, 0, 0.3)"; 
+    activeButton.style.boxShadow = "0px 4px 8px 0 rgba(0, 0, 0, 0.3)";
 }
 
 let acBuses = false;
@@ -732,7 +747,7 @@ filteredNonAcBuses.addEventListener("click", () => {
         filterOn = true;
         nonAcBuses = true;
         window.scrollTo(0, 0);
-        filterBusesByType("NON");
+        filterBusesByType("NON A/C");
         setActiveButton("nonac_bus");
         acBuses = false;
         sleeperBuses = false;
@@ -1014,23 +1029,28 @@ function renderFilteredBuses(filteredBuses, filterType) {
                 ratingClass = "red"; // Red for poor ratings
             }
 
+            // Calculate available seats
+            const availableSeatsCount = Object.values(bus.seats || {}).filter(
+                (seat) => seat === true
+            ).length;
+
 
             // Prepare feature icons based on boolean values
             const waterBottleIcon = bus.WaterBottle
-            ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
+                ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
                <i class="fas fa-bottle-water"></i><i class="fas fa-bottle-water"></i>
                </div>`
-            : "";
-        const blanketsIcon = bus.Blankets
-            ? `<div class="feature blankets" data-tooltip="Blankets Available">
+                : "";
+            const blanketsIcon = bus.Blankets
+                ? `<div class="feature blankets" data-tooltip="Blankets Available">
                <i class="fas fa-layer-group"></i>
                </div>`
-            : "";
-        const chargingPointIcon = bus.ChargingPoint
-            ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
+                : "";
+            const chargingPointIcon = bus.ChargingPoint
+                ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
                <i class="fas fa-plug"></i>
                </div>`
-            : "";
+                : "";
 
 
             const ratingBadge = bus.ratingBadge
@@ -1052,7 +1072,7 @@ function renderFilteredBuses(filteredBuses, filterType) {
                 <p id="bustype">${bus.bustype}</p>
                 ${ratingBadge}
                 <p id="inrRate">INR ${bus.inrRate}</p>
-                <p id="seatsAvailable">${bus.seatsAvailable}</p>
+                <p id="seatsAvailable">${availableSeatsCount} Seats available</p>
                 <p id="single">${bus.single}</p>
                 <div class="features-row">
                          ${waterBottleIcon}

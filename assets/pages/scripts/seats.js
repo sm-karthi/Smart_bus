@@ -18,8 +18,12 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 
+// Redirect to home page on custom back arrow click
+document.getElementById("leftArrow").addEventListener("click", () => {
+  window.location = "../html/busList.html";
+});
 
-/* // Function to load seat details for the selected bus
+// Function to load seat details for the selected bus
 async function loadSeatDetails() {
     const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
 
@@ -59,15 +63,12 @@ async function loadSeatDetails() {
 }
 
 // Call loadSeatDetails on page load
-document.addEventListener("DOMContentLoaded", loadSeatDetails); */
+document.addEventListener("DOMContentLoaded", loadSeatDetails);
 
 
-// Redirect to home page on custom back arrow click
-document.getElementById("leftArrow").addEventListener("click", () => {
-    window.location = "../html/busList.html";
-  });
+
   
- // Select all seat elements
+ /* // Select all seat elements
 const seats = document.querySelectorAll('.seat');
 
 // Div to show boarding/dropping point modal
@@ -258,3 +259,4 @@ function updateConfirmationDetails() {
     });
   }
 }
+ */

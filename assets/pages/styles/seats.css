@@ -98,10 +98,6 @@ header #leftArrow:hover {
     transform: rotate(270deg);
 }
 
-#steering:hover{
-    transform: rotate(270deg);
-}
-
 #driverLine {
     width: 2px;
     height: 200px;

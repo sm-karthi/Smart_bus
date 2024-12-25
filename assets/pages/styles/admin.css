@@ -1,0 +1,314 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "poppins", sans-serif;
+    background-color: rgb(220, 220, 220);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 50px;
+}
+main form label{
+    font-size: 18px;
+
+}
+
+main form input, main form select{
+    width: 400px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+main form input:focus, main form select:focus{
+    border-color: #f44b4b;
+    box-shadow: 0 0 5px #f44b4b;
+    outline: none;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+header #leftArrow {
+    font-size: 1.5rem;
+    background-color: rgb(248, 74, 91);
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    margin-top: 30px;
+    margin-left: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+header #leftArrow:hover {
+    background-color: #b10f07;
+}
+
+header #heading{
+    margin-right: 605px;
+    margin-top: 70px;
+}
+
+main form span{
+    color: red;
+    font-size: 14px;
+    position: relative;
+    bottom: 15px;
+}
+
+#submitBtn{
+    background-color: rgb(248, 74, 91);
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+#submitBtn:hover{
+    background-color: #b10f07;
+    color: white;
+}
+
+
+/* Style for the bus list container */
+#busListContainer {
+    position: absolute;
+    left: 40px;
+    top: 200px;
+    width: fit-content;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Style for each bus item */
+.bus-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+/* Row number box style */
+.row-number-box {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(248, 74, 91);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style for bus text container */
+.bus-text {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Hover effect for bus item */
+.bus-item:hover {
+    background-color: #d8d8d8;
+    transform: scale(1.05); /* Expands the div slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow for a lifted effect */
+}
+
+.delete-button {
+    background-color: rgb(248, 74, 91);
+    color: white;
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+}
+
+.delete-button:hover {
+    background-color: #b10f07;
+}
+
+/* Style for the message container */
+#message-container {
+    position: fixed;
+    top: 57px;
+    left: 605px;
+    z-index: 100;
+    width: fit-content;
+    overflow: hidden; /* Prevent content overflow */
+    height: 0; /* Initially collapsed */
+    opacity: 0; /* Initially transparent */
+    padding: 0; /* No padding initially */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.5s ease, height 0.5s ease, padding 0.5s ease, visibility 0.5s ease; /* Smooth transitions */
+}
+
+/* Style for the error message */
+#message-container div {
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    background-color: rgb(248, 74, 91);
+    padding: 10px;
+    border: 1px solid rgb(248, 74, 91);
+    border-radius: 5px;
+}
+
+/* Expanded state of the container */
+#message-container.expand {
+    height: auto; /* Expand height to fit content */
+    opacity: 1; /* Fade in */
+    padding: 10px 0; /* Add padding */
+    visibility: visible; /* Make it visible */
+}
+
+
+/* Overlay styling */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Confirmation modal styling */
+.confirmation-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: rgb(29, 29, 29);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    z-index: 1000;
+    text-align: center;
+    width: 420px;
+
+    animation: fadeIn 0.4s forwards, scaleUp 0.3s forwards;
+
+}
+
+.confirmation-modal p {
+    font-size: 17px;
+    margin-bottom: 30px;
+    color: #fffcfc;
+}
+
+/* Buttons inside the modal */
+.confirmation-modal button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Yes button styling */
+.confirmation-modal .yes-button {
+    background-color: #4caf50;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* No button styling */
+.confirmation-modal .no-button {
+    background-color: #f44336;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Button hover effects */
+.confirmation-modal .yes-button:hover {
+    background-color: #377d3a;
+    transform: translateY(-2px);
+}
+
+.confirmation-modal .no-button:hover {
+    background-color: #b82826;
+    transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Hiding the confirmation dialog */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Apply fade-out animation */
+#confirmationDialog.hidden {
+    animation: fadeOut 0.5s forwards;
+}
