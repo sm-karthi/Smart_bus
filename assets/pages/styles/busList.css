@@ -118,16 +118,12 @@ header #leftArrow:hover {
     margin-left: 250px;
 }
 
-#logoutText {
-    cursor: pointer;
-}
 
 #DepartureTime {
     position: relative;
     bottom: 110px;
     right: 230px;
     font-size: 14px;
-    /* Adjusted font size for consistency */
     color: #333;
     /* Neutral text color */
 }
@@ -157,6 +153,7 @@ header #leftArrow:hover {
     /* Highlighted for emphasis */
     font-size: 14px;
     color: #333;
+    z-index: 100;
 }
 
 #busDate {
@@ -260,8 +257,7 @@ header #leftArrow:hover {
     bottom: 270px;
     margin-left: 870px;
     font-size: 14px;
-    color: #4caf50;
-    /* Green color for availability */
+    color: #333;
     font-weight: bold;
 }
 
@@ -270,8 +266,7 @@ header #leftArrow:hover {
     bottom: 240px;
     margin-left: 870px;
     font-size: 14px;
-    color: #f44336;
-    /* Red color for single seat warning */
+    color: #333;
     font-weight: bold;
 }
 

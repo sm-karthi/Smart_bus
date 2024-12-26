@@ -343,8 +343,6 @@ async function loadBusResults() {
 
         document.title = `${from} to ${to}`;
 
-
-
         const selectedDate = new Date(date);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -357,7 +355,6 @@ async function loadBusResults() {
         }
 
         const currentTime = new Date(); // Current time including hours and minutes
-
 
         // Fetch data from Firebase
         const dbRef = ref(database);
@@ -372,10 +369,7 @@ async function loadBusResults() {
                     bus.to.toLowerCase() === to.toLowerCase() &&
                     bus.date === date &&
                     new Date(`${date} ${bus.Departure}`) >= currentTime
-
             );
-
-
 
             side_bar.style.display = "block";
 
@@ -385,10 +379,30 @@ async function loadBusResults() {
 
             if (displayedBuses.length > 0) {
                 displayedBuses.forEach((bus) => {
+                    // Calculate available seats
+                    const availableSeatsCount = Object.values(bus.seats || {}).filter(
+                        (seat) => seat === true
+                    ).length;
+
+                    // Skip buses with no available seats
+                    if (availableSeatsCount === 0) return;
+
+                    // Count single seats (divisible by 3 and available)
+                    const singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                        (seatNumber) => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+                    ).length;
+
+                    // Display available seats with special styling for exactly 1 seat
+                    const seatsText = availableSeatsCount === 1
+                        ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
+                        : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
+    ${availableSeatsCount} Seats available</p>`;
+
+
                     const busItem = document.createElement("div");
                     busItem.classList.add("bus-item");
 
-                    const ratingValue = bus.ratingBadge.ratingValue.textContent;
+                    const ratingValue = bus.ratingBadge?.ratingValue?.textContent || 0;
                     let ratingClass = "green"; // Default green
 
                     if (ratingValue < 4.0 && ratingValue >= 2.5) {
@@ -397,13 +411,6 @@ async function loadBusResults() {
                         ratingClass = "red"; // Red for poor ratings
                     }
 
-
-                    // Calculate available seats
-                    const availableSeatsCount = Object.values(bus.seats || {}).filter(
-                        (seat) => seat === true
-                    ).length;
-
-                    // Prepare feature icons based on boolean values
                     const waterBottleIcon = bus.WaterBottle
                         ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
                            <i class="fas fa-bottle-water"></i><i class="fas fa-bottle-water"></i>
@@ -429,8 +436,8 @@ async function loadBusResults() {
                         : "";
 
 
+
                     busItem.innerHTML = `
-                        
                         <h3 id="busName">${bus.name}</h3>
                         <p id="fromPlace">${bus.from}</p>
                         <p id="toPlace">${bus.to}</p>
@@ -441,14 +448,14 @@ async function loadBusResults() {
                         <p id="bustype">${bus.bustype}</p>
                         ${ratingBadge}
                         <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${availableSeatsCount} Seats available</p>
-                        <p id="single">${bus.single}</p>
+                        ${seatsText}           
+                        ${singleSeatsCount > 0 ? `<p id="single" style="color: ${singleSeatsCount <= 3 ? "red" : "#333"
+                            };">${singleSeatsCount} Single</p>` : ""}
                         <div class="features-row">
                          ${waterBottleIcon}
                          ${blanketsIcon}
                          ${chargingPointIcon}
                         </div>
-                       
                     `;
 
                     const viewSeatsButton = document.createElement("button");
@@ -463,7 +470,6 @@ async function loadBusResults() {
                     busList.appendChild(busItem);
                     count++;
                 });
-
 
                 busCount.textContent = `${count} Buses found`;
                 bus_container.appendChild(busCount);
@@ -481,9 +487,9 @@ async function loadBusResults() {
     });
 }
 
-
 // Call loadBusResults on page load
 document.addEventListener("DOMContentLoaded", loadBusResults);
+
 
 
 
@@ -560,6 +566,17 @@ function renderBusList(buses) {
             (seat) => seat === true
         ).length;
 
+        // Count single seats (divisible by 3)
+        const singleSeatsCount = Object.keys(bus.seats || {}).filter(
+            seatNumber => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+        ).length;
+
+        // Display available seats with special styling for exactly 1 seat
+        const seatsText = availableSeatsCount === 1
+            ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
+            : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
+${availableSeatsCount} Seats available</p>`;
+
 
         // Prepare feature icons based on boolean values
         const waterBottleIcon = bus.WaterBottle
@@ -598,8 +615,9 @@ function renderBusList(buses) {
                         <p id="bustype">${bus.bustype}</p>
                         ${ratingBadge}
                         <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${availableSeatsCount} Seats available</p>
-                        <p id="single">${bus.single}</p>
+                        ${seatsText}
+                        ${singleSeatsCount > 0 ? `<p id="single" style="color: ${singleSeatsCount <= 3 ? "red" : "#333"
+                        };">${singleSeatsCount} Single</p>` : ""}
                         <div class="features-row">
                          ${waterBottleIcon}
                          ${blanketsIcon}
@@ -642,6 +660,15 @@ function sortAndReloadBusList(property) {
             const rateA = parseFloat(a.inrRate) || 0; // Ensure valid ratings
             const rateB = parseFloat(b.inrRate) || 0;
             return sortOrder === "asc" ? rateA - rateB : rateB - rateA;
+        });
+    }
+    else if (property == "seatsAvailable") {
+        busesToRender.sort((a, b) => {
+            // Calculate available seats for both buses
+            const availableSeatsA = Object.values(a.seats || {}).filter(seat => seat === true).length;
+            const availableSeatsB = Object.values(b.seats || {}).filter(seat => seat === true).length;
+
+            return sortOrder === "asc" ? availableSeatsA - availableSeatsB : availableSeatsB - availableSeatsA;
         });
     }
     else {
@@ -999,7 +1026,10 @@ function filterSingleSeats() {
     busList.innerHTML = ""; // Clear the bus list
 
     const filteredBuses = displayedBuses.filter(bus => {
-        return bus.single && bus.single.toLowerCase().includes("single");
+        // Check if the bus has any single seats (seat numbers divisible by 3)
+        return Object.keys(bus.seats || {}).some(
+            seatNumber => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+        );
     });
 
     renderFilteredBuses(filteredBuses, "Single Seat");
@@ -1034,6 +1064,17 @@ function renderFilteredBuses(filteredBuses, filterType) {
                 (seat) => seat === true
             ).length;
 
+            // Count single seats (divisible by 3)
+            const singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                seatNumber => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+            ).length;
+
+
+            // Display available seats with special styling for exactly 1 seat
+            const seatsText = availableSeatsCount === 1
+            ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
+            : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
+${availableSeatsCount} Seats available</p>`;
 
             // Prepare feature icons based on boolean values
             const waterBottleIcon = bus.WaterBottle
@@ -1072,8 +1113,9 @@ function renderFilteredBuses(filteredBuses, filterType) {
                 <p id="bustype">${bus.bustype}</p>
                 ${ratingBadge}
                 <p id="inrRate">INR ${bus.inrRate}</p>
-                <p id="seatsAvailable">${availableSeatsCount} Seats available</p>
-                <p id="single">${bus.single}</p>
+                ${seatsText}
+                ${singleSeatsCount > 0 ? `<p id="single" style="color: ${singleSeatsCount <= 3 ? "red" : "#333"
+                };">${singleSeatsCount} Single</p>` : ""}
                 <div class="features-row">
                          ${waterBottleIcon}
                          ${blanketsIcon}

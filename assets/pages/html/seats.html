@@ -22,6 +22,11 @@
   </header>
 
   <main>
+    <!-- Bus name -->
+     <div id="heading">
+     <h1 id="busName"></h1>
+     <div id="times"></div>
+    </div>
     <!-- Seat legend -->
     <div class="seat_legend">
       <h2 id="seatLengend">Seat legend</h2>
@@ -48,22 +53,23 @@
       <div id="lowerDeckDiv">
         <img src="../../image/steering-wheel.png" alt="steering_image" id="steering" draggable="false">
         <div id="driverLine"></div>
-       
+        <div id="lowerSeatAlignment"></div> <!-- Updated ID -->
       </div>
 
       <h3 id="upperDeckHeading">Upper Deck</h3>
       <div id="upperDeckDiv">
-        
+        <div id="upperSeatAlignment"></div> <!-- Updated ID -->
       </div>
     </div>
 
+
     <!-- Message container for displaying error -->
     <div id="message-container"></div>
-    </main>
+  </main>
 
 
-<!-- Modal for selecting boarding and dropping points -->
-<!-- <div id="pointModal" class="modal">
+  <!-- Modal for selecting boarding and dropping points -->
+  <!-- <div id="pointModal" class="modal">
   <div class="modal-content">
     <div class="tab-container">
       <h3 id="boardingTab" class="tab active">Boarding Point</h3>
@@ -87,7 +93,7 @@
 
 
 
- <!-- <div id="seatAlignment">
+  <!-- <div id="seatAlignment">
           <div class="seat2">L1</div>
           <div class="seat">L4</div>
           <div class="seat">L7</div>
@@ -110,7 +116,7 @@
           <div class="seat">L18</div>
         </div> -->
 
-        <!-- <div id="seatAlignment">
+  <!-- <div id="seatAlignment">
           <div class="seat">U1</div>
           <div class="seat">U4</div>
           <div class="seat">U7</div>
@@ -133,7 +139,7 @@
           <div class="seat">U18</div>
         </div> -->
 
-<!-- <div id="passengerForm">
+  <!-- <div id="passengerForm">
   <h3>Passenger Details</h3>
   <form>
     <label for="passengerName">Full Name</label>

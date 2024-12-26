@@ -256,6 +256,44 @@ const capitalizeWords = (str) => {
 };
 
 
+// Dynamic dropdown population for seats
+const busTypeElement = document.getElementById("busType");
+const seatsElement = document.getElementById("seats");
+
+busTypeElement.addEventListener("change", () => {
+    const selectedBusType = busTypeElement.value.trim().toLowerCase();
+    seatsElement.innerHTML = ""; // Clear existing options
+
+    if (
+        selectedBusType === "a/c / sleeper (2 + 1)" ||
+        selectedBusType === "non a/c sleeper (2 + 1)"
+    ) {
+        [30, 36].forEach((seatCount) => {
+            const option = document.createElement("option");
+            option.value = seatCount;
+            option.textContent = `${seatCount} Seats`;
+            seatsElement.appendChild(option);
+        });
+    } else if (
+        selectedBusType === "a/c / seater / sleeper (2 + 1)" ||
+        selectedBusType === "non a/c seater / sleeper (2 + 1)"
+    ) {
+        [40, 46, 48, 55].forEach((seatCount) => {
+            const option = document.createElement("option");
+            option.value = seatCount;
+            option.textContent = `${seatCount} Seats`;
+            seatsElement.appendChild(option);
+        });
+    } else {
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select seat count";
+        seatsElement.appendChild(defaultOption);
+    }
+});
+
+
+
 const messageContainer = document.getElementById('message-container');
 messageContainer.innerHTML = '';
 messageContainer.classList.remove('expand');
@@ -287,7 +325,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
     const ChargingPoint = document.getElementById("chargingPoint").value.trim();
     const rating = document.getElementById("rating").value.trim();
 
-    let formValid = true;
+    let formValid = true;        
 
     // Validation logic
     if (busName === "") {
@@ -297,6 +335,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         busNameError.textContent = "Enter valid bus name.";
         formValid = false;
     }
+    
 
     if (busType === "") {
         busTypeError.textContent = "Bus type is required.";

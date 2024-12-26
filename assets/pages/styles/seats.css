@@ -50,7 +50,7 @@ header #leftArrow:hover {
 #colorBox {
     width: 50px;
     height: 25px;
-    background-color: rgb(255, 255, 255);
+    background-color: #fafafa;
     border: 1.5px solid black;
 }
 
@@ -81,13 +81,39 @@ header #leftArrow:hover {
     width: 615px;
     height: 230px;
     border-left: 5.5px solid rgb(250, 107, 121);
-
 }
+
+#lowerSeatAlignment {
+    display: grid;
+    grid-template-rows: 40px 85px 50px;  
+    grid-template-columns: repeat(6, 80px); 
+    gap: 10px;
+    text-align: center;
+    position: relative;
+    bottom: 235px;
+    left: 62px;
+}
+
+#upperSeatAlignment {
+    display: grid;
+    grid-template-rows: 40px 85px 50px; 
+    grid-template-columns: repeat(6, 80px); 
+    gap: 10px;
+    text-align: center;
+    position: relative;
+    top: 25px;
+    left: 62px;
+}
+
+
+
+
 
 #lowerDeckHeading,
 #upperDeckHeading {
     color: rgb(67, 67, 67);
-
+    position: relative;
+    top: 10px;
 }
 
 #steering {
@@ -108,20 +134,8 @@ header #leftArrow:hover {
 
 }
 
-#seatAlignment,
-#seatAlignment2 {
-    display: grid;
-    grid-template-columns: repeat(6, 80px);
-    gap: 10px;
-    text-align: center;
-    position: relative;
-    bottom: 240px;
-    left: 65px;
-}
 
-#seatAlignment2 {
-    margin-top: 60px;
-}
+
 
 .seat {
     background-color: #fafafa;
@@ -168,42 +182,6 @@ header #leftArrow:hover {
 }
 
 
-#upperDeckDiv #seatAlignment {
-    margin-top: 260px;
-}
-
-
-.seat2 {
-    border: 1px solid black;
-    background-color: rgb(171, 171, 171);
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    width: 80px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    cursor: no-drop;
-}
-
-.seat2::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 20px;
-    border: 1px solid #000000;
-    background-color: rgb(171, 171, 171);
-    border-radius: 2px;
-    z-index: 1;
-    pointer-events: none;
-}
 
 
 
@@ -237,12 +215,24 @@ header #leftArrow:hover {
     visibility: visible;
 }
 
-
-
+/* Bus name styles */
+#heading{
+    position: absolute;
+    top: 30px;
+    left: 600px;
+    text-align: center;
+}
+#busName{
+    font-size: 29px;
+    color: rgb(58, 58, 58);
+}
+#times{
+    color: rgb(67, 67, 67);
+}
 
 
 /* Modal styles */
-.modal {
+/* .modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -360,12 +350,11 @@ header #leftArrow:hover {
     color: red;
 }
 
-/* General Form Container */
 #passengerForm {
     position: absolute;
     top: 150px;
     right: 200px;
-    display: none; /* Initially hidden */
+    display: none;
     width: 400px;
     margin: 50px auto;
     padding: 20px;
@@ -376,7 +365,6 @@ header #leftArrow:hover {
     animation: fadeIn 0.5s ease-in-out;
   }
   
-  /* Fade-in Animation */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -388,7 +376,6 @@ header #leftArrow:hover {
     }
   }
   
-  /* Heading Styles */
   #passengerForm h3 {
     text-align: center;
     color: #333;
@@ -396,7 +383,6 @@ header #leftArrow:hover {
     font-size: 1.5em;
   }
   
-  /* Form Labels */
   #passengerForm label {
     display: block;
     margin-bottom: 8px;
@@ -404,7 +390,6 @@ header #leftArrow:hover {
     color: #555;
   }
   
-  /* Form Inputs and Select Dropdown */
   #passengerForm input,
   #passengerForm select {
     width: 100%;
@@ -424,15 +409,13 @@ header #leftArrow:hover {
     box-shadow: 0 0 5px rgba(248, 107, 121, 0.5);
   }
   
-  /* Dropdown Styling */
   #passengerForm select {
-    appearance: none; /* Removes default browser styling */
+    appearance: none; 
     background: url('data:image/svg+xml;utf8,<svg fill="%23666" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path></svg>') no-repeat right 10px center;
     background-size: 12px;
     cursor: pointer;
   }
   
-  /* Submit Button */
   #passengerForm button {
     display: block;
     width: 100%;
@@ -450,7 +433,7 @@ header #leftArrow:hover {
     background-color: #e35b68;
   }
   
-  /* Responsive Design */
+ 
   @media (max-width: 480px) {
     #passengerForm {
       margin: 20px;
@@ -463,5 +446,5 @@ header #leftArrow:hover {
     #passengerForm select {
       padding: 8px;
     }
-  }
+  } */
   
