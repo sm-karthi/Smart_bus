@@ -85,8 +85,8 @@ header #leftArrow:hover {
 
 #lowerSeatAlignment {
     display: grid;
-    grid-template-rows: 40px 85px 50px;  
-    grid-template-columns: repeat(6, 80px); 
+      
+    /* grid-template-columns: repeat(6, 80px);  */
     gap: 10px;
     text-align: center;
     position: relative;
@@ -171,6 +171,30 @@ header #leftArrow:hover {
     border-radius: 2px;
     z-index: 2;
 }
+.seater {
+    background-color: #fafafa;
+    color: gray;
+    border: 1.5px solid rgb(137, 137, 137);
+    border-right: none;
+    font-size: 14px;
+    font-weight: bold;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+  }
+
+
+  .seater:hover {
+    background-color: #dedede;
+    transform: scale(1.1);
+  }
 
 .seat.selected {
     background-color: rgb(248, 107, 121);
@@ -229,6 +253,9 @@ header #leftArrow:hover {
 #times{
     color: rgb(67, 67, 67);
 }
+
+
+
 
 
 /* Modal styles */

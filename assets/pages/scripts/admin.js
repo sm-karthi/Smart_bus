@@ -201,6 +201,8 @@ const waterBottleError = document.getElementById("waterBottleError");
 const blanketsError = document.getElementById("blanketsError");
 const chargingPointError = document.getElementById("chargingPointError");
 const ratingError = document.getElementById("ratingError");
+const boardingPointError = document.getElementById("boardingPointError");
+const droppingPointError = document.getElementById("droppingPointError");
 
 // Populate form with bus details
 const populateFormValues = (bus) => {
@@ -214,17 +216,13 @@ const populateFormValues = (bus) => {
     document.getElementById("arrivalDate").value = bus.arrivalDate || "";
     document.getElementById("duration").value = bus.Duration || "";
     document.getElementById("fare").value = bus.inrRate || "";
-
-    // Check if seats is an object (seat details) or a number (total seat count)
-    const totalSeats = typeof bus.seats === "object"
-        ? Object.keys(bus.seats).length // Count total keys in seat details object
-        : bus.seats || ""; // Use the numeric value if available
-
-    document.getElementById("seats").value = totalSeats;    // Populate the original values ("Yes" or "No") for WaterBottle, Blankets, and ChargingPoint
+    document.getElementById("seats").value = bus.seats || "";
     document.getElementById("WaterBottle").value = bus.WaterBottle || "";
     document.getElementById("blankets").value = bus.Blankets || "";
     document.getElementById("chargingPoint").value = bus.ChargingPoint || "";
     document.getElementById("rating").value = bus.ratingBadge?.ratingValue?.textContent || "";
+    document.getElementById("boardingPoint").value = bus.boardingPoint || "";
+    document.getElementById("droppingPoint").value = bus.droppingPoint || "";
 };
 
 // Clear form values
@@ -244,7 +242,9 @@ const clearFormValues = () => {
     document.getElementById("blankets").value = "";
     document.getElementById("chargingPoint").value = "";
     document.getElementById("rating").value = "";
-};
+    document.getElementById("boardingPoint").value = "";
+    document.getElementById("droppingPoint").value = "";
+}
 
 // Function to capitalize the first letter of each word, keeping the rest as is
 const capitalizeWords = (str) => {
@@ -254,6 +254,13 @@ const capitalizeWords = (str) => {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter, leave the rest as is
         .join(" ");
 };
+
+function capitalizeLocations(input) {
+    return input
+      .split(", ") // Split by ", " to handle each location separately
+      .map(location => location.charAt(0).toUpperCase() + location.slice(1)) // Capitalize the first letter of each location
+      .join(", "); // Join them back with ", "
+  }
 
 
 // Dynamic dropdown population for seats
@@ -302,6 +309,23 @@ messageContainer.classList.remove('expand');
 document.getElementById("submitBtn").addEventListener("click", async (event) => {
     event.preventDefault();
 
+    busNameError.textContent = "";
+    busTypeError.textContent = "";
+    fromLocationError.textContent = "";
+    toLocationError.textContent = "";
+    departureTimeError.textContent = "";
+    departureDateError.textContent = "";
+    arrivalTimeError.textContent = "";
+    arrivalDateError.textContent = "";
+    durationError.textContent = "";
+    fareError.textContent = "";
+    seatsError.textContent = "";
+    waterBottleError.textContent = "";
+    blanketsError.textContent = "";
+    chargingPointError.textContent = "";
+    boardingPointError.textContent = "";
+    droppingPointError.textContent = "";
+
     // Form inputs
     const getBusName = document.getElementById("busName").value.trim();
     const busName = capitalizeWords(getBusName);
@@ -325,7 +349,17 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
     const ChargingPoint = document.getElementById("chargingPoint").value.trim();
     const rating = document.getElementById("rating").value.trim();
 
-    let formValid = true;        
+    const getBoardingPoint = document.getElementById("boardingPoint").value.trim();
+    const boardingPoint = capitalizeLocations(getBoardingPoint);
+
+    const getDroppingPoint = document.getElementById("droppingPoint").value.trim();
+    const droppingPoint = capitalizeLocations(getDroppingPoint);
+
+    let formValid = true;
+
+    // Regular expression for "location (time)" format
+    const validPattern = /^[a-zA-Z\s]+ \(\d{2}:\d{2}\)(, [a-zA-Z\s]+ \(\d{2}:\d{2}\))*$/;
+
 
     // Validation logic
     if (busName === "") {
@@ -335,7 +369,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         busNameError.textContent = "Enter valid bus name.";
         formValid = false;
     }
-    
+
 
     if (busType === "") {
         busTypeError.textContent = "Bus type is required.";
@@ -349,6 +383,25 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         fromLocationError.textContent = "Enter valid from location.";
         formValid = false;
     }
+
+    if (boardingPoint === "") {
+        boardingPointError.textContent = "Boarding point is required."
+        formValid = false;
+    }
+    else if (!validPattern.test(boardingPoint)) {
+        boardingPointError.textContent = "Invalid boarding point. Use format: Location (HH:MM)";
+        formValid = false;
+    }
+
+    if (droppingPoint === "") {
+        droppingPointError.textContent = "Dropping point is required."
+        formValid = false;
+    }
+    else if (!validPattern.test(droppingPoint)) {
+        droppingPointError.textContent = "Invalid dropping point. Use format: Location (HH:MM)";
+        formValid = false;
+    }
+
 
     if (toLocation === "") {
         toLocationError.textContent = "To location is required.";
@@ -486,7 +539,9 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
                 },
                 WaterBottle: waterBottleBool,
                 Blankets: blanketsBool,
-                ChargingPoint: chargingPointBool
+                ChargingPoint: chargingPointBool,
+                boardingPoint,
+                droppingPoint
             };
 
             // Create bus data for local storage
@@ -502,7 +557,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
                 arrivalDate,
                 Duration,
                 inrRate,
-                seats: seatDetails, // Store seat details instead of total seat count
+                seats,
                 ratingBadge: {
                     badgeClass: "rating-badge",
                     starIcon: {
@@ -516,7 +571,9 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
                 },
                 WaterBottle,
                 Blankets,
-                ChargingPoint
+                ChargingPoint,
+                boardingPoint,
+                droppingPoint
             };
 
             // Update or add bus data in Firebase

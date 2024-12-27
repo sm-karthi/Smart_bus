@@ -153,7 +153,6 @@ header #leftArrow:hover {
     /* Highlighted for emphasis */
     font-size: 14px;
     color: #333;
-    z-index: 100;
 }
 
 #busDate {
@@ -230,6 +229,7 @@ header #leftArrow:hover {
 
 .rating-value {
     font-weight: bold;
+    z-index: 50;
 }
 
 
@@ -408,8 +408,8 @@ header #leftArrow:hover {
 }
 
 #dynamicModifyForm input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #f44b4b;
+    box-shadow: 0 0 5px #f44b4b;
     outline: none;
 }
 
