@@ -34,8 +34,7 @@ if (!selectedBus) {
   console.error("No bus selected. Please select a bus and try again.");
 } else {
   const busId = selectedBus.busId;
-  const lowerSeatAlignment = document.getElementById("lowerSeatAlignment");
-  const upperSeatAlignment = document.getElementById("upperSeatAlignment");
+
   const busNameElement = document.getElementById("busName");
   const times = document.getElementById("times");
 
@@ -48,9 +47,143 @@ if (!selectedBus) {
         const DepartureTime = busData.Departure || "Unknown";
         const arrivalTime = busData.Arrival || "Unknown";
         const busType = busData.bustype;
+        const amount = busData.inrRate;
 
         busNameElement.textContent = busName;
         times.textContent = `${DepartureTime} - ${arrivalTime}`;
+
+
+        
+
+        // Get boarding and dropping points
+      const boardingPoints = busData.boardingPoint.split(", ");
+      const droppingPoints = busData.droppingPoint.split(", ");
+
+      // Create a container for headings and points
+      const infoDiv = document.createElement("div");
+      infoDiv.classList.add("boardingPointDiv");
+
+      document.body.appendChild(infoDiv);
+
+      const headings = document.createElement("h3");
+      headings.id = "headings";
+      headings.textContent = "Select boarding and dropping point";
+      infoDiv.appendChild(headings);
+
+      const firstLine = document.createElement("div");
+      firstLine.id = "firstLine";
+      infoDiv.appendChild(firstLine);
+
+      // Create container for headings
+      const headingsContainer = document.createElement("div");
+      headingsContainer.id = "headingsContainer";
+
+      infoDiv.appendChild(headingsContainer);
+
+      // Create underline element
+      const underline = document.createElement("div");
+      underline.id = "underLine";
+      infoDiv.appendChild(underline);
+
+      // Create headings for boarding and dropping points
+      const boardingHeading = document.createElement("div");
+      boardingHeading.id = "boardingHeading";
+      boardingHeading.textContent = "Boarding Point";
+      boardingHeading.dataset.type = "boarding";
+      headingsContainer.appendChild(boardingHeading);
+
+      const droppingHeading = document.createElement("div");
+      droppingHeading.id = "droppingPoint";
+      droppingHeading.textContent = "Dropping Point";
+      droppingHeading.dataset.type = "dropping";
+      headingsContainer.appendChild(droppingHeading);
+
+      // Create container for points
+      const pointsContainer = document.createElement("div");
+      pointsContainer.style.marginTop = "20px";
+      infoDiv.appendChild(pointsContainer);
+
+      // Create a container to display the amount
+      const amountDisplay = document.createElement("div");
+      amountDisplay.id = "amountDisplay";
+      amountDisplay.textContent = `Total Amount: ₹0`; // Initial amount display
+      infoDiv.appendChild(amountDisplay);
+
+      // Variables to track selections
+      let selectedBoardingPoint = null;
+      let selectedDroppingPoint = null;
+      
+
+      // Function to update the view
+      const updateView = (type) => {
+        // Clear current points
+        pointsContainer.innerHTML = "";
+
+        // Update points based on type
+        const points = type === "boarding" ? boardingPoints : droppingPoints;
+        points.forEach((point) => {
+          const pointDiv = document.createElement("div");
+          pointDiv.classList.add("pointDiv");
+          pointDiv.textContent = point;
+
+          // Check if the point is selected
+          if (type === "boarding" && point === selectedBoardingPoint) {
+            pointDiv.classList.add("selected");
+          } else if (type === "dropping" && point === selectedDroppingPoint) {
+            pointDiv.classList.add("selected");
+          }
+
+          // Add click event to select a point
+          pointDiv.addEventListener("click", () => {
+            // Clear previous selection
+            const selectedPointDiv = document.querySelector(".pointDiv.selected");
+            if (selectedPointDiv) {
+              selectedPointDiv.classList.remove("selected");
+            }
+
+            // Mark the current point as selected
+            pointDiv.classList.add("selected");
+
+            if (type === "boarding") {
+              selectedBoardingPoint = point;
+              // Automatically switch to dropping point view
+              updateView("dropping");
+            } else {
+              selectedDroppingPoint = point;
+              console.log("Selected Boarding Point:", selectedBoardingPoint);
+              console.log("Selected Dropping Point:", selectedDroppingPoint);
+            }
+          });
+
+          pointsContainer.appendChild(pointDiv);
+        });
+
+        // Move underline
+        underline.style.transform =
+          type === "boarding" ? "translateX(0%)" : "translateX(135%)";
+      };
+
+      // Add event listeners to headings
+      boardingHeading.addEventListener("click", () => {
+        updateView("boarding");
+      });
+
+      droppingHeading.addEventListener("click", () => {
+        updateView("dropping");
+      });
+
+      
+        
+
+      // Initialize view with boarding points
+      updateView("boarding");
+    
+
+
+
+
+
+
 
         const seatData = busData.seats || {};
         const seatKeys = Object.keys(seatData).sort((a, b) => a - b);
@@ -62,6 +195,13 @@ if (!selectedBus) {
         // Track selected seats count
         let selectedSeatsCount = 0;
 
+
+      // Function to update the total amount
+      const updateAmount = () => {
+        const totalAmount = selectedSeatsCount * amount; // Calculate total based on seats
+        amountDisplay.textContent = `Amount: ₹${totalAmount}`;
+      };
+
         // Add event listener for seat selection
         const toggleSeatSelection = (seat) => {
           seat.addEventListener("click", () => {
@@ -70,42 +210,56 @@ if (!selectedBus) {
               seat.style.backgroundColor = ""; // Revert to original color
               seat.style.color = "";
               selectedSeatsCount--; // Decrement selected seats count
+
+             
+
+
+              // Hide infoDiv only if no seats are selected
+              if (selectedSeatsCount === 0) {
+                infoDiv.style.display = "none";
+              }
             } else {
               if (selectedSeatsCount >= 6) {
-               
-                 // Clear existing error messages
-                 messageContainer.innerHTML = '';
+                // Clear existing error messages
+                messageContainer.innerHTML = "";
 
-                 const messageDiv = document.createElement('div');
+                const messageDiv = document.createElement("div");
                 messageDiv.textContent = "You can select a maximum of 6 seats.";
                 messageContainer.appendChild(messageDiv);
 
-                messageContainer.style.visibility = 'visible';
+                messageContainer.style.visibility = "visible";
                 setTimeout(() => {
-                  messageContainer.classList.add('expand');
+                  messageContainer.classList.add("expand");
                 }, 12);
 
                 setTimeout(() => {
-                  messageContainer.classList.remove('expand');
+                  messageContainer.classList.remove("expand");
                 }, 2500);
 
                 setTimeout(() => {
-                  messageContainer.style.visibility = 'hidden';
+                  messageContainer.style.visibility = "hidden";
                 }, 3000);
 
                 return;
-
-                 
-                
               } else {
                 // Select seat
                 seat.style.backgroundColor = "rgb(255, 118, 132)"; // Change to selected color
                 seat.style.color = "white";
                 selectedSeatsCount++; // Increment selected seats count
+                updateAmount(); // Update amount display
+
+
+                // Show infoDiv
+                infoDiv.style.display = "block";
               }
             }
+            updateAmount(); // Update amount display
           });
         };
+
+
+
+
 
 
         // Check the bus type

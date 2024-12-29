@@ -205,9 +205,10 @@ const boardingPointError = document.getElementById("boardingPointError");
 const droppingPointError = document.getElementById("droppingPointError");
 
 // Populate form with bus details
-const populateFormValues = (bus) => {
+const populateFormValues = (bus) => {    
     document.getElementById("busName").value = bus.name || "";
     document.getElementById("busType").value = bus.bustype || "";
+    ShowTotalSeats(bus.bustype, bus.seats);
     document.getElementById("fromLocation").value = bus.from || "";
     document.getElementById("toLocation").value = bus.to || "";
     document.getElementById("departureTime").value = bus.Departure || "";
@@ -216,7 +217,7 @@ const populateFormValues = (bus) => {
     document.getElementById("arrivalDate").value = bus.arrivalDate || "";
     document.getElementById("duration").value = bus.Duration || "";
     document.getElementById("fare").value = bus.inrRate || "";
-    document.getElementById("seats").value = bus.seats || "";
+    document.getElementById("seats").value = bus.seats;
     document.getElementById("WaterBottle").value = bus.WaterBottle || "";
     document.getElementById("blankets").value = bus.Blankets || "";
     document.getElementById("chargingPoint").value = bus.ChargingPoint || "";
@@ -263,41 +264,59 @@ function capitalizeLocations(input) {
   }
 
 
-// Dynamic dropdown population for seats
+// Dynamic seat options based on bus type
+
+// Elements
 const busTypeElement = document.getElementById("busType");
 const seatsElement = document.getElementById("seats");
 
 busTypeElement.addEventListener("change", () => {
-    const selectedBusType = busTypeElement.value.trim().toLowerCase();
     seatsElement.innerHTML = ""; // Clear existing options
 
-    if (
-        selectedBusType === "a/c / sleeper (2 + 1)" ||
-        selectedBusType === "non a/c sleeper (2 + 1)"
-    ) {
-        [30, 36].forEach((seatCount) => {
-            const option = document.createElement("option");
-            option.value = seatCount;
-            option.textContent = `${seatCount} Seats`;
-            seatsElement.appendChild(option);
-        });
-    } else if (
-        selectedBusType === "a/c / seater / sleeper (2 + 1)" ||
-        selectedBusType === "non a/c seater / sleeper (2 + 1)"
-    ) {
-        [40, 46, 48, 55].forEach((seatCount) => {
-            const option = document.createElement("option");
-            option.value = seatCount;
-            option.textContent = `${seatCount} Seats`;
-            seatsElement.appendChild(option);
-        });
-    } else {
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.textContent = "Select seat count";
-        seatsElement.appendChild(defaultOption);
+    let seatOptions = [];
+    if (busTypeElement.value === "A/C / Sleeper (2 + 1)" || busTypeElement.value === "Non A/C Sleeper (2 + 1)") {
+        seatOptions = [30, 36];
+    } else if (busTypeElement.value === "A/C / Seater / Sleeper (2 + 1)" || busTypeElement.value === "Non A/C Seater / Sleeper (2 + 1)") {
+        seatOptions = [40, 46, 48, 55];
     }
+    
+
+    seatOptions.forEach(seatCount => {
+        const option = document.createElement("option");
+        option.value = seatCount;
+        option.textContent = `${seatCount} Seats`;
+        seatsElement.appendChild(option);
+    });
 });
+
+
+function ShowTotalSeats (busType, totalSeats) {
+    // Elements
+const seatsElement = document.getElementById("seats");
+
+    seatsElement.innerHTML = ""; // Clear existing options
+
+    let seatOptions = [];
+    if (busTypeElement.value === "A/C / Sleeper (2 + 1)" || busTypeElement.value === "Non A/C Sleeper (2 + 1)") {
+        seatOptions = [30, 36];
+    } else if (busTypeElement.value === "A/C / Seater / Sleeper (2 + 1)" || busTypeElement.value === "Non A/C Seater / Sleeper (2 + 1)") {
+        seatOptions = [40, 46, 48, 55];
+    }
+
+    seatOptions.forEach(seatCount => {
+        const option = document.createElement("option");
+        option.value = seatCount;
+        option.textContent = `${seatCount} Seats`;
+        seatsElement.appendChild(option);
+
+        if(totalSeats === seatCount){
+            option.selected = true;
+        }
+    });
+
+    
+
+}
 
 
 
@@ -457,10 +476,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
     if (seats === "") {
         seatsError.textContent = "Seat count is required.";
         formValid = false;
-    } else if (isNaN(seats)) {
-        seatsError.textContent = "Enter valid seat count.";
-        formValid = false;
-    }
+    } 
 
     if (ChargingPoint === "") {
         chargingPointError.textContent = "Please select an option for charging point.";
@@ -511,6 +527,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
             for (let i = 1; i <= seats; i++) {
                 seatDetails[i] = true; // true means available
             }
+
 
             // Create bus data for real-time database
             const busDataFirebase = {
