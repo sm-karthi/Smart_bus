@@ -197,10 +197,7 @@ header #leftArrow:hover {
     transform: scale(1.1);
   }
 
-.seat.selected {
-    background-color: rgb(248, 107, 121);
-    color: #fff;
-}
+
 
 .seat.selected:hover {
     transform: scale(1.1);
@@ -264,14 +261,21 @@ header #leftArrow:hover {
     width: 470px;
     height: 550px;
     position: absolute;
-    top: 180px;
-    right: 170px;
+    top: 160px;
+    right: 130px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    display: none; /* Initially hidden */
-    overflow-y: auto; /* Scroll if content overflows */
-    font-family: 'Arial', sans-serif;
+    overflow-x: auto; /* Make content inside scrollable */
+    opacity: 0; 
+    transform: scale(0.8); 
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
+    
+}
+
+.boardingPointDiv.show {
+    opacity: 1; 
+    transform: scale(1); 
 }
 
 #headings{
@@ -297,6 +301,8 @@ header #leftArrow:hover {
     height: 3px;
     width: 160px;
     margin-left: 25px;
+    position: relative;
+    top: 5px;
     background-color: red;
     transition: transform 0.3s ease;
 }
@@ -324,26 +330,258 @@ header #leftArrow:hover {
     margin-top: 8px;
     background-color: #f5f5f5;
     cursor: pointer;
-  }
-  
-  .pointDiv:hover {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#pointsContainer{
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+.pointDiv:hover {
     background-color: #e0e0e0;
-  }
+    transform: scale(1.03); /* Slightly scale up on hover */
+}
+
   
-  .pointDiv.selected {
+.pointDiv.selected {
     background-color: rgb(255, 118, 132);
     color: white;
   }
   
-#amountDisplay{
+/* Keep amount display fixed */
+#amountDisplay {
     font-weight: bold;
     position: fixed;
-    right: 170px;
-    top: 650px;
+    bottom: 0px; /* Adjust for spacing */
+    right: 0px;
     font-size: 18px;
+    background-color: #f9f9f9;
     border-top: 1px solid black;
-    width: 470px;
-    height: 30px;
-    padding: 30px;
+    width: 450px;
+    height: 50px;
+    padding: 10px;
     z-index: 100;
+    text-align: center;
 }
+
+#headingDiv{
+    position: fixed;
+    right: 10px;
+    background-color: #f9f9f9;
+    width: 450px;
+    z-index: 2000;
+}
+
+#headingForFinal{
+    position: relative;
+    bottom: 20px;
+}
+
+#changeButton {
+    position: relative;
+    bottom: 405px;
+    left: 350px;
+    padding: 6px;
+    background-color: rgb(248, 74, 91);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#changeButton:hover {
+    background-color: #b10f07; /* Change to desired hover color */
+    transform: scale(1.1); /* Scales the button slightly */
+}
+
+#finalBoarding{
+    font-size: 17px;
+    margin-top: 50px;
+}
+
+#finalDropping{
+    font-size: 17px;
+    margin-top: 15px;
+}
+
+#finalSeatNo{
+    margin-top: 50px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 20px 0px;
+}
+
+#finalAmount{
+    margin-top: 100px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#confirmButton{
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: rgb(248, 74, 91);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 15px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#confirmButton:hover {
+    background-color: #b10f07; /* Change to desired hover color */
+    transform: scale(1.05); /* Scales the button slightly */
+}
+
+/* Overlay style */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.381);
+    display: block;
+    z-index: 1000;
+}
+
+/* Form container style */
+#formContainerInner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    width: 600px;
+    height: 100vh;
+    z-index: 1000;
+    box-shadow: 10px 5px 5px 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Make content inside scrollable */
+    height: 100vh; /* Limit the height of the form container */
+}
+
+/* Close button style */
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closeButton:hover{
+    color: red;
+}
+
+#headingForPassengerDiv {
+    text-align: center;
+}
+
+.seatForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.seatForm input,
+.seatForm select,
+#formContainerInner input,
+#formContainerInner select {
+    width: 200px;
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.seatForm input:focus,
+.seatForm select:focus,
+#formContainerInner input:focus,
+#formContainerInner select:focus{
+    border-color: #f44b4b;
+    box-shadow: 0 0 5px #f44b4b;
+    outline: none;
+}
+
+.seatForm label,
+#formContainerInner label {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+#formContainerInner #emailLabel {
+    margin-top: 50px;
+}
+
+#formContainerInner #contactDiv {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 120px;
+}
+
+#countOfPassenger {
+    font-size: 18px;
+}
+
+#payButtonDiv{
+    width: 600px;
+    height: 100px;
+    background-color: white;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    border-top: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#payButton{
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(248, 74, 91);
+    border: none;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#payButton:hover{
+    background-color: #b10f07; /* Change to desired hover color */
+    transform: scale(1.05); /* Scales the button slightly */
+}
+
+#totalAmountDisplayForm{
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+#formContainer{
+    text-align: center;
+    width: 600px;
+    height: 50px;
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+}
+
+.seatForm span, #formContainerInner span{
+    color: red;
+    font-size: 13px;
+}
+

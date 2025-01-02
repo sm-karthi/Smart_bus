@@ -387,17 +387,88 @@ async function loadBusResults() {
                     // Skip buses with no available seats
                     if (availableSeatsCount === 0) return;
 
-                    // Count single seats (divisible by 3 and available)
-                    const singleSeatsCount = Object.keys(bus.seats || {}).filter(
-                        (seatNumber) => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
-                    ).length;
+                    let singleSeatsCount = 0;
+
+                    const seatData = bus.seats || {};
+                    const seatKeys = Object.keys(seatData).sort((a, b) => a - b);
+                    const totalSeats = seatKeys.length;
+
+                    // Adjust single seat count based on bus type
+                    const busType = bus.bustype.toLowerCase();
+                    if (busType.includes("seater / sleeper")) {
+                        if (totalSeats === 46) {
+                            // Adjust single seat count for bus with 46 seats
+                            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                                (seatNumber) => {
+                                    const seatNum = parseInt(seatNumber);
+                                    // Check if seat is in the range 22-31 or 42-46, and if it's available (true)
+                                    return (
+                                        ((seatNum >= 22 && seatNum <= 31) || (seatNum >= 42 && seatNum <= 46)) &&
+                                        bus.seats[seatNumber] === true
+                                    );
+                                }
+                            ).length;
+                            console.log(singleSeatsCount)
+                        }
+                        else if (totalSeats === 40) {
+                            // Adjust single seat count for bus with 40 seats
+                            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                                (seatNumber) => {
+                                    const seatNum = parseInt(seatNumber);
+                                    // Check if seat is in the range 21-25 or 35-40, and if it's available (true)
+                                    return (
+                                        ((seatNum >= 21 && seatNum <= 25) || (seatNum >= 36 && seatNum <= 40)) &&
+                                        bus.seats[seatNumber] === true
+                                    );
+                                }
+                            ).length;
+                            console.log(singleSeatsCount)
+
+                        }
+                        else if (totalSeats === 48) {
+                            // Adjust single seat count for bus with 48 seats
+                            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                                (seatNumber) => {
+                                    const seatNum = parseInt(seatNumber);
+                                    // Check if seat is in the range 25-30 or 42-48, and if it's available (true)
+                                    return (
+                                        ((seatNum >= 25 && seatNum <= 30) || (seatNum >= 43 && seatNum <= 48)) &&
+                                        bus.seats[seatNumber] === true
+                                    );
+                                }
+                            ).length;
+                            console.log(singleSeatsCount)
+
+                        }
+                        else if (totalSeats === 55) {
+                            // Adjust single seat count for bus with 55 seats
+                            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                                (seatNumber) => {
+                                    const seatNum = parseInt(seatNumber);
+                                    // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                                    return (
+                                        ((seatNum >= 27 && seatNum <= 37) || (seatNum >= 50 && seatNum <= 55)) &&
+                                        bus.seats[seatNumber] === true
+                                    );
+                                }
+                            ).length;
+                            console.log(singleSeatsCount)
+
+                        }
+                    } else if (busType.includes("sleeper")) {
+                        singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                            (seatNumber) =>
+                                parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+                        ).length;
+                        console.log(singleSeatsCount)
+
+                    }
 
                     // Display available seats with special styling for exactly 1 seat
                     const seatsText = availableSeatsCount === 1
                         ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
                         : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
     ${availableSeatsCount} Seats available</p>`;
-
 
                     const busItem = document.createElement("div");
                     busItem.classList.add("bus-item");
@@ -434,8 +505,6 @@ async function loadBusResults() {
         <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
     </div>`
                         : "";
-
-
 
                     busItem.innerHTML = `
                         <h3 id="busName">${bus.name}</h3>
@@ -489,6 +558,7 @@ async function loadBusResults() {
 
 // Call loadBusResults on page load
 document.addEventListener("DOMContentLoaded", loadBusResults);
+
 
 
 
@@ -566,10 +636,82 @@ function renderBusList(buses) {
             (seat) => seat === true
         ).length;
 
-        // Count single seats (divisible by 3)
-        const singleSeatsCount = Object.keys(bus.seats || {}).filter(
-            seatNumber => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
-        ).length;
+        let singleSeatsCount = 0;
+
+        const seatData = bus.seats || {};
+        const seatKeys = Object.keys(seatData).sort((a, b) => a - b);
+        const totalSeats = seatKeys.length;
+
+        // Adjust single seat count based on bus type
+        const busType = bus.bustype.toLowerCase();
+        if (busType.includes("seater / sleeper")) {
+            if (totalSeats === 46) {
+                // Adjust single seat count for bus with 46 seats
+                singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                    (seatNumber) => {
+                        const seatNum = parseInt(seatNumber);
+                        // Check if seat is in the range 22-31 or 42-46, and if it's available (true)
+                        return (
+                            ((seatNum >= 22 && seatNum <= 31) || (seatNum >= 42 && seatNum <= 46)) &&
+                            bus.seats[seatNumber] === true
+                        );
+                    }
+                ).length;
+                console.log(singleSeatsCount)
+            }
+            else if (totalSeats === 40) {
+                // Adjust single seat count for bus with 40 seats
+                singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                    (seatNumber) => {
+                        const seatNum = parseInt(seatNumber);
+                        // Check if seat is in the range 21-25 or 35-40, and if it's available (true)
+                        return (
+                            ((seatNum >= 21 && seatNum <= 25) || (seatNum >= 36 && seatNum <= 40)) &&
+                            bus.seats[seatNumber] === true
+                        );
+                    }
+                ).length;
+                console.log(singleSeatsCount)
+
+            }
+            else if (totalSeats === 48) {
+                // Adjust single seat count for bus with 48 seats
+                singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                    (seatNumber) => {
+                        const seatNum = parseInt(seatNumber);
+                        // Check if seat is in the range 25-30 or 42-48, and if it's available (true)
+                        return (
+                            ((seatNum >= 25 && seatNum <= 30) || (seatNum >= 43 && seatNum <= 48)) &&
+                            bus.seats[seatNumber] === true
+                        );
+                    }
+                ).length;
+                console.log(singleSeatsCount)
+
+            }
+            else if (totalSeats === 55) {
+                // Adjust single seat count for bus with 55 seats
+                singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                    (seatNumber) => {
+                        const seatNum = parseInt(seatNumber);
+                        // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                        return (
+                            ((seatNum >= 27 && seatNum <= 37) || (seatNum >= 50 && seatNum <= 55)) &&
+                            bus.seats[seatNumber] === true
+                        );
+                    }
+                ).length;
+                console.log(singleSeatsCount)
+
+            }
+        } else if (busType.includes("sleeper")) {
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) =>
+                    parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+            ).length;
+            console.log(singleSeatsCount)
+
+        }
 
         // Display available seats with special styling for exactly 1 seat
         const seatsText = availableSeatsCount === 1
@@ -617,7 +759,7 @@ ${availableSeatsCount} Seats available</p>`;
                         <p id="inrRate">INR ${bus.inrRate}</p>
                         ${seatsText}
                         ${singleSeatsCount > 0 ? `<p id="single" style="color: ${singleSeatsCount <= 3 ? "red" : "#333"
-                        };">${singleSeatsCount} Single</p>` : ""}
+                };">${singleSeatsCount} Single</p>` : ""}
                         <div class="features-row">
                          ${waterBottleIcon}
                          ${blanketsIcon}
@@ -1064,16 +1206,88 @@ function renderFilteredBuses(filteredBuses, filterType) {
                 (seat) => seat === true
             ).length;
 
-            // Count single seats (divisible by 3)
-            const singleSeatsCount = Object.keys(bus.seats || {}).filter(
-                seatNumber => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
-            ).length;
+            let singleSeatsCount = 0;
+
+            const seatData = bus.seats || {};
+            const seatKeys = Object.keys(seatData).sort((a, b) => a - b);
+            const totalSeats = seatKeys.length;
+
+            // Adjust single seat count based on bus type
+            const busType = bus.bustype.toLowerCase();
+            if (busType.includes("seater / sleeper")) {
+                if (totalSeats === 46) {
+                    // Adjust single seat count for bus with 46 seats
+                    singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                        (seatNumber) => {
+                            const seatNum = parseInt(seatNumber);
+                            // Check if seat is in the range 22-31 or 42-46, and if it's available (true)
+                            return (
+                                ((seatNum >= 22 && seatNum <= 31) || (seatNum >= 42 && seatNum <= 46)) &&
+                                bus.seats[seatNumber] === true
+                            );
+                        }
+                    ).length;
+                    console.log(singleSeatsCount)
+                }
+                else if (totalSeats === 40) {
+                    // Adjust single seat count for bus with 40 seats
+                    singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                        (seatNumber) => {
+                            const seatNum = parseInt(seatNumber);
+                            // Check if seat is in the range 21-25 or 35-40, and if it's available (true)
+                            return (
+                                ((seatNum >= 21 && seatNum <= 25) || (seatNum >= 36 && seatNum <= 40)) &&
+                                bus.seats[seatNumber] === true
+                            );
+                        }
+                    ).length;
+                    console.log(singleSeatsCount)
+
+                }
+                else if (totalSeats === 48) {
+                    // Adjust single seat count for bus with 48 seats
+                    singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                        (seatNumber) => {
+                            const seatNum = parseInt(seatNumber);
+                            // Check if seat is in the range 25-30 or 42-48, and if it's available (true)
+                            return (
+                                ((seatNum >= 25 && seatNum <= 30) || (seatNum >= 43 && seatNum <= 48)) &&
+                                bus.seats[seatNumber] === true
+                            );
+                        }
+                    ).length;
+                    console.log(singleSeatsCount)
+
+                }
+                else if (totalSeats === 55) {
+                    // Adjust single seat count for bus with 55 seats
+                    singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                        (seatNumber) => {
+                            const seatNum = parseInt(seatNumber);
+                            // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                            return (
+                                ((seatNum >= 27 && seatNum <= 37) || (seatNum >= 50 && seatNum <= 55)) &&
+                                bus.seats[seatNumber] === true
+                            );
+                        }
+                    ).length;
+                    console.log(singleSeatsCount)
+
+                }
+            } else if (busType.includes("sleeper")) {
+                singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                    (seatNumber) =>
+                        parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === true
+                ).length;
+                console.log(singleSeatsCount)
+
+            }
 
 
             // Display available seats with special styling for exactly 1 seat
             const seatsText = availableSeatsCount === 1
-            ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
-            : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
+                ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
+                : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
 ${availableSeatsCount} Seats available</p>`;
 
             // Prepare feature icons based on boolean values
@@ -1115,7 +1329,7 @@ ${availableSeatsCount} Seats available</p>`;
                 <p id="inrRate">INR ${bus.inrRate}</p>
                 ${seatsText}
                 ${singleSeatsCount > 0 ? `<p id="single" style="color: ${singleSeatsCount <= 3 ? "red" : "#333"
-                };">${singleSeatsCount} Single</p>` : ""}
+                    };">${singleSeatsCount} Single</p>` : ""}
                 <div class="features-row">
                          ${waterBottleIcon}
                          ${blanketsIcon}

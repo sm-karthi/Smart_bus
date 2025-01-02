@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ticket - Smart bus</title>
+    <link rel="stylesheet" href="../styles/ticket.css">
+
+    <link rel="icon" href="../../image/icon_logo.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <main>
+        <!-- Tick animation for payment successful -->
+        <div id="tickContainer" class="hidden">
+            <svg class="tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="check" fill="none" d="M16 26l8 8 16-16"/>
+            </svg>
+            <p class="success-text">Payment Successful</p>
+          </div>
+
+
+          <!-- Ticket container -->
+          <div id="ticketsContainer" class="tickets-container"></div>
+
+          
+
+    </main>
+</body>
+<script src="../scripts/ticket.js"></script>
+</html>

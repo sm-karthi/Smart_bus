@@ -1,0 +1,109 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #e2e2e2;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Tick Container Styling */
+#tickContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.303);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .tick {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .circle {
+    stroke: #4caf50;
+    stroke-width: 4;
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
+    animation: circleAnimation 1s ease-out forwards;
+  }
+  
+  .check {
+    stroke: #4caf50;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkAnimation 0.5s ease-out 1s forwards;
+  }
+  
+  /* Success Text */
+  .success-text {
+    color: white;
+    font-size: 20px;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in-out 1.5s forwards;
+    opacity: 0;
+  }
+  
+  /* Animations */
+  @keyframes circleAnimation {
+    0% {
+      stroke-dashoffset: 157;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes checkAnimation {
+    0% {
+      stroke-dashoffset: 48;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+
+  .tickets-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .ticket {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 200px;
+  }
+  
+  .ticket div {
+    margin-bottom: 5px;
+  }
+  
