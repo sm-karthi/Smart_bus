@@ -69,19 +69,19 @@ get(busRef)
       const headings = document.createElement("h3");
       headings.id = "headings";
       headings.textContent = "Select boarding and dropping point";
-      infoDiv.appendChild(headings);
+      headingDiv.appendChild(headings);
 
       const firstLine = document.createElement("div");
       firstLine.id = "firstLine";
-      infoDiv.appendChild(firstLine);
+      headingDiv.appendChild(firstLine);
 
       const headingsContainer = document.createElement("div");
       headingsContainer.id = "headingsContainer";
-      infoDiv.appendChild(headingsContainer);
+      headingDiv.appendChild(headingsContainer);
 
       const underline = document.createElement("div");
       underline.id = "underLine";
-      infoDiv.appendChild(underline);
+      headingDiv.appendChild(underline);
 
 
 
@@ -99,10 +99,11 @@ get(busRef)
 
 
       infoDiv.appendChild(headingDiv);
-
+      const boarding = document.createElement("div");
+      boarding.id = "boarding";
       const pointsContainer = document.createElement("div");
       pointsContainer.id = "pointsContainer"
-      infoDiv.appendChild(pointsContainer);
+
 
       const amountDisplay = document.createElement("div");
       amountDisplay.id = "amountDisplay";
@@ -127,6 +128,16 @@ get(busRef)
           pointDiv.classList.add("pointDiv");
           pointDiv.textContent = point;
 
+          headings.style.display = "block";
+          headingsContainer.style.display = "block";
+          underline.style.display = "block";
+          firstLine.style.display = "block";
+          amountDisplay.style.display = "block";
+          headingDiv.style.display = "block";
+
+          headingsContainer.style.display = "flex";
+          headingsContainer.style.justifyContent = "space around";
+
           if (type === "boarding" && point === selectedBoardingPoint) {
             pointDiv.classList.add("selected");
           } else if (type === "dropping" && point === selectedDroppingPoint) {
@@ -143,6 +154,8 @@ get(busRef)
 
             if (type === "boarding") {
               selectedBoardingPoint = point;
+
+
               updateView("dropping");
             } else {
               selectedDroppingPoint = point;
@@ -153,20 +166,30 @@ get(busRef)
               underline.style.display = "none";
               firstLine.style.display = "none";
               amountDisplay.style.display = "none";
+              headingDiv.style.display = "none"
+
 
               // Display final details without calling updateAmount
-              displayFinalDetails();
+              if (selectedBoardingPoint === null) {
+                updateView("boarding");
+              }
+              else {
+                displayFinalDetails();
+              }
             }
           });
 
           pointsContainer.appendChild(pointDiv);
+          infoDiv.appendChild(pointsContainer);
+
         });
 
         underline.style.transform =
-          type === "boarding" ? "translateX(0%)" : "translateX(135%)";
+          type === "boarding" ? "translateX(0%)" : "translateX(140%)";
       };
 
       const displayFinalDetails = () => {
+
         const finalDetailsContainer = document.createElement("div");
         finalDetailsContainer.id = "finalDetails";
 
@@ -174,6 +197,11 @@ get(busRef)
         const finalHeading = document.createElement("h3");
         finalHeading.textContent = "Boarding & Dropping";
         finalHeading.id = "headingForFinal";
+        finalDetailsContainer.style.position = "absolute"
+
+
+
+
         finalDetailsContainer.appendChild(finalHeading);
 
         const boardingDisplay = document.createElement("p");
@@ -198,6 +226,12 @@ get(busRef)
         totalAmountDisplay.id = "finalAmount";
         totalAmountDisplay.textContent = `Total Amount: ₹${totalAmount}`;
         finalDetailsContainer.appendChild(totalAmountDisplay);
+        const confirmButton = document.createElement("button");
+        confirmButton.textContent = "PROCEED TO BOOK";
+        confirmButton.id = "confirmButton";
+        finalDetailsContainer.appendChild(confirmButton);
+        confirmButton.style.marginLeft = "30%"
+
 
         // Add Change option
         const changeButton = document.createElement("button");
@@ -205,10 +239,7 @@ get(busRef)
         changeButton.id = "changeButton";
         finalDetailsContainer.appendChild(changeButton);
 
-        const confirmButton = document.createElement("button");
-        confirmButton.textContent = "PROCEED TO BOOK";
-        confirmButton.id = "confirmButton";
-        finalDetailsContainer.appendChild(confirmButton);
+
 
         // Add event listener to change the boarding point
         changeButton.addEventListener("click", () => {
@@ -218,12 +249,19 @@ get(busRef)
           underline.style.display = "block";
           firstLine.style.display = "block";
           amountDisplay.style.display = "block";
+          headingDiv.style.display = "block";
+
+
+
 
           headingsContainer.style.display = "flex";
           headingsContainer.style.justifyContent = "space around";
 
+
+
           // Reset the final section
           pointsContainer.innerHTML = "";
+
 
           // Reinitialize boarding point selection and automatically select the previously selected boarding point
           updateView("boarding");
@@ -240,6 +278,7 @@ get(busRef)
         // Replace existing points container with final details
         pointsContainer.innerHTML = "";
         pointsContainer.appendChild(finalDetailsContainer);
+
 
         // Add functionality to confirm button
         confirmButton.addEventListener("click", () => {
@@ -318,17 +357,37 @@ get(busRef)
             const genderLabel = document.createElement("label");
             genderLabel.textContent = `Gender`;
             seatForm.appendChild(genderLabel);
+
+            // Create a select element
             const genderSelect = document.createElement("select");
+
+            // Create the default option
+            const defaultOption = document.createElement("option");
+            defaultOption.value = ""; // No value
+            defaultOption.textContent = "Select Gender";
+            defaultOption.disabled = true; // Make it unselectable
+            defaultOption.selected = true; // Set as default
+            genderSelect.appendChild(defaultOption);
+
+            // Create the male option
             const maleOption = document.createElement("option");
             maleOption.value = "Male";
             maleOption.textContent = "Male";
+            genderSelect.appendChild(maleOption);
+
+            // Create the female option
             const femaleOption = document.createElement("option");
             femaleOption.value = "Female";
             femaleOption.textContent = "Female";
-
-            genderSelect.appendChild(maleOption);
             genderSelect.appendChild(femaleOption);
+
+            // Append the select element to the form
             seatForm.appendChild(genderSelect);
+
+            const genderError = document.createElement("span");
+            genderError.id = "genderError";
+            seatForm.appendChild(genderError);
+
 
             formContainerInner.appendChild(seatForm);
           });
@@ -422,12 +481,14 @@ get(busRef)
           payButton.addEventListener("click", () => {
 
 
-           
+
             let isValid = true;
 
             // Clear previous errors
             document.querySelectorAll("#nameError").forEach((el) => (el.textContent = ""));
             document.querySelectorAll("#ageError").forEach((el) => (el.textContent = ""));
+            document.querySelectorAll("#genderError").forEach((el) => (el.textContent = ""));
+
             emailError.textContent = "";
             contactError.textContent = "";
 
@@ -455,6 +516,15 @@ get(busRef)
               }
             });
 
+            // Validate each passenger's gender
+            document.querySelectorAll("select").forEach((select, index) => {
+              const error = document.querySelectorAll("#genderError")[index];
+              if (!select.value || select.value === "") {
+                error.textContent = "Gender is required.";
+                isValid = false;
+              }
+            });
+
             // Validate email
             if (!emailInput.value.trim()) {
               emailError.textContent = "Email is required.";
@@ -474,15 +544,15 @@ get(busRef)
               isValid = false;
             }
 
-           
+
 
             // Proceed if all validations pass
             if (isValid) {
-            
+
               // Redirect to the ticket page
               window.location.href = "../html/ticket.html";
             }
-            });
+          });
 
         });
       };
@@ -556,11 +626,23 @@ get(busRef)
 
           // Update the seat display in the final section
           const seatsDisplay = document.getElementById("finalSeatNo");
-          seatsDisplay.textContent = `Seat No: ${selectedSeats.join(", ")}`;
+          if (seatsDisplay) {
+            seatsDisplay.textContent = `Seat No: ${selectedSeats.join(", ")}`;
+          } else {
+            console.error("Element with ID 'finalSeatNo' not found");
+          }
 
+          // Calculate the total amount
           const totalAmount = selectedSeats.length * amount;
+
+          // Update the total amount display
           const totalAmountDisplay = document.getElementById("finalAmount");
-          totalAmountDisplay.textContent = `Total Amount: ₹${totalAmount}`;
+          if (totalAmountDisplay) {
+            totalAmountDisplay.textContent = `Total Amount: ₹${totalAmount}`;
+          } else {
+            console.error("Element with ID 'finalAmount' not found");
+          }
+
         });
       };
 

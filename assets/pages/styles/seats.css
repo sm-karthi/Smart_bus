@@ -266,11 +266,11 @@ header #leftArrow:hover {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    overflow-x: auto; /* Make content inside scrollable */
     opacity: 0; 
     transform: scale(0.8); 
     transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
-    
+    overflow: hidden;
+
 }
 
 .boardingPointDiv.show {
@@ -300,9 +300,8 @@ header #leftArrow:hover {
 #underLine{
     height: 3px;
     width: 160px;
-    margin-left: 25px;
     position: relative;
-    top: 5px;
+    left: 29px;
     background-color: red;
     transition: transform 0.3s ease;
 }
@@ -333,10 +332,18 @@ header #leftArrow:hover {
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-#pointsContainer{
-    margin-top: 30px;
-    margin-bottom: 100px;
-}
+
+
+#pointsContainer {
+    margin-top: 100px; /* Apply margin-top for spacing */
+    max-height: 378px; /* Limit height to enable scrolling */
+    overflow-y: auto;  /* Enable vertical scrolling when the content exceeds the height */
+    padding-right: 10px; /* Optional padding for aesthetics */
+    padding-left: 5px;
+  }
+  
+ 
+  
 
 .pointDiv:hover {
     background-color: #e0e0e0;
@@ -353,11 +360,10 @@ header #leftArrow:hover {
 #amountDisplay {
     font-weight: bold;
     position: fixed;
-    bottom: 0px; /* Adjust for spacing */
-    right: 0px;
+    bottom: 0; /* Adjust for spacing */
+    right: 10px;
     font-size: 18px;
     background-color: #f9f9f9;
-    border-top: 1px solid black;
     width: 450px;
     height: 50px;
     padding: 10px;
@@ -373,14 +379,15 @@ header #leftArrow:hover {
     z-index: 2000;
 }
 
+
 #headingForFinal{
     position: relative;
-    bottom: 20px;
+    bottom: 100px;
 }
 
 #changeButton {
     position: relative;
-    bottom: 405px;
+    bottom: 435px;
     left: 350px;
     padding: 6px;
     background-color: rgb(248, 74, 91);
@@ -398,29 +405,32 @@ header #leftArrow:hover {
 
 #finalBoarding{
     font-size: 17px;
-    margin-top: 50px;
+    position: relative;
+    bottom: 30px;
 }
 
 #finalDropping{
     font-size: 17px;
-    margin-top: 15px;
+    position: relative;
+    bottom: 10px;
 }
 
 #finalSeatNo{
     margin-top: 50px;
+    width: 420px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     padding: 20px 0px;
 }
 
 #finalAmount{
-    margin-top: 100px;
+    margin-top: 80px;
     font-size: 17px;
     font-weight: bold;
 }
 
 #confirmButton{
-    width: 100%;
+    width: 430px;
     padding: 10px;
     text-align: center;
     background-color: rgb(248, 74, 91);
@@ -428,14 +438,16 @@ header #leftArrow:hover {
     border-radius: 3px;
     color: white;
     font-size: 15px;
-    margin-top: 20px;
+    position: relative;
+    top: 50px;
+    right: 135px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #confirmButton:hover {
     background-color: #b10f07; /* Change to desired hover color */
-    transform: scale(1.05); /* Scales the button slightly */
+    transform: scale(1.02); /* Scales the button slightly */
 }
 
 /* Overlay style */
