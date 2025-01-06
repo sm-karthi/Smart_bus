@@ -118,16 +118,12 @@ header #leftArrow:hover {
     margin-left: 250px;
 }
 
-#logoutText {
-    cursor: pointer;
-}
 
 #DepartureTime {
     position: relative;
     bottom: 110px;
     right: 230px;
     font-size: 14px;
-    /* Adjusted font size for consistency */
     color: #333;
     /* Neutral text color */
 }
@@ -233,6 +229,7 @@ header #leftArrow:hover {
 
 .rating-value {
     font-weight: bold;
+    z-index: 50;
 }
 
 
@@ -260,8 +257,7 @@ header #leftArrow:hover {
     bottom: 270px;
     margin-left: 870px;
     font-size: 14px;
-    color: #4caf50;
-    /* Green color for availability */
+    color: #333;
     font-weight: bold;
 }
 
@@ -270,8 +266,7 @@ header #leftArrow:hover {
     bottom: 240px;
     margin-left: 870px;
     font-size: 14px;
-    color: #f44336;
-    /* Red color for single seat warning */
+    color: #333;
     font-weight: bold;
 }
 
@@ -368,12 +363,12 @@ header #leftArrow:hover {
     margin-top: 38px;
     margin-left: 40px;
     font-family: "poppins", sans-serif;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #modifyButton:hover {
     background-color: #b10f07;
-    color: white;
+    transform: scale(1.05); /* Scales the button slightly */
 
 }
 
@@ -413,8 +408,8 @@ header #leftArrow:hover {
 }
 
 #dynamicModifyForm input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #f44b4b;
+    box-shadow: 0 0 5px #f44b4b;
     outline: none;
 }
 
@@ -427,13 +422,13 @@ header #leftArrow:hover {
     font-size: 1rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 20px;
 }
 
 #dynamicModifyForm button:hover {
     background-color: #b10f07;
-    color: white;
+    transform: scale(1.03); /* Scales the button slightly */
 }
 
 #dynamicModifyForm button:active {

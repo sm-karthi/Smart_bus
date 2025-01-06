@@ -36,7 +36,7 @@
     left: 80px;
 }
 
-#Name_inputs,
+#userType,
 #Email_inputs,
 #password_inputs {
     width: 300px;
@@ -47,7 +47,7 @@
     padding: 10px 0px;
 }
 
-#Name_inputs,
+#userType,
 #Email_inputs,
 #password_inputs:focus {
     outline: 0;
@@ -87,17 +87,16 @@
     border-radius: 5px;
     font-size: 20px;
     color: white;
-    background-color: rgb(33, 150, 243);
-    border: 1px solid rgb(33, 150, 243);
+    background-color: rgb(248, 74, 91);
+    border: none;
     cursor: pointer;
     margin-top: 10px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    /* Smooth transition for background and border colors */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #login:hover {
-    background-color: rgb(0, 109, 198);
-    border-color: rgb(0, 109, 198);
+    background-color: #de3b33;
+    transform: scale(1.05); /* Scales the button slightly */
 }
 
 
@@ -153,7 +152,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 95vh;
+    height: 100vh;
 }
 
 #Name_input,
@@ -180,7 +179,6 @@
     left: 55px;
     font-size: 1.5rem;
     border-bottom: 1.5px solid black;
-    top: 0.5px;
     padding: 2px;
 }
 
@@ -217,19 +215,18 @@
     width: 100%;
     height: 40px;
     margin-top: 10px;
-    border-radius: 8px;
+    border-radius: 5px;
     font-size: 20px;
     color: white;
-    background-color: rgb(33, 150, 243);
-    border: 1px solid rgb(33, 150, 243);
+    background-color: rgb(248, 74, 91);
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    /* Smooth transition for background and border colors */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #Sign_up:hover {
-    background-color: rgb(0, 109, 198);
-    border-color: rgb(0, 109, 198);
+    background-color: #de3b33;
+    transform: scale(1.05); /* Scales the button slightly */
 }
 
 #sign_up_heading {

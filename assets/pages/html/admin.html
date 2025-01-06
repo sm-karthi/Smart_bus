@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Smart bus</title>
+    <link rel="stylesheet" href="../styles/admin.css">
+
+    <!-- Font awesome and poppins links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Fav-icon link-->
+    <link rel="icon" href="../../image/icon_logo.png">
+</head>
+
+<body>
+
+    <header>
+        <i class="fa-solid fa-left-long" id="leftArrow" title="Go to home page"></i>
+
+        <h1 id="heading">Register your bus</h1>
+    </header>
+
+    <!-- main in forms -->
+    <main>
+        <form novalidate>
+            <label for="busName">Bus name</label>
+            <input type="text" id="busName" autocomplete="off">
+            <span id="busNameError"></span>
+
+            <label for="busType">Bus type</label>
+            <select name="busType" id="busType">
+                <option value="" disabled selected>Select bus type</option>
+                <option>A/C / Sleeper (2 + 1)</option>
+                <option>Non A/C Sleeper (2 + 1)</option>
+                <option>A/C / Seater / Sleeper (2 + 1)</option>
+                <option>Non A/C Seater / Sleeper (2 + 1)</option>
+            </select>
+            <span id="busTypeError"></span>
+
+            <label for="fromLacotin">From location</label>
+            <input type="text" id="fromLocation" autocomplete="off">
+            <span id="fromLocationError"></span>
+
+            <label for="boardingPoint">Boarding point</label>
+            <input type="text" id="boardingPoint" autocomplete="off" placeholder="Locations (HH:MM)">
+            <span id="boardingPointError"></span>
+
+            <label for="toLaction">To location</label>
+            <input type="text" id="toLocation" autocomplete="off">
+            <span id="toLocationError"></span>
+
+            <label for="droppingPoint">Dropping point</label>
+            <input type="text" id="droppingPoint" autocomplete="off" placeholder="Locations (HH:MM)">
+            <span id="droppingPointError"></span>
+
+            <label for="departureTime">Departure time</label>
+            <input type="text" id="departureTime" autocomplete="off" placeholder="HH:MM">
+            <span id="departureTimeError"></span>
+
+            <label for="date">Departure date</label>
+            <input type="date" id="date" autocomplete="off">
+            <span id="departureDateError"></span>
+
+            <label for="arrivalTime">Arrival time</label>
+            <input type="text" id="arrivalTime" autocomplete="off" placeholder="HH:MM">
+            <span id="arrivalTimeError"></span>
+
+            <label for="arrivalDate">Arrival date</label>
+            <input type="date" id="arrivalDate" autocomplete="off">
+            <span id="arrivalDateError"></span>
+
+            <label for="duration">Duration time</label>
+            <input type="text" id="duration" autocomplete="off" placeholder="00h 00m">
+            <span id="durationError"></span>
+
+            <label for="fare">Fare</label>
+            <input type="number" id="fare" autocomplete="off">
+            <span id="fareError"></span>
+
+            <label for="seats">Total seats</label>
+            <select id="seats">
+                <option value="" disabled selected>Select seat count</option>
+            </select>
+            <!-- <input type="text" id="seats"> -->
+            <span id="seatsError"></span>
+
+            <label for="waterBottle">Water bottle</label>
+            <select name="waterBottle" id="WaterBottle">
+                <option value="" disabled selected>Select Yes or No</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <span id="waterBottleError"></span>
+
+            <label for="blankets">Blankets</label>
+            <select name="blankets" id="blankets">
+                <option value="" disabled selected>Select Yes or No</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <span id="blanketsError"></span>
+
+            <label for="chargingPoint">Charging point</label>
+            <select name="chargingPoint" id="chargingPoint">
+                <option value="" disabled selected>Select Yes or No</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <span id="chargingPointError"></span>
+
+            <label for="rating">Rating</label>
+            <input type="number" id="rating" autocomplete="off">
+            <span id="ratingError"></span>
+
+            <button type="submit" id="submitBtn">Submit</button>
+        </form>
+    </main>
+
+    <!-- Message container for displaying error or success -->
+    <div id="message-container"></div>
+</body>
+
+<script type="module" src="../scripts/admin.js"></script>
+</html>

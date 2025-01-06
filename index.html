@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title>login - Smart bus</title>
     <link rel="stylesheet" href="./assets/pages/styles/login.css">
 
     <link rel="icon" href="./assets/image/icon_logo.png">
@@ -24,12 +24,17 @@
             <img src="./assets/image/SMART BUS logo.png" alt="Bus_logo" id="Bus_Logo" draggable="false">
             <h1 id="loginHeading">LOGIN</h1>
 
-            <!-- Name input -->
-            <input type="text" id="Name_inputs" name="name" placeholder="User Name" autocomplete="off">
+            <!-- User type input -->
+            <select id="userType" name="userType">
+                <option value="" disabled selected>User type</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+
 
             <!-- Name input logo -->
             <img src="./assets/image/userName_logo.png" alt="username_logo" id="userName_Logo" draggable="false">
-            <span id="nameError"></span>
+            <span id="userTypeError"></span>
 
             <!-- Email input -->
             <input type="email" id="Email_inputs" name="email" placeholder="Email" autocomplete="off">
@@ -62,7 +67,7 @@
             <p id="go_sign_up">don't have an account?<a href="#">Sign up</a></p>
         </form>
     </div>
-   
+
     <!-- Sign up page -->
     <div class="sign_up_container hidden">
         <form action="" id="sign_up_form" novalidate>
@@ -114,10 +119,12 @@
 
             <!-- Confirm Password input -->
 
-            <input type="password" id="Cpassword_input" name="cpassword" placeholder="Confirm Password" autocomplete="off">
+            <input type="password" id="Cpassword_input" name="cpassword" placeholder="Confirm Password"
+                autocomplete="off">
 
             <!-- Confirm Password input logo -->
-            <img src="./assets/image/password_logo.png" alt="ConfirmPassword_logo" id="confirmPassword_logo" draggable="false">
+            <img src="./assets/image/password_logo.png" alt="ConfirmPassword_logo" id="confirmPassword_logo"
+                draggable="false">
 
             <!-- Confirm Password Toggle eye icon -->
             <span id="confirm-Password-Toggle" class="confirm_pass_eye-icon">

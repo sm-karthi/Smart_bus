@@ -1,6 +1,6 @@
 // Import Firebase dependencies
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getDatabase, ref, get, child} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
 
 // Firebase Setup
 const firebaseConfig = {
@@ -52,11 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
-     // Function to format date from yyyy-mm-dd to dd-mm-yyyy
-     function formatDate(dateStr) {
+    // Function to format date from yyyy-mm-dd to dd-mm-yyyy
+    function formatDate(dateStr) {
         const dateObj = new Date(dateStr); // Date is access the bellow methods
         const day = ("0" + dateObj.getDate()).slice(-2);  // Only show the last two numbers like 1 instead of 01 and 023 instead of 23
-        const month = ("0" + (dateObj.getMonth()+1)).slice(-2);  // Zero based method like jan is 0, dec is 11 so add 1 jan is 1, dec is 12 
+        const month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // Zero based method like jan is 0, dec is 11 so add 1 jan is 1, dec is 12 
         const year = dateObj.getFullYear(); // This method is give a four digit number like 2024
         return `${day}-${month}-${year}`;
     }
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyFromContainer">
                 <label for="modifyFrom">From</label>
                 <input type="text" id="modifyFrom" name="modifyFrom" 
-                    value="${displayFrom.textContent =displayFrom.textContent}" autocomplete="off"/>
+                    value="${displayFrom.textContent = displayFrom.textContent}" autocomplete="off"/>
                 <div class="dropdown" id="fromDropdown"></div>
             </div>
             <div class="stack">
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div id="modifyToContainer">
                 <label for="modifyTo">To</label>
                 <input type="text" id="modifyTo" name="modifyTo" 
-                    value="${displayTo.textContent =displayTo.textContent}" autocomplete="off"/>
+                    value="${displayTo.textContent = displayTo.textContent}" autocomplete="off"/>
                 <div class="dropdown" id="toDropdown"></div>
             </div>
             <div id="modifyDateContainer">
@@ -307,22 +307,172 @@ function hideLoader() {
     loader.style.display = "none";
 }
 
-// Function to simulate loading for 1.8 seconds
-function simulateLoading(callback) {
-    showLoader(); // Show loader
-    setTimeout(() => {
-        hideLoader(); // Hide loader after 1.8 seconds
-        if (typeof callback === "function") {
-            callback(); // Execute the callback (e.g., display bus results)
-        }
-    }, 1800);
-}
+
 
 const side_bar = document.getElementById('side_bar');
 side_bar.style.display = "none";
 
 
+function displayAllBuses(bus) {
+    // Calculate available seats
+    const availableSeatsCount = Object.values(bus.seats || {}).filter(
+        (seat) => seat === "available"
+    ).length;
 
+    // Skip buses with no available seats
+    if (availableSeatsCount === 0) return;
+
+    let singleSeatsCount = 0;
+
+    const seatData = bus.seats || {};
+    const seatKeys = Object.keys(seatData).sort((a, b) => a - b);
+    const totalSeats = seatKeys.length;
+
+    // Adjust single seat count based on bus type
+    const busType = bus.bustype.toLowerCase();
+    if (busType.includes("seater / sleeper")) {
+        if (totalSeats === 46) {
+            // Adjust single seat count for bus with 46 seats
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) => {
+                    const seatNum = parseInt(seatNumber);
+                    // Check if seat is in the range 22-31 or 42-46, and if it's available (true)
+                    return (
+                        ((seatNum >= 22 && seatNum <= 31) || (seatNum >= 42 && seatNum <= 46)) &&
+                        bus.seats[seatNumber] === "available"
+                    );
+                }
+            ).length;
+            console.log(singleSeatsCount)
+        }
+        else if (totalSeats === 40) {
+            // Adjust single seat count for bus with 40 seats
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) => {
+                    const seatNum = parseInt(seatNumber);
+                    // Check if seat is in the range 21-25 or 35-40, and if it's available (true)
+                    return (
+                        ((seatNum >= 21 && seatNum <= 25) || (seatNum >= 36 && seatNum <= 40)) &&
+                        bus.seats[seatNumber] === "available"
+                    );
+                }
+            ).length;
+            console.log(singleSeatsCount)
+
+        }
+        else if (totalSeats === 48) {
+            // Adjust single seat count for bus with 48 seats
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) => {
+                    const seatNum = parseInt(seatNumber);
+                    // Check if seat is in the range 25-30 or 42-48, and if it's available (true)
+                    return (
+                        ((seatNum >= 25 && seatNum <= 30) || (seatNum >= 43 && seatNum <= 48)) &&
+                        bus.seats[seatNumber] === "available"
+                    );
+                }
+            ).length;
+            console.log(singleSeatsCount)
+
+        }
+        else if (totalSeats === 55) {
+            // Adjust single seat count for bus with 55 seats
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) => {
+                    const seatNum = parseInt(seatNumber);
+                    // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                    return (
+                        ((seatNum >= 27 && seatNum <= 37) || (seatNum >= 50 && seatNum <= 55)) &&
+                        bus.seats[seatNumber] === "available"
+                    );
+                }
+            ).length;
+            console.log(singleSeatsCount)
+
+        }
+    } else if (busType.includes("sleeper")) {
+        singleSeatsCount = Object.keys(bus.seats || {}).filter(
+            (seatNumber) =>
+                parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === "available"
+        ).length;
+        console.log(singleSeatsCount)
+
+    }
+
+    // Display available seats with special styling for exactly 1 seat
+    const seatsText = availableSeatsCount === 1
+        ? `<p id="seatsAvailable" style="color: red;">${availableSeatsCount} Seat available</p>`
+        : `<p id="seatsAvailable" style="color: ${availableSeatsCount <= 3 ? "red" : "#333"};">
+${availableSeatsCount} Seats available</p>`;
+
+    const busItem = document.createElement("div");
+    busItem.classList.add("bus-item");
+
+    const ratingValue = bus.ratingBadge?.ratingValue?.textContent || 0;
+    let ratingClass = "green"; // Default green
+
+    if (ratingValue < 4.0 && ratingValue >= 2.5) {
+        ratingClass = "yellow"; // Yellow for average ratings
+    } else if (ratingValue < 2.5) {
+        ratingClass = "red"; // Red for poor ratings
+    }
+
+    const waterBottleIcon = bus.WaterBottle
+        ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
+               <i class="fas fa-bottle-water"></i><i class="fas fa-bottle-water"></i>
+               </div>`
+        : "";
+    const blanketsIcon = bus.Blankets
+        ? `<div class="feature blankets" data-tooltip="Blankets Available">
+               <i class="fas fa-layer-group"></i>
+               </div>`
+        : "";
+    const chargingPointIcon = bus.ChargingPoint
+        ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
+               <i class="fas fa-plug"></i>
+               </div>`
+        : "";
+
+    const ratingBadge = bus.ratingBadge
+        ? `
+<div class="rating-badge ${ratingClass}">
+<span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
+<span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
+</div>`
+        : "";
+
+    busItem.innerHTML = `
+            <h3 id="busName">${bus.name}</h3>
+            <p id="fromPlace">${bus.from}</p>
+            <p id="toPlace">${bus.to}</p>
+            <p id="busDate">${bus.ArrivalDate}</p>
+            <p id="DepartureTime">${bus.Departure || "Not available"}</p>
+            <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
+            <p id="Duration">${bus.Duration}</p>
+            <p id="bustype">${bus.bustype}</p>
+            ${ratingBadge}
+            <p id="inrRate">INR ${bus.inrRate}</p>
+            ${seatsText}           
+            ${singleSeatsCount > 0 ? `<p id="single" style="color: ${singleSeatsCount <= 3 ? "red" : "#333"
+            };">${singleSeatsCount} Single</p>` : ""}
+            <div class="features-row">
+             ${waterBottleIcon}
+             ${blanketsIcon}
+             ${chargingPointIcon}
+            </div>
+        `;
+
+    const viewSeatsButton = document.createElement("button");
+    viewSeatsButton.textContent = "VIEW SEATS";
+    viewSeatsButton.classList.add("view-seats-btn");
+    viewSeatsButton.addEventListener("click", () => {
+        localStorage.setItem("selectedBus", JSON.stringify(bus));
+        window.location.href = "../html/seats.html";
+    });
+
+    busItem.appendChild(viewSeatsButton);
+    return busItem;
+}
 
 
 // Sort by container
@@ -334,146 +484,83 @@ busCount.setAttribute("id", "busCount");
 let count;
 // Function to fetch and display data from Firebase
 async function loadBusResults() {
-    simulateLoading(async () => {
-        const from = localStorage.getItem("searchFrom");
-        const to = localStorage.getItem("searchTo");
-        const date = localStorage.getItem("searchDate");
-        const bus_container = document.getElementById("bus_container");
-        const busList = document.getElementById("bus_list");
+    const from = localStorage.getItem("searchFrom");
+    const to = localStorage.getItem("searchTo");
+    const date = localStorage.getItem("searchDate");
+    const bus_container = document.getElementById("bus_container");
+    const busList = document.getElementById("bus_list");
 
-        document.title = `${from} to ${to}`;
+    document.title = `${from} to ${to} - Smart bus`;
 
-       
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-        const selectedDate = new Date(date);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+        busList.innerHTML =
+            "<h4>No buses available for past dates. Please select today or a future date.</h4>";
+        side_bar.style.display = "none";
+        return;
+    }
 
-        if (selectedDate < today) {
-            busList.innerHTML =
-                "<h4>No buses available for past dates. Please select today or a future date.</h4>";
-            side_bar.style.display = "none";
-            return;
-        }
+    const currentTime = new Date(); // Current time including hours and minutes
 
-        // Fetch data from Firebase
-        const dbRef = ref(database);
-        try {
-            const snapshot = await get(child(dbRef, "buses/"));
-            if (!snapshot.exists()) throw new Error("No data found in Firebase.");
-            const buses = snapshot.val();
+    // Show loader before starting the fetch process
+    showLoader();
 
-            displayedBuses = Object.values(buses).filter(
-                (bus) =>
-                    bus.from.toLowerCase() === from.toLowerCase() &&
-                    bus.to.toLowerCase() === to.toLowerCase() &&
-                    bus.date === date
-            );
+    // Fetch data from Firebase
+    const dbRef = ref(database);
+    try {
+        const snapshot = await get(child(dbRef, "buses/"));
+        if (!snapshot.exists()) throw new Error("No data found in Firebase.");
+        const buses = snapshot.val();
 
+        displayedBuses = Object.values(buses).filter(
+            (bus) =>
+                bus.from.toLowerCase() === from.toLowerCase() &&
+                bus.to.toLowerCase() === to.toLowerCase() &&
+                bus.date === date &&
+                new Date(`${date} ${bus.Departure}`) >= currentTime
+        );
 
+        side_bar.style.display = "block";
 
-            side_bar.style.display = "block";
+        busList.innerHTML = ""; // Clear existing list
 
-            busList.innerHTML = ""; // Clear existing list
+        count = 0;
 
-            count = 0;
+        if (displayedBuses.length > 0) {
+            displayedBuses.forEach((bus) => {
+                displayAllBuses(bus)
+                const busItem = displayAllBuses(bus);
+                if (busItem) busList.appendChild(busItem);
+                count++;
+            });
 
-            if (displayedBuses.length > 0) {
-                displayedBuses.forEach((bus) => {
-                    const busItem = document.createElement("div");
-                    busItem.classList.add("bus-item");
-
-                    const ratingValue = bus.ratingBadge.ratingValue.textContent;
-                    let ratingClass = "green"; // Default green
-
-                    if (ratingValue < 4.0 && ratingValue >= 2.5) {
-                        ratingClass = "yellow"; // Yellow for average ratings
-                    } else if (ratingValue < 2.5) {
-                        ratingClass = "red"; // Red for poor ratings
-                    }
-
-
-                    // Prepare feature icons based on boolean values
-                    const waterBottleIcon = bus.WaterBottle
-                        ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
-                           <i class="fas fa-bottle-water"></i><i class="fas fa-bottle-water"></i>
-                           </div>`
-                        : "";
-                    const blanketsIcon = bus.Blankets
-                        ? `<div class="feature blankets" data-tooltip="Blankets Available">
-                           <i class="fas fa-layer-group"></i>
-                           </div>`
-                        : "";
-                    const chargingPointIcon = bus.ChargingPoint
-                        ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
-                           <i class="fas fa-plug"></i>
-                           </div>`
-                        : "";
-
-                    const ratingBadge = bus.ratingBadge
-                        ? `
-    <div class="rating-badge ${ratingClass}">
-        <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
-        <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
-    </div>`
-                        : "";
-
-
-                    busItem.innerHTML = `
-                        
-                        <h3 id="busName">${bus.name}</h3>
-                        <p id="fromPlace">${bus.from}</p>
-                        <p id="toPlace">${bus.to}</p>
-                        <p id="busDate">${bus.ArrivalDate}</p>
-                        <p id="DepartureTime">${bus.Departure || "Not available"}</p>
-                        <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
-                        <p id="Duration">${bus.Duration}</p>
-                        <p id="bustype">${bus.bustype}</p>
-                        ${ratingBadge}
-                        <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${bus.seatsAvailable}</p>
-                        <p id="single">${bus.single}</p>
-                        <div class="features-row">
-                         ${waterBottleIcon}
-                         ${blanketsIcon}
-                         ${chargingPointIcon}
-                        </div>
-                       
-                    `;
-
-                    const viewSeatsButton = document.createElement("button");
-                    viewSeatsButton.textContent = "VIEW SEATS";
-                    viewSeatsButton.classList.add("view-seats-btn");
-                    viewSeatsButton.addEventListener("click", () => {
-                        localStorage.setItem("selectedBus", JSON.stringify(bus));
-                        window.location.href = "../html/seats.html";
-                    });
-
-                    busItem.appendChild(viewSeatsButton);
-                    busList.appendChild(busItem);
-                    count++;
-                });
-
-
-                busCount.textContent = `${count} Buses found`;
-                bus_container.appendChild(busCount);
-                sortByContainer.style.display = "block";
-            } else {
-                busList.innerHTML = `<h5 class="No_buses">No buses available for this route on the selected date.</h5>`;
-                side_bar.style.display = "none";
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            busList.innerHTML =
-                "<h5>Could not load bus data. Please try again later.</h5>";
+            busCount.textContent = `${count} Buses found`;
+            bus_container.appendChild(busCount);
+            sortByContainer.style.display = "block";
+        } else {
+            busList.innerHTML = `<h5 class="No_buses">No buses available for this route on the selected date.</h5>`;
             side_bar.style.display = "none";
         }
-    });
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        busList.innerHTML =
+            "<h5>Could not load bus data. Please try again later.</h5>";
+        side_bar.style.display = "none";
+    }
+    finally {
+        // Hide loader after fetching is complete
+        hideLoader();
+    }
 }
 
 
 // Call loadBusResults on page load
 document.addEventListener("DOMContentLoaded", loadBusResults);
+
+
 
 
 
@@ -533,75 +620,9 @@ function renderBusList(buses) {
     busList.innerHTML = ""; // Clear the list
 
     buses.forEach((bus) => {
-        const busItem = document.createElement("div");
-        busItem.classList.add("bus-item");
-
-        const ratingValue = bus.ratingBadge.ratingValue.textContent;
-        let ratingClass = "green"; // Default green
-
-        if (ratingValue < 4.0 && ratingValue >= 2.5) {
-            ratingClass = "yellow"; // Yellow for average ratings
-        } else if (ratingValue < 2.5) {
-            ratingClass = "red"; // Red for poor ratings
-        }
-
-
-        // Prepare feature icons based on boolean values
-        const waterBottleIcon = bus.WaterBottle
-            ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
-           <i class="fas fa-bottle-water"></i><i class="fas fa-bottle-water"></i>
-           </div>`
-            : "";
-        const blanketsIcon = bus.Blankets
-            ? `<div class="feature blankets" data-tooltip="Blankets Available">
-           <i class="fas fa-layer-group"></i>
-           </div>`
-            : "";
-        const chargingPointIcon = bus.ChargingPoint
-            ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
-           <i class="fas fa-plug"></i>
-           </div>`
-            : "";
-
-
-        const ratingBadge = bus.ratingBadge
-            ? `
-    <div class="rating-badge ${ratingClass}">
-        <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
-        <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
-    </div>`
-            : "";
-
-        busItem.innerHTML = `
-                        <h3 id="busName">${bus.name}</h3>
-                        <p id="fromPlace">${bus.from}</p>
-                        <p id="toPlace">${bus.to}</p>
-                        <p id="busDate">${bus.ArrivalDate}</p>
-                        <p id="DepartureTime">${bus.Departure || "Not available"}</p>
-                        <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
-                        <p id="Duration">${bus.Duration}</p>
-                        <p id="bustype">${bus.bustype}</p>
-                        ${ratingBadge}
-                        <p id="inrRate">INR ${bus.inrRate}</p>
-                        <p id="seatsAvailable">${bus.seatsAvailable}</p>
-                        <p id="single">${bus.single}</p>
-                        <div class="features-row">
-                         ${waterBottleIcon}
-                         ${blanketsIcon}
-                         ${chargingPointIcon}
-                        </div>
-                    `;
-
-        const viewSeatsButton = document.createElement("button");
-        viewSeatsButton.textContent = "VIEW SEATS";
-        viewSeatsButton.classList.add("view-seats-btn");
-        viewSeatsButton.addEventListener("click", () => {
-            localStorage.setItem("selectedBus", JSON.stringify(bus));
-            window.location.href = "../html/seats.html";
-        });
-
-        busItem.appendChild(viewSeatsButton);
-        busList.appendChild(busItem);
+        displayAllBuses(bus)
+        const busItem = displayAllBuses(bus);
+        if (busItem) busList.appendChild(busItem);
     });
 }
 
@@ -627,6 +648,15 @@ function sortAndReloadBusList(property) {
             const rateA = parseFloat(a.inrRate) || 0; // Ensure valid ratings
             const rateB = parseFloat(b.inrRate) || 0;
             return sortOrder === "asc" ? rateA - rateB : rateB - rateA;
+        });
+    }
+    else if (property == "seatsAvailable") {
+        busesToRender.sort((a, b) => {
+            // Calculate available seats for both buses
+            const availableSeatsA = Object.values(a.seats || {}).filter(seat => seat === "available").length;
+            const availableSeatsB = Object.values(b.seats || {}).filter(seat => seat === "available").length;
+
+            return sortOrder === "asc" ? availableSeatsA - availableSeatsB : availableSeatsB - availableSeatsA;
         });
     }
     else {
@@ -671,7 +701,7 @@ function setActiveButton(activeButtonId) {
     // Set the active button's color
     const activeButton = document.getElementById(activeButtonId);
     activeButton.style.backgroundColor = "#c3c3c3"; // Active background color
-    activeButton.style.boxShadow = "0px 4px 8px 0 rgba(0, 0, 0, 0.3)"; 
+    activeButton.style.boxShadow = "0px 4px 8px 0 rgba(0, 0, 0, 0.3)";
 }
 
 let acBuses = false;
@@ -732,7 +762,7 @@ filteredNonAcBuses.addEventListener("click", () => {
         filterOn = true;
         nonAcBuses = true;
         window.scrollTo(0, 0);
-        filterBusesByType("NON");
+        filterBusesByType("NON A/C");
         setActiveButton("nonac_bus");
         acBuses = false;
         sleeperBuses = false;
@@ -984,7 +1014,10 @@ function filterSingleSeats() {
     busList.innerHTML = ""; // Clear the bus list
 
     const filteredBuses = displayedBuses.filter(bus => {
-        return bus.single && bus.single.toLowerCase().includes("single");
+        // Check if the bus has any single seats (seat numbers divisible by 3)
+        return Object.keys(bus.seats || {}).some(
+            seatNumber => parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === "available"
+        );
     });
 
     renderFilteredBuses(filteredBuses, "Single Seat");
@@ -1001,76 +1034,9 @@ function renderFilteredBuses(filteredBuses, filterType) {
         sortByContainer.style.display = "block"; // Show sorting options
 
         filteredBuses.forEach(bus => {
-            const busItem = document.createElement("div");
-            busItem.classList.add("bus-item");
-
-            // Check if rating exists, else default to 0
-            const ratingValue = bus.ratingBadge.ratingValue.textContent;
-            let ratingClass = "green"; // Default green
-
-            if (ratingValue < 4.0 && ratingValue >= 2.5) {
-                ratingClass = "yellow"; // Yellow for average ratings
-            } else if (ratingValue < 2.5) {
-                ratingClass = "red"; // Red for poor ratings
-            }
-
-
-            // Prepare feature icons based on boolean values
-            const waterBottleIcon = bus.WaterBottle
-            ? `<div class="feature waterBottle" data-tooltip="Water Bottle Available">
-               <i class="fas fa-bottle-water"></i><i class="fas fa-bottle-water"></i>
-               </div>`
-            : "";
-        const blanketsIcon = bus.Blankets
-            ? `<div class="feature blankets" data-tooltip="Blankets Available">
-               <i class="fas fa-layer-group"></i>
-               </div>`
-            : "";
-        const chargingPointIcon = bus.ChargingPoint
-            ? `<div class="feature chargingPoint" data-tooltip="Charging Points Available">
-               <i class="fas fa-plug"></i>
-               </div>`
-            : "";
-
-
-            const ratingBadge = bus.ratingBadge
-                ? `
-                <div class="rating-badge ${ratingClass}">
-                    <span class="${bus.ratingBadge.starIcon.iconClass}">${bus.ratingBadge.starIcon.iconHTML}</span>
-                    <span class="${bus.ratingBadge.ratingValue.valueClass}">${bus.ratingBadge.ratingValue.textContent}</span>
-                </div>`
-                : "";
-
-            busItem.innerHTML = `
-                <h3 id="busName">${bus.name}</h3>
-                <p id="fromPlace">${bus.from}</p>
-                <p id="toPlace">${bus.to}</p>
-                <p id="busDate">${bus.ArrivalDate}</p>
-                <p id="DepartureTime">${bus.Departure || "Not available"}</p>
-                <p id="ArrivalTime">${bus.Arrival || "Not available"}</p>
-                <p id="Duration">${bus.Duration}</p>
-                <p id="bustype">${bus.bustype}</p>
-                ${ratingBadge}
-                <p id="inrRate">INR ${bus.inrRate}</p>
-                <p id="seatsAvailable">${bus.seatsAvailable}</p>
-                <p id="single">${bus.single}</p>
-                <div class="features-row">
-                         ${waterBottleIcon}
-                         ${blanketsIcon}
-                         ${chargingPointIcon}
-                        </div>
-            `;
-
-            const viewSeatsButton = document.createElement("button");
-            viewSeatsButton.textContent = "VIEW SEATS";
-            viewSeatsButton.classList.add("view-seats-btn");
-            viewSeatsButton.addEventListener("click", () => {
-                localStorage.setItem("selectedBus", JSON.stringify(bus));
-                window.location.href = "../html/seats.html";
-            });
-
-            busItem.appendChild(viewSeatsButton);
-            busList.appendChild(busItem);
+            displayAllBuses(bus)
+            const busItem = displayAllBuses(bus);
+            if (busItem) busList.appendChild(busItem);
             count++;
         });
         busCount.textContent = `${count} Buses found`;

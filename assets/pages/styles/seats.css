@@ -50,7 +50,7 @@ header #leftArrow:hover {
 #colorBox {
     width: 50px;
     height: 25px;
-    background-color: rgb(255, 255, 255);
+    background-color: #fafafa;
     border: 1.5px solid black;
 }
 
@@ -64,7 +64,7 @@ header #leftArrow:hover {
 #femaleColorBox {
     width: 50px;
     height: 25px;
-    border: 1.5px solid rgb(255, 182, 182);
+    background-color: rgb(255, 175, 175);
 }
 
 .seats {
@@ -81,13 +81,40 @@ header #leftArrow:hover {
     width: 615px;
     height: 230px;
     border-left: 5.5px solid rgb(250, 107, 121);
+    border-radius: 3px;
+    box-shadow: 0px 2px 8px rgb(159, 159, 159);}
 
+#lowerSeatAlignment {
+    display: grid;
+      
+    /* grid-template-columns: repeat(6, 80px);  */
+    gap: 10px;
+    text-align: center;
+    position: relative;
+    bottom: 235px;
+    left: 62px;
 }
+
+#upperSeatAlignment {
+    display: grid;
+    grid-template-rows: 40px 85px 50px; 
+    grid-template-columns: repeat(6, 80px); 
+    gap: 10px;
+    text-align: center;
+    position: relative;
+    top: 25px;
+    left: 62px;
+}
+
+
+
+
 
 #lowerDeckHeading,
 #upperDeckHeading {
     color: rgb(67, 67, 67);
-
+    position: relative;
+    top: 10px;
 }
 
 #steering {
@@ -95,10 +122,6 @@ header #leftArrow:hover {
     height: 27px;
     margin: 5px;
     margin-top: 20px;
-    transform: rotate(270deg);
-}
-
-#steering:hover{
     transform: rotate(270deg);
 }
 
@@ -112,20 +135,8 @@ header #leftArrow:hover {
 
 }
 
-#seatAlignment,
-#seatAlignment2 {
-    display: grid;
-    grid-template-columns: repeat(6, 80px);
-    gap: 10px;
-    text-align: center;
-    position: relative;
-    bottom: 240px;
-    left: 65px;
-}
 
-#seatAlignment2 {
-    margin-top: 60px;
-}
+
 
 .seat {
     background-color: #fafafa;
@@ -161,53 +172,38 @@ header #leftArrow:hover {
     border-radius: 2px;
     z-index: 2;
 }
+.seater {
+    background-color: #fafafa;
+    color: gray;
+    border: 1.5px solid rgb(137, 137, 137);
+    border-right: none;
+    font-size: 14px;
+    font-weight: bold;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+  }
 
-.seat.selected {
-    background-color: rgb(248, 107, 121);
-    color: #fff;
-}
+
+  .seater:hover {
+    background-color: #dedede;
+    transform: scale(1.1);
+  }
+
+
 
 .seat.selected:hover {
     transform: scale(1.1);
 }
 
 
-#upperDeckDiv #seatAlignment {
-    margin-top: 260px;
-}
-
-
-.seat2 {
-    border: 1px solid black;
-    background-color: rgb(171, 171, 171);
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    width: 80px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    cursor: no-drop;
-}
-
-.seat2::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 20px;
-    border: 1px solid #000000;
-    background-color: rgb(171, 171, 171);
-    border-radius: 2px;
-    z-index: 1;
-    pointer-events: none;
-}
 
 
 
@@ -241,231 +237,396 @@ header #leftArrow:hover {
     visibility: visible;
 }
 
-
-
-
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 150px;
-    left: 1100px;
-    transform: translateX(-50%);
-    width: 500px;
-    height: 500px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    box-sizing: border-box;
+/* Bus name styles */
+#heading{
+    position: absolute;
+    top: 30px;
+    left: 600px;
+    text-align: center;
+}
+#busName{
+    font-size: 29px;
+    color: rgb(58, 58, 58);
+}
+#times{
+    color: rgb(67, 67, 67);
 }
 
-.tab-container {
+
+
+
+/* Container for boarding and dropping points */
+.boardingPointDiv {
+    background-color: #f9f9f9;
+    width: 470px;
+    height: 550px;
+    position: absolute;
+    top: 160px;
+    right: 130px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    opacity: 0; 
+    transform: scale(0.8); 
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
+    overflow: hidden;
+
+}
+
+.boardingPointDiv.show {
+    opacity: 1; 
+    transform: scale(1); 
+}
+
+#headings{
+    text-align: center;
+    font-size: 20px;
+    color: #454545;
+}
+#headingsContainer{
     display: flex;
     justify-content: space-around;
-    border-bottom: 2px solid #ddd;
+    margin-bottom: 5px;
+    font-size: 16.5px;
 }
 
-.tab {
-    cursor: pointer;
-    padding: 10px 20px;
-    font-size: 18px;
-    text-align: center;
-    position: relative;
-}
-
-.tab.active {
-    color: #d32f2f;
-    font-weight: bold;
-}
-
-.tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
+#firstLine{
+    background-color: #959595;
+    height: 1px;
     width: 100%;
+    margin-top: 10px;
+}
+
+#underLine{
     height: 3px;
-    background-color: #d32f2f;
+    width: 160px;
+    position: relative;
+    left: 29px;
+    background-color: red;
+    transition: transform 0.3s ease;
 }
 
-.locations {
-    display: none;
-    margin-top: 20px;
-}
-
-.locations.active {
-    display: block;
-}
-
-.location {
-    padding: 10px;
-    margin: 5px 0;
-    background-color: #f1f1f1;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-#total-amount {
-    position: absolute;
-    top: 430px;
+#boardingHeading{
     font-weight: bold;
-}
-
-
-#heading {
     text-align: center;
-    margin-bottom: 50px;
+    flex: 1;
+    cursor: pointer;
+    margin-top: 13px;
 }
 
-#boarding {
+#droppingPoint{
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+    cursor: pointer;
+    margin-top: 13px;
+}
+
+.pointDiv {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 8px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+#pointsContainer {
+    margin-top: 100px; /* Apply margin-top for spacing */
+    max-height: 378px; /* Limit height to enable scrolling */
+    overflow-y: auto;  /* Enable vertical scrolling when the content exceeds the height */
+    padding-right: 10px; /* Optional padding for aesthetics */
+    padding-left: 10px;
+    scrollbar-width: none;
+  }
+  
+ 
+  
+
+.pointDiv:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.03); /* Slightly scale up on hover */
+}
+
+  
+.pointDiv.selected {
+    background-color: rgb(255, 118, 132);
+    color: white;
+  }
+  
+/* Keep amount display fixed */
+#amountDisplay {
+    font-weight: bold;
+    position: fixed;
+    bottom: 0; /* Adjust for spacing */
+    right: 10px;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    width: 450px;
+    height: 50px;
+    padding: 10px;
+    z-index: 100;
+    text-align: center;
+}
+
+#headingDiv{
+    position: fixed;
+    right: 10px;
+    background-color: #f9f9f9;
+    width: 450px;
+    z-index: 2000;
+}
+
+
+#headingForFinal{
+    position: relative;
+    bottom: 100px;
+}
+
+#changeButton {
+    position: relative;
+    bottom: 435px;
+    left: 350px;
+    padding: 6px;
+    background-color: rgb(248, 74, 91);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#changeButton:hover {
+    background-color: #b10f07; /* Change to desired hover color */
+    transform: scale(1.1); /* Scales the button slightly */
+}
+
+#finalBoarding{
+    font-size: 17px;
+    position: relative;
+    bottom: 30px;
+}
+
+#finalDropping{
+    font-size: 17px;
+    position: relative;
+    bottom: 10px;
+}
+
+#finalSeatNo{
     margin-top: 50px;
-    margin-left: 80px;
-}
-
-#dropping {
-    margin-top: 20px;
-    margin-left: 80px;
-}
-
-#seatNumber {
+    width: 420px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-    margin-top: 70px;
     padding: 20px 0px;
 }
 
-#amount{
-    margin-top: 50px;
+#finalAmount{
+    margin-top: 80px;
+    font-size: 17px;
     font-weight: bold;
 }
 
-#proceedButton {
-    width: 100%;
-    padding: 10px 20px;
-    margin-top: 50px;
-    background-color: rgb(248, 107, 121);
-    color: white;
+#confirmButton{
+    width: 430px;
+    padding: 10px;
+    text-align: center;
+    background-color: rgb(248, 74, 91);
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
+    color: white;
+    font-size: 15px;
+    position: relative;
+    top: 50px;
+    right: 135px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-#proceedButton:hover {
-    background-color: rgb(230, 90, 110);
+#confirmButton:hover {
+    background-color: #b10f07; /* Change to desired hover color */
+    transform: scale(1.02); /* Scales the button slightly */
 }
 
-#changeLetter{
+
+
+/* Overlay style */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.381);
+    display: block;
+    z-index: 1000;
+}
+
+/* Form container style */
+#formContainerInner {
     position: absolute;
-    left: 400px;
+    top: 0;
+    right: 0;
+    background-color: white;
+    width: 600px;
+    height: 100vh;
+    z-index: 1000;
+    box-shadow: 10px 5px 5px 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Make content inside scrollable */
+    height: 100vh; /* Limit the height of the form container */
+}
+
+/* Close button style */
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
     cursor: pointer;
+}
+
+.closeButton:hover{
     color: red;
 }
 
-/* General Form Container */
-#passengerForm {
-    position: absolute;
-    top: 150px;
-    right: 200px;
-    display: none; /* Initially hidden */
-    width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  /* Fade-in Animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Heading Styles */
-  #passengerForm h3 {
+#headingForPassengerDiv {
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-  }
-  
-  /* Form Labels */
-  #passengerForm label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-    color: #555;
-  }
-  
-  /* Form Inputs and Select Dropdown */
-  #passengerForm input,
-  #passengerForm select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease-in-out;
-  }
-  
-  #passengerForm input:focus,
-  #passengerForm select:focus {
-    border-color: #f86b79;
+}
+
+.seatForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.seatForm input,
+.seatForm select,
+#formContainerInner input,
+#formContainerInner select {
+    width: 200px;
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.seatForm input:focus,
+.seatForm select:focus,
+#formContainerInner input:focus,
+#formContainerInner select:focus{
+    border-color: #f44b4b;
+    box-shadow: 0 0 5px #f44b4b;
     outline: none;
-    box-shadow: 0 0 5px rgba(248, 107, 121, 0.5);
-  }
-  
-  /* Dropdown Styling */
-  #passengerForm select {
-    appearance: none; /* Removes default browser styling */
-    background: url('data:image/svg+xml;utf8,<svg fill="%23666" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path></svg>') no-repeat right 10px center;
-    background-size: 12px;
-    cursor: pointer;
-  }
-  
-  /* Submit Button */
-  #passengerForm button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #f86b79;
-    color: white;
+}
+
+.seatForm label,
+#formContainerInner label {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+#formContainerInner #emailLabel {
+    margin-top: 50px;
+}
+
+#formContainerInner #contactDiv {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 120px;
+}
+
+#countOfPassenger {
+    font-size: 18px;
+}
+
+#payButtonDiv{
+    width: 600px;
+    height: 100px;
+    background-color: white;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    border-top: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#payButton{
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(248, 74, 91);
     border: none;
+    padding: 10px;
+    color: white;
     border-radius: 5px;
-    font-size: 1.1em;
+    margin-top: 25px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  #passengerForm button:hover {
-    background-color: #e35b68;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    #passengerForm {
-      margin: 20px;
-      padding: 15px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#payButton:hover{
+    background-color: #b10f07; /* Change to desired hover color */
+    transform: scale(1.05); /* Scales the button slightly */
+}
+
+#totalAmountDisplayForm{
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+#formContainer{
+    text-align: center;
+    width: 600px;
+    height: 50px;
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+}
+
+.seatForm span, #formContainerInner span{
+    color: red;
+    font-size: 13px;
+}
+
+
+/* Loader styles */
+.loader {
+    display: none;
+    /* Initially hidden */
+    border: 8px solid #f3f3f3;
+    /* Light gray */
+    border-top: 8px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+/* Keyframes for spinner */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
     }
-    #passengerForm h3 {
-      font-size: 1.2em;
+
+    100% {
+        transform: rotate(360deg);
     }
-    #passengerForm input,
-    #passengerForm select {
-      padding: 8px;
-    }
-  }
-  
+}

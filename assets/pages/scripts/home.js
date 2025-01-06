@@ -1,6 +1,6 @@
 // Get today's date dynamically
 const today = new Date();
-  
+
 // Format the date in YYYY-MM-DD
 const year = today.getFullYear();
 const month = String(today.getMonth() + 1).padStart(2, '0'); // month is 0-indexed
@@ -14,7 +14,7 @@ document.getElementById("date").setAttribute("min", currentDate);
 
 // click the My booking button go to booking page
 document.getElementById("myBooking").addEventListener("click", () => {
-    window.location="../html/booking.html"
+    window.location = "../html/booking.html"
 })
 
 // Listen for the page load to set initial values from localStorage
@@ -52,6 +52,20 @@ window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
 });
 
+// Based admin true show the button 
+let registerBus = document.getElementById("registerBus")
+const admin = localStorage.getItem("admin") === "true";
+
+if(admin){
+    registerBus.style.display = "block";
+}
+else{
+    registerBus.style.display = "none";
+}
+
+registerBus.addEventListener("click", () => {
+    window.location.href = "../html/admin.html"
+})
 
 // Arrow click functionality to swap 'from' and 'to' inputs
 const arrow = document.querySelector(".stack");
@@ -82,7 +96,7 @@ toBusIcon.addEventListener('click', () => {
 });
 
 // Retrieve the username from localStorage
-let userName = localStorage.getItem("usersName");
+let userName = localStorage.getItem("username");
 
 // Profile container toggle logic
 const profile = document.getElementById("profile");
@@ -98,10 +112,20 @@ profile.addEventListener("click", (e) => {
         profileContainer.setAttribute("id", "profileContainer");
         profileContainer.classList.add("profileManage");
 
-
         profileContainer.innerHTML = userName
             ? `<p>Wellcome, ${userName}!</p>`
             : `<p id = "profile_letters">No username found. Please login.</p>`;
+
+
+       // Create and append the bus register button
+    //    const busRegister = document.createElement("button");
+    //    busRegister.id = "busRegister";
+    //    busRegister.textContent = "Register Bus";
+    //    busRegister.addEventListener("click", () => {
+    //        window.location.href = "../html/admin.html";
+    //    });
+
+    //    profileContainer.appendChild(busRegister);
 
         // Create and append the logout icon
         const logoutIcon = document.createElement("i");
@@ -200,7 +224,7 @@ document.getElementById('search_bus_button').addEventListener('click', function 
     messageContainer.classList.remove('expand');
 
 
-    if(from === to){
+    if (from === to) {
         const messageDiv = document.createElement('div');
         messageDiv.textContent = "Please enter valid locations.";
         messageContainer.appendChild(messageDiv);
@@ -315,7 +339,7 @@ toInput.parentNode.appendChild(toDropdown);
 
 // List of places
 const places = [
-    "Villathikulam","Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
+    "Villathikulam", "Chennai", "Madurai", "Coimbatore", "Tiruchirappalli", "Salem", "Erode",
     "Vellore", "Tirunelveli", "Thanjavur", "Dindigul", "Theni", "Kanyakumari",
     "Nagercoil", "Ramanathapuram", "Cuddalore", "Karur", "Villupuram", "Nagapattinam",
     "Arakkonam", "Pudukkottai", "Vikrampur", "Sivakasi", "Tiruvannamalai",
@@ -376,7 +400,7 @@ function handleKeyNavigation(event, input, dropdown, selectedIndex, setIndexCall
             localStorage.setItem(input.id === "from" ? "searchFrom" : "searchTo", input.value);
             dropdown.style.display = "none";
         }
-        
+
     }
     setIndexCallback(selectedIndex);
     showDropdown(input, dropdown, filteredPlaces, selectedIndex);

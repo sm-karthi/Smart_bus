@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket - Smart Bus</title>
+  <link rel="stylesheet" href="../styles/ticket.css">
+  <link rel="icon" href="../../image/icon_logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <i class="fa-solid fa-left-long" id="leftArrow" title="Go back"></i>
+  </header>
+
+  <main>
+    <div id="showFinalDetails">
+      <div id="busNameDiv">
+        <div id="busName"></div>
+        <div id="busType"></div>
+      </div>
+
+      <div id="dateAndSeatsDiv">
+        <div id="departureDiv">
+          <h3 id="depatureLetter">Departure</h3>
+          <div id="departureDate"></div>
+        </div>
+
+        <div id="seatsDiv">
+          <h3 id="seatsLetter">Seats</h3>
+          <div id="seatsName"></div>
+        </div>
+      </div>
+
+      <div id="boardingDropping">
+        <div id="boardingDiv">
+          <h3 id="boardingLetter">Boarding Point</h3>
+          <div id="boardingPoint"></div>
+        </div>
+
+        <div id="droppingDiv">
+          <h3 id="droppingLetter">Dropping Point</h3>
+          <div id="droppingPoint"></div>
+        </div>
+      </div>
+
+      <div id="passengerName"></div>
+
+      <div id="emailAndContact">
+        <h3 id="ticketSentSentence">Your ticket will be sent to</h3>
+        <div id="passengerEmail"></div>
+        <div id="contactNumber"></div>
+      </div>
+
+      <!-- Passenger Details Section -->
+      <div class="passenger-details" id="passengerDetailsContainer"></div>
+    </div>
+
+    <!-- Pay now button -->
+    <button id="payNowBtn">Pay now</button>
+
+   
+  </main>
+
+    <!-- Tick animation for payment successful -->
+    <div id="tickContainer" class="hidden">
+      <svg class="tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="circle" cx="26" cy="26" r="25" fill="none" />
+        <path class="check" fill="none" d="M16 26l8 8 16-16" />
+      </svg>
+      <p class="success-text">Payment Successful</p>
+      <p class="confirmation-text">Ticket Confirmed</p>
+    </div>
+
+
+  <script src="../scripts/ticket.js" type="module"></script>
+</body>
+
+</html>
