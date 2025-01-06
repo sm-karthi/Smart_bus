@@ -583,7 +583,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
                     },
                     ratingValue: {
                         valueClass: "rating-value",
-                        textContent: 3.5
+                        textContent: 3.4
                     }
                 },
                 WaterBottle,
