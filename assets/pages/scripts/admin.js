@@ -200,7 +200,7 @@ const seatsError = document.getElementById("seatsError");
 const waterBottleError = document.getElementById("waterBottleError");
 const blanketsError = document.getElementById("blanketsError");
 const chargingPointError = document.getElementById("chargingPointError");
-const ratingError = document.getElementById("ratingError");
+// const ratingError = document.getElementById("ratingError");
 const boardingPointError = document.getElementById("boardingPointError");
 const droppingPointError = document.getElementById("droppingPointError");
 
@@ -221,7 +221,7 @@ const populateFormValues = (bus) => {
     document.getElementById("WaterBottle").value = bus.WaterBottle || "";
     document.getElementById("blankets").value = bus.Blankets || "";
     document.getElementById("chargingPoint").value = bus.ChargingPoint || "";
-    document.getElementById("rating").value = bus.ratingBadge?.ratingValue?.textContent || "";
+    // document.getElementById("rating").value = bus.ratingBadge?.ratingValue?.textContent || "";
     document.getElementById("boardingPoint").value = bus.boardingPoint || "";
     document.getElementById("droppingPoint").value = bus.droppingPoint || "";
 };
@@ -242,7 +242,7 @@ const clearFormValues = () => {
     document.getElementById("WaterBottle").value = "";
     document.getElementById("blankets").value = "";
     document.getElementById("chargingPoint").value = "";
-    document.getElementById("rating").value = "";
+    // document.getElementById("rating").value = "";
     document.getElementById("boardingPoint").value = "";
     document.getElementById("droppingPoint").value = "";
 }
@@ -366,7 +366,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
     const WaterBottle = document.getElementById("WaterBottle").value.trim();
     const Blankets = document.getElementById("blankets").value.trim();
     const ChargingPoint = document.getElementById("chargingPoint").value.trim();
-    const rating = document.getElementById("rating").value.trim();
+    // const rating = document.getElementById("rating").value.trim();
 
     const getBoardingPoint = document.getElementById("boardingPoint").value.trim();
     const boardingPoint = capitalizeLocations(getBoardingPoint);
@@ -493,10 +493,10 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         formValid = false;
     }
 
-    if (rating === "") {
-        ratingError.textContent = "Rating is required."
-        formValid = false;
-    }
+    // if (rating === "") {
+    //     ratingError.textContent = "Rating is required."
+    //     formValid = false;
+    // }
 
 
     if (formValid) {
@@ -551,7 +551,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
                     },
                     ratingValue: {
                         valueClass: "rating-value",
-                        textContent: rating
+                        textContent: 3.4
                     }
                 },
                 WaterBottle: waterBottleBool,
@@ -583,7 +583,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
                     },
                     ratingValue: {
                         valueClass: "rating-value",
-                        textContent: rating
+                        textContent: 3.4
                     }
                 },
                 WaterBottle,

@@ -17,6 +17,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+// Get selected bus from localStorage
+const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
+
+const busId = selectedBus.busId;
+
+const busRef = ref(database, `buses/${busId}`);
+get(busRef)
+  .then((snapshot) => {
+
+    if (snapshot.exists()) {
+      const busData = snapshot.val();
+      const fromLocation = busData.from;
+      const toLocation = busData.to;
+
+      document.title = `${fromLocation} to ${toLocation} - Smart bus`;
+      
+    }
+  });
+
 // Handle arrow icon
 document.getElementById("leftArrow").addEventListener("click", () => {
   window.location.href = "../html/seats.html";
