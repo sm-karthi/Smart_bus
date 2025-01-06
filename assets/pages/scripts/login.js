@@ -18,13 +18,13 @@ const signUpContainer = document.querySelector(".sign_up_container");
 goSignUp.addEventListener("click", () => {
     loginContainer.classList.add("hidden");
     signUpContainer.classList.remove("hidden");
-    document.title = "Sign up";
+    document.title = "Sign up - Smart bus";
 });
 
 goLoginPage.addEventListener("click", () => {
     signUpContainer.classList.add("hidden");
     loginContainer.classList.remove("hidden");
-    document.title = "Login";
+    document.title = "Login - Smart bus";
 });
 
 // Firebase Setup
@@ -67,7 +67,7 @@ const signUpCpassError = document.getElementById("signUpCpassError");
 // Login Form Elements
 const passwordInput = document.getElementById("password_inputs");
 const loginEmail = document.getElementById("Email_inputs");
-const loginName = document.getElementById("Name_inputs");
+const userType = document.getElementById("userType");
 
 // Form References
 const loginForm = document.getElementById("login_form");
@@ -78,7 +78,7 @@ const signUpError = document.getElementById("signUpError");
 // Login page form validation Error space
 const loginEmailError = document.getElementById("emailError");
 const loginPasswordError = document.getElementById("passwordError");
-const loginNameError = document.getElementById("nameError");
+const userTypeError = document.getElementById("userTypeError");
 
 
 
@@ -256,23 +256,22 @@ function switchToLogin() {
 // Login form validation 
 loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    console.log(localStorage.getItem("username"))
     
     let hasError = false;
 
     // Clear previous error messages
     loginError.textContent = "";
-    loginNameError.textContent = "";
+    userTypeError.textContent = "";
     loginEmailError.textContent = "";
     loginPasswordError.textContent = "";
 
-    if (loginName.value.length === 0 && loginEmail.value.length === 0 && passwordInput.value.length === 0) {
+    if (userType.value.length === 0 && loginEmail.value.length === 0 && passwordInput.value.length === 0) {
         loginError.textContent = "Please fill in all fields.";
     }
     else {
 
-        if (loginName.value.length === 0) {
-            loginNameError.textContent = "User name required";
+        if (userType.value.length === 0) {
+            userTypeError.textContent = "User type required";
             hasError = true;
         }
 
@@ -296,14 +295,8 @@ loginForm.addEventListener("submit", (event) => {
         // Proceed with Firebase login if no errors
         const email = loginEmail.value;
         const password = passwordInput.value;
-        const username = loginName.value;
 
-        const storedUsername = localStorage.getItem("username");
-
-        if (loginName.value !== storedUsername) {
-            loginNameError.textContent = "Username does not match.";
-            return; // Stop further execution if usernames do not match
-        }
+       
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -313,7 +306,12 @@ loginForm.addEventListener("submit", (event) => {
                 window.location.href = "./assets/pages/html/home.html";
                 localStorage.setItem("loggedIn", "true");
 
-                localStorage.setItem("usersName", username);
+                 // Store the user type in localStorage (if 'admin' is selected, store admin as true)
+                 if (userType.value === "admin") {
+                    localStorage.setItem("admin", "true");
+                } else {
+                    localStorage.setItem("admin", "false");
+                }
 
                 document.querySelectorAll(".login-container input").forEach(x => {
                     x.value = "";

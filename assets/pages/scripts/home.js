@@ -52,6 +52,20 @@ window.addEventListener('popstate', function () {
     window.history.pushState(null, null, window.location.href);
 });
 
+// Based admin true show the button 
+let registerBus = document.getElementById("registerBus")
+const admin = localStorage.getItem("admin") === "true";
+
+if(admin){
+    registerBus.style.display = "block";
+}
+else{
+    registerBus.style.display = "none";
+}
+
+registerBus.addEventListener("click", () => {
+    window.location.href = "../html/admin.html"
+})
 
 // Arrow click functionality to swap 'from' and 'to' inputs
 const arrow = document.querySelector(".stack");
@@ -82,7 +96,7 @@ toBusIcon.addEventListener('click', () => {
 });
 
 // Retrieve the username from localStorage
-let userName = localStorage.getItem("usersName");
+let userName = localStorage.getItem("username");
 
 // Profile container toggle logic
 const profile = document.getElementById("profile");

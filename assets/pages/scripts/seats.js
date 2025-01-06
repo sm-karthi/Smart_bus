@@ -18,9 +18,66 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 // Handle back arrow
-document.getElementById("leftArrow").addEventListener("click", () => {
+const leftArrow = document.getElementById("leftArrow");
+leftArrow.addEventListener("click", () => {
   window.location.href = "../html/busList.html";
 });
+
+// Select the loader element
+const loader = document.getElementById("loader");
+
+const lowerDeckHeading = document.getElementById("lowerDeckHeading");
+const lowerDeckDiv = document.getElementById("lowerDeckDiv");
+const upperDeckHeading = document.getElementById("upperDeckHeading");
+const upperDeckDiv = document.getElementById("upperDeckDiv");
+
+const seatLegend = document.getElementById("seatLengend");
+const colorBox = document.getElementById("colorBox");
+const Available = document.getElementById("Available");
+const unColorBox = document.getElementById("unColorBox");
+const unAvailabe = document.getElementById("unAvailabe");
+const femaleColorBox = document.getElementById("femaleColorBox");
+const female = document.getElementById("female");
+
+// Function to show the loader
+function showLoader() {
+  loader.style.display = "block";
+
+  leftArrow.style.display = "none";
+
+  lowerDeckHeading.style.display = "none";
+  lowerDeckDiv.style.display = "none";
+  upperDeckHeading.style.display = "none";
+  upperDeckDiv.style.display = "none";
+
+  seatLegend.style.display = "none";
+  colorBox.style.display = "none";
+  Available.style.display = "none";
+  unColorBox.style.display = "none";
+  unAvailabe.style.display = "none";
+  femaleColorBox.style.display = "none";
+  female.style.display = "none";
+}
+
+// Function to hide the loader
+function hideLoader() {
+  loader.style.display = "none";
+
+  leftArrow.style.display = "block";
+
+  lowerDeckHeading.style.display = "block";
+  lowerDeckDiv.style.display = "block";
+  upperDeckHeading.style.display = "block";
+  upperDeckDiv.style.display = "block";
+
+  seatLegend.style.display = "block";
+  colorBox.style.display = "block";
+  Available.style.display = "block";
+  unColorBox.style.display = "block";
+  unAvailabe.style.display = "block";
+  femaleColorBox.style.display = "block";
+  female.style.display = "block";
+}
 
 // Get selected bus from localStorage
 const selectedBus = JSON.parse(localStorage.getItem("selectedBus"));
@@ -37,8 +94,10 @@ const busNameElement = document.getElementById("busName");
 const times = document.getElementById("times");
 
 const busRef = ref(database, `buses/${busId}`);
+showLoader();
 get(busRef)
   .then((snapshot) => {
+
     if (snapshot.exists()) {
       const busData = snapshot.val();
       const busName = busData.name || "Unnamed Bus";
@@ -47,8 +106,20 @@ get(busRef)
       const busType = busData.bustype;
       const amount = busData.inrRate;
 
+      // Get departure date for show the ticket before page
+      const departureDate = busData.date;
+
+      // get from and to location for tittle
+      const formLocation = busData.from;
+      const toLocation = busData.to
+
+      document.title = `${formLocation} to ${toLocation} - Smart bus`
+
       busNameElement.textContent = busName;
       times.textContent = `${DepartureTime} - ${arrivalTime}`;
+
+
+
 
 
 
@@ -226,6 +297,7 @@ get(busRef)
         totalAmountDisplay.id = "finalAmount";
         totalAmountDisplay.textContent = `Total Amount: ₹${totalAmount}`;
         finalDetailsContainer.appendChild(totalAmountDisplay);
+
         const confirmButton = document.createElement("button");
         confirmButton.textContent = "PROCEED TO BOOK";
         confirmButton.id = "confirmButton";
@@ -274,6 +346,8 @@ get(busRef)
             }
           });
         });
+
+
 
         // Replace existing points container with final details
         pointsContainer.innerHTML = "";
@@ -444,6 +518,7 @@ get(busRef)
 
 
 
+
           formContainerInner.appendChild(payButtonDiv);
 
           // Append the form container to the body
@@ -492,6 +567,9 @@ get(busRef)
             emailError.textContent = "";
             contactError.textContent = "";
 
+            // Initialize an array to hold passenger details
+            const passengerDetails = [];
+
             // Validate each passenger's name
             document.querySelectorAll("#passengerNameInput").forEach((input, index) => {
               const error = document.querySelectorAll("#nameError")[index];
@@ -502,6 +580,10 @@ get(busRef)
                 error.textContent = "Enter valid name.";
                 isValid = false;
               }
+              // Save the passenger's name
+              if (!passengerDetails[index]) passengerDetails[index] = {};
+              passengerDetails[index].name = input.value.trim();
+
             });
 
             // Validate each passenger's age
@@ -514,6 +596,10 @@ get(busRef)
                 error.textContent = "Age must be between 1 and 100.";
                 isValid = false;
               }
+              // Save the passenger's age
+              if (!passengerDetails[index]) passengerDetails[index] = {};
+              passengerDetails[index].age = input.value.trim();
+
             });
 
             // Validate each passenger's gender
@@ -523,6 +609,10 @@ get(busRef)
                 error.textContent = "Gender is required.";
                 isValid = false;
               }
+              // Save the passenger's gender
+              if (!passengerDetails[index]) passengerDetails[index] = {};
+              passengerDetails[index].gender = select.value;
+
             });
 
             // Validate email
@@ -538,16 +628,32 @@ get(busRef)
             if (!contactInput.value.trim()) {
               contactError.textContent = "Contact number is required.";
               isValid = false;
-            }
-            else if (!contactRegex.test(contactInput.value.trim())) {
+            } else if (!contactRegex.test(contactInput.value.trim())) {
               contactError.textContent = "Please enter a valid mobile number.";
               isValid = false;
             }
 
+            // Save the values in local storage for the ticket page
+            const busDataLocal = {
+              busName,
+              busType,
+              departureDate,
+              DepartureTime,
+              selectedSeats,
+              selectedBoardingPoint,
+              selectedDroppingPoint,
+              passengerDetails, // Add the passenger details array
+              emailInput: emailInput.value,
+              contactInput: contactInput.value,
+              totalAmount: totalAmount
+            };
 
 
             // Proceed if all validations pass
             if (isValid) {
+
+
+              localStorage.setItem("passengerDetailsWithBusDetails", JSON.stringify(busDataLocal));
 
               // Redirect to the ticket page
               window.location.href = "../html/ticket.html";
@@ -581,17 +687,28 @@ get(busRef)
       lowerSeatAlignment.innerHTML = "";
       upperSeatAlignment.innerHTML = "";
 
-      const toggleSeatSelection = (seat) => {
+      // Initialize selectedSeats array and original indices array
+      let selectedSeatIndices = [];
+
+      // Function to save selected seat indices to local storage
+      const saveSelectedSeatsToLocalStorage = () => {
+        localStorage.setItem("selectedSeatIndices", JSON.stringify(selectedSeatIndices));
+      };
+
+      const toggleSeatSelection = (seat, originalIndex) => {
         seat.addEventListener("click", () => {
-          if (seat.style.backgroundColor === "rgb(255, 118, 132)") {
+          if (seat.style.backgroundColor === "rgb(249, 89, 105)") {
+            // Deselect the seat
             seat.style.backgroundColor = "";
             seat.style.color = "";
-            selectedSeats = selectedSeats.filter(s => s !== seat.textContent); // Remove seat from array
+            selectedSeats = selectedSeats.filter((s) => s !== seat.textContent); // Remove seat from array
+            selectedSeatIndices = selectedSeatIndices.filter((index) => index !== originalIndex); // Remove index
+            saveSelectedSeatsToLocalStorage(); // Update local storage
+
             if (selectedSeats.length === 0) {
-              // Add the 'show' class to display the profile container
               setTimeout(() => {
                 infoDiv.classList.toggle("show");
-              }, 10); // Ensure the animation starts after appending
+              }, 10);
             }
           } else {
             if (selectedSeats.length >= 6) {
@@ -616,9 +733,12 @@ get(busRef)
 
               return;
             } else {
-              seat.style.backgroundColor = "rgb(255, 118, 132)";
+              // Select the seat
+              seat.style.backgroundColor = "rgb(249, 89, 105)";
               seat.style.color = "white";
               selectedSeats.push(seat.textContent); // Add seat to array
+              selectedSeatIndices.push(originalIndex); // Add original index
+              saveSelectedSeatsToLocalStorage(); // Update local storage
               infoDiv.classList.add("show");
             }
           }
@@ -642,13 +762,24 @@ get(busRef)
           } else {
             console.error("Element with ID 'finalAmount' not found");
           }
-
         });
       };
 
 
 
 
+      function seatAvailability(seat, string){
+        if (string === "unavailable") {
+          seat.style.backgroundColor = "rgb(135, 135, 135)"; // Gray color for unavailable seats
+          seat.style.pointerEvents = "none"; // Disable click on unavailable seat
+          seat.textContent = "";
+        }
+        else if(string === "female") {
+          seat.style.backgroundColor = "rgb(255, 175, 175)";
+          seat.style.pointerEvents = "none";
+          seat.textContent = "";
+        }
+      }
 
 
 
@@ -678,14 +809,10 @@ get(busRef)
             seat.classList.add("seater");
             seat.textContent = `S${seatIndex}`; // Odd-numbered seats
 
-            // Check seat availability
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(135, 135, 135)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener with seat number
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener with seat number
             lowerSeatAlignment.appendChild(seat);
             seatIndex += 2; // Increment by 2 for odd numbers
             allSeatIndex++;
@@ -699,13 +826,10 @@ get(busRef)
             seat.textContent = `S${seatIndex}`; // Even-numbered seats
 
             // Check seat availability
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(135, 135, 135)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener with seat number
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener with seat number
             lowerSeatAlignment.appendChild(seat);
             seatIndex += 2; // Increment by 2 for even numbers
             allSeatIndex++;
@@ -722,13 +846,10 @@ get(busRef)
             seat.textContent = `L${singleSeatIndex + 1}`; // Label seat as "L" for Sleeper
 
             // Check seat availability for sleeper seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(135, 135, 135)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener with seat number
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener with seat number
             thirdRowContainer.appendChild(seat);
             singleSeatIndex++;
             allSeatIndex++;
@@ -747,13 +868,10 @@ get(busRef)
               seat.textContent = `U${seatIndex - lowerDeckSeats + 1}`;
 
               // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
 
-              toggleSeatSelection(seat); // Attach event listener with seat number
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener with seat number
               upperSeatAlignment.appendChild(seat);
               allSeatIndex++;
             }
@@ -783,13 +901,10 @@ get(busRef)
             seat.textContent = `S${seatIndex}`; // Odd-numbered seats
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             lowerSeatAlignment.appendChild(seat);
             seatIndex += 2; // Increment by 2 for odd numbers
             allSeatIndex++;
@@ -803,13 +918,10 @@ get(busRef)
             seat.textContent = `S${seatIndex}`; // Even-numbered seats
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             lowerSeatAlignment.appendChild(seat);
             seatIndex += 2; // Increment by 2 for even numbers
             allSeatIndex++;
@@ -828,13 +940,10 @@ get(busRef)
             seat.textContent = `L${singleSeatIndex + 1}`; // Label seat as "L" for Sleeper
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             thirdRowContainer.appendChild(seat);
             singleSeatIndex++;
             allSeatIndex++;
@@ -854,13 +963,10 @@ get(busRef)
               seat.textContent = `U${seatIndex - lowerDeckSeats + 1}`;
 
               // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
 
-              toggleSeatSelection(seat); // Attach event listener
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               upperSeatAlignment.appendChild(seat);
               allSeatIndex++;
             }
@@ -893,13 +999,10 @@ get(busRef)
             seat.textContent = `S${firstRowIndex}`; // Label seat as "S" for Seater
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             firstRow.appendChild(seat);
             firstRowIndex += 3;
             allSeatIndex++;
@@ -919,13 +1022,10 @@ get(busRef)
             seat.textContent = `S${secondRowIndex}`; // Label seat as "S" for Seater
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             secondRow.appendChild(seat);
             secondRowIndex += 3;
             allSeatIndex++;
@@ -942,13 +1042,10 @@ get(busRef)
           singleSeat.textContent = `S${secondRowIndex - 2}`; // Label seat as "S" for Seater
 
           // Check seat availability for upper deck seats
-          if (seatData[allSeatIndex] === false) {
-            singleSeat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-            singleSeat.style.pointerEvents = "none"; // Disable click on unavailable seat
-            singleSeat.textContent = "";
-          }
+          seatAvailability(singleSeat, seatData[allSeatIndex]);
 
-          toggleSeatSelection(singleSeat); // Attach event listener
+
+          toggleSeatSelection(singleSeat, allSeatIndex); // Attach event listener
           thirdRow.appendChild(singleSeat);
           lowerSeatAlignment.appendChild(thirdRow);
           allSeatIndex++;
@@ -966,24 +1063,18 @@ get(busRef)
               seat.textContent = "S" + 37;
 
               // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
 
-              toggleSeatSelection(seat); // Attach event listener
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               fourthRow.appendChild(seat);
               allSeatIndex++;
             } else {
               seat.textContent = `S${fourthRowIndex}`; // Label seat as "S" for Seater
               // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
-              toggleSeatSelection(seat); // Attach event listener
+              seatAvailability(seat, seatData[allSeatIndex]);
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               fourthRow.appendChild(seat);
               fourthRowIndex += 3;
               allSeatIndex++;
@@ -1002,13 +1093,10 @@ get(busRef)
               seat.textContent = `U${seatIndex - lowerDeckSeats + 1}`;
 
               // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
 
-              toggleSeatSelection(seat); // Attach event listener
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               upperSeatAlignment.appendChild(seat);
               allSeatIndex++;
             }
@@ -1040,13 +1128,10 @@ get(busRef)
             seat.classList.add("seater");
             seat.textContent = `S${firstRowIndex}`; // Label seat as "S" for Seater
 
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             firstRow.appendChild(seat);
             firstRowIndex += 3;
             allSeatIndex++;
@@ -1065,14 +1150,10 @@ get(busRef)
             seat.classList.add("seater");
             seat.textContent = `S${secondRowIndex}`; // Label seat as "S" for Seater
 
-            // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             secondRow.appendChild(seat);
             secondRowIndex += 3;
             allSeatIndex++;
@@ -1088,14 +1169,10 @@ get(busRef)
           singleSeat.classList.add("seater");
           singleSeat.textContent = `S${secondRowIndex - 2}`; // Label seat as "S" for Seater
 
-          // Check seat availability for upper deck seats
-          if (seatData[allSeatIndex] === false) {
-            singleSeat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-            singleSeat.style.pointerEvents = "none"; // Disable click on unavailable seat
-            singleSeat.textContent = "";
-          }
+          seatAvailability(singleSeat, seatData[allSeatIndex]);
 
-          toggleSeatSelection(singleSeat); // Attach event listener
+
+          toggleSeatSelection(singleSeat, allSeatIndex); // Attach event listener
           thirdRow.appendChild(singleSeat);
           lowerSeatAlignment.appendChild(thirdRow);
           allSeatIndex++;
@@ -1112,27 +1189,19 @@ get(busRef)
             if (col === 9) {
               seat.textContent = "S" + 31;
 
-              // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
 
-              toggleSeatSelection(seat); // Attach event listener
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               fourthRow.appendChild(seat);
               allSeatIndex++;
             } else {
               seat.textContent = `S${fourthRowIndex}`; // Label seat as "S" for Seater
 
-              // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
 
-              toggleSeatSelection(seat); // Attach event listener
+
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               fourthRow.appendChild(seat);
               fourthRowIndex += 3;
               allSeatIndex++;
@@ -1148,15 +1217,11 @@ get(busRef)
 
               const seat = document.createElement("div");
               seat.classList.add("seat");
-              toggleSeatSelection(seat); // Attach event listener
+              toggleSeatSelection(seat, allSeatIndex); // Attach event listener
               seat.textContent = `U${seatIndex - lowerDeckSeats + 1}`;
 
-              // Check seat availability for upper deck seats
-              if (seatData[allSeatIndex] === false) {
-                seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-                seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-                seat.textContent = "";
-              }
+              seatAvailability(seat, seatData[allSeatIndex]);
+
 
               upperSeatAlignment.appendChild(seat);
               allSeatIndex++;
@@ -1193,13 +1258,10 @@ get(busRef)
             seat.textContent = `L${seatIndex + 1}`;
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             lowerSeatAlignment.appendChild(seat);
             allSeatIndex++;
           }
@@ -1216,13 +1278,10 @@ get(busRef)
             seat.textContent = `U${seatIndex - lowerDeckSeats + 1}`;
 
             // Check seat availability for upper deck seats
-            if (seatData[allSeatIndex] === false) {
-              seat.style.backgroundColor = "rgb(171, 171, 171)"; // Gray color for unavailable seats
-              seat.style.pointerEvents = "none"; // Disable click on unavailable seat
-              seat.textContent = "";
-            }
+            seatAvailability(seat, seatData[allSeatIndex]);
 
-            toggleSeatSelection(seat); // Attach event listener
+
+            toggleSeatSelection(seat, allSeatIndex); // Attach event listener
             upperSeatAlignment.appendChild(seat);
             allSeatIndex++;
           }
@@ -1234,4 +1293,7 @@ get(busRef)
   })
   .catch((error) => {
     console.error("Error fetching bus data:", error);
+  })
+  .finally(() => {
+    hideLoader();
   });

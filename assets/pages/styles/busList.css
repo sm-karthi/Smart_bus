@@ -363,12 +363,12 @@ header #leftArrow:hover {
     margin-top: 38px;
     margin-left: 40px;
     font-family: "poppins", sans-serif;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #modifyButton:hover {
     background-color: #b10f07;
-    color: white;
+    transform: scale(1.05); /* Scales the button slightly */
 
 }
 
@@ -422,13 +422,13 @@ header #leftArrow:hover {
     font-size: 1rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 20px;
 }
 
 #dynamicModifyForm button:hover {
     background-color: #b10f07;
-    color: white;
+    transform: scale(1.03); /* Scales the button slightly */
 }
 
 #dynamicModifyForm button:active {
