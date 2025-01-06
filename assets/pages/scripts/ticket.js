@@ -72,6 +72,8 @@ droppingPoint.textContent = busDataLocal.selectedDroppingPoint;
 // Remove ticketSentSentence from its original position
 ticketSentSentence.remove();
 
+let formattedName;
+
 // Display the passenger details
 if (busDataLocal.passengerDetails.length > 0) {
   busDataLocal.passengerDetails.forEach((passenger, index) => {
@@ -80,7 +82,7 @@ if (busDataLocal.passengerDetails.length > 0) {
     passengerDiv.classList.add("passenger-detail");
 
     // Capitalize the first letter of the name and get the first letter of gender
-    const formattedName = passenger.name.charAt(0).toUpperCase() + passenger.name.slice(1);
+    formattedName = passenger.name.charAt(0).toUpperCase() + passenger.name.slice(1);
     const formattedGender = passenger.gender.charAt(0).toUpperCase();
 
     // Combine name, age, and gender into one string
@@ -178,6 +180,9 @@ if (!selectedBusId || !selectedBusId.busId) {
     }
   };
 
+ 
+
+
 
   // Function to save ticket booking details to localStorage
   function saveTicketDetailsToLocalStorage() {
@@ -228,13 +233,51 @@ if (!selectedBusId || !selectedBusId.busId) {
 
       // Save ticket details to localStorage
       saveTicketDetailsToLocalStorage();
+    sentEmail(email, bus_name, boarding_Point, dropping_Point, travelDate, Seats, allPassengerNames);
 
       // Show success animation
       showSuccessAnimation();
+
     } catch (error) {
       console.error("Error during pay now:", error);
       alert("Error processing payment. Please try again.");
     }
   });
 
+}
+
+
+let bus_name = busDataLocal.busName;
+let boarding_Point = busDataLocal.selectedBoardingPoint;
+let dropping_Point = busDataLocal.selectedDroppingPoint;
+let travelDate = formatDateToDDMMYYYY(busDataLocal.departureDate); // Avoid using "Date" as it's a reserved keyword.
+let Seats = busDataLocal.selectedSeats.join(", "); // Convert seats array to string
+// Generate all passenger names as a single string
+const allPassengerNames = busDataLocal.passengerDetails
+  .map(passenger => `${passenger.name.charAt(0).toUpperCase() + passenger.name.slice(1)} (${passenger.age}, ${passenger.gender.charAt(0).toUpperCase()})`)
+  .join(", ");
+
+
+
+
+let email=busDataLocal.emailInput;
+emailjs.init('KYPpsm8Fey06PqEp_');
+
+
+function sentEmail(email, bus_name, boarding_Point, dropping_Point, travelDate, Seats, allPassengerNames) {
+  return emailjs.send('service_bbt3i93', 'template_yraeoyc', {
+    to_email: email,
+    Bus_name: bus_name,
+    boarding_point: boarding_Point,
+    dropping_point: dropping_Point,
+    date: travelDate,
+    seats: Seats,
+    passenger_name: allPassengerNames, // Send all passenger names
+  })
+  .then((response) => {
+    console.log('Email sent successfully', response);
+  })
+  .catch((error) => {
+    console.error('Error sending email', error);
+  });
 }
