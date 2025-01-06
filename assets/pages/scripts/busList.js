@@ -390,13 +390,33 @@ function displayAllBuses(bus) {
             console.log(singleSeatsCount)
 
         }
-    } else if (busType.includes("sleeper")) {
+    } else if (totalSeats === 30) {
+        // Adjust single seat count for bus with 55 seats
         singleSeatsCount = Object.keys(bus.seats || {}).filter(
-            (seatNumber) =>
-                parseInt(seatNumber) % 3 === 0 && bus.seats[seatNumber] === "available"
+            (seatNumber) => {
+                const seatNum = parseInt(seatNumber);
+                // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                return (
+                    ((seatNum >= 11 && seatNum <= 15) || (seatNum >= 26 && seatNum <= 30)) &&
+                    bus.seats[seatNumber] === "available"
+                );
+            }
         ).length;
         console.log(singleSeatsCount)
-
+    }
+    else if (totalSeats === 36){
+        // Adjust single seat count for bus with 55 seats
+        singleSeatsCount = Object.keys(bus.seats || {}).filter(
+            (seatNumber) => {
+                const seatNum = parseInt(seatNumber);
+                // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                return (
+                    ((seatNum >= 13 && seatNum <= 18) || (seatNum >= 31 && seatNum <= 36)) &&
+                    bus.seats[seatNumber] === "available"
+                );
+            }
+        ).length;
+        console.log(singleSeatsCount)
     }
 
     // Display available seats with special styling for exactly 1 seat
