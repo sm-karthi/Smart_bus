@@ -14,26 +14,10 @@ document.getElementById("date").setAttribute("min", currentDate);
 
 // click the My booking button go to booking page
 document.getElementById("myBooking").addEventListener("click", () => {
-    window.location = "../html/booking.html"
+    window.location = "../pages/booking.html"
 })
 
-// Listen for the page load to set initial values from localStorage
-document.addEventListener('DOMContentLoaded', function () {
-    const fromInput = document.getElementById('from');
-    const toInput = document.getElementById('to');
-    const dateInput = document.getElementById('date');
 
-    // Retrieve saved values and set them in the form fields
-    if (localStorage.getItem('fromValue')) {
-        fromInput.value = localStorage.getItem('fromValue');
-    }
-    if (localStorage.getItem('toValue')) {
-        toInput.value = localStorage.getItem('toValue');
-    }
-    if (localStorage.getItem('dateValue')) {
-        dateInput.value = localStorage.getItem('dateValue');
-    }
-});
 
 // Click the bus logo reload the page
 document.getElementById("Bus_logo").addEventListener("click", () => {
@@ -64,7 +48,7 @@ else{
 }
 
 registerBus.addEventListener("click", () => {
-    window.location.href = "../html/admin.html"
+    window.location.href = "../pages/admin.html"
 })
 
 // Arrow click functionality to swap 'from' and 'to' inputs
@@ -115,17 +99,6 @@ profile.addEventListener("click", (e) => {
         profileContainer.innerHTML = userName
             ? `<p>Wellcome, ${userName}!</p>`
             : `<p id = "profile_letters">No username found. Please login.</p>`;
-
-
-       // Create and append the bus register button
-    //    const busRegister = document.createElement("button");
-    //    busRegister.id = "busRegister";
-    //    busRegister.textContent = "Register Bus";
-    //    busRegister.addEventListener("click", () => {
-    //        window.location.href = "../html/admin.html";
-    //    });
-
-    //    profileContainer.appendChild(busRegister);
 
         // Create and append the logout icon
         const logoutIcon = document.createElement("i");
@@ -313,13 +286,8 @@ document.getElementById('search_bus_button').addEventListener('click', function 
         return;
     }
 
-    /* // Store search parameters in localStorage
-    localStorage.setItem('searchFrom', from);
-    localStorage.setItem('searchTo', to);
-    localStorage.setItem('searchDate', date); */
-
     // Redirect to bus_list.html
-    window.location.href = "/assets/pages/html/busList.html";
+    window.location.href = "../../assets/pages/busList.html";
 });
 
 

@@ -96,7 +96,7 @@ header {
 
 
 body {
-    background-image: url("../../image/background_bus_img.webp");
+    background-image: url("../image/background_bus_img.webp");
     background-repeat: no-repeat;
     background-size: cover;
     background-position-y: 115px;

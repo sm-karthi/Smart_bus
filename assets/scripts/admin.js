@@ -18,7 +18,7 @@ const database = getDatabase(app);
 
 // Handle arrow icon
 document.getElementById("leftArrow").addEventListener("click", () => {
-    window.location.href = "../html/home.html";
+    window.location.href = "../pages/home.html";
 })
 
 
@@ -646,7 +646,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
 
             setTimeout(() => {
                 messageContainer.style.visibility = 'hidden';
-                window.location.href = "../html/admin.html";
+                window.location.href = "../pages/admin.html";
             }, 3000);
 
 

@@ -20,7 +20,7 @@ const database = getDatabase(app);
 // Handle back arrow
 const leftArrow = document.getElementById("leftArrow");
 leftArrow.addEventListener("click", () => {
-  window.location.href = "../html/busList.html";
+  window.location.href = "../pages/busList.html";
 });
 
 // Select the loader element
@@ -656,7 +656,7 @@ get(busRef)
               localStorage.setItem("passengerDetailsWithBusDetails", JSON.stringify(busDataLocal));
 
               // Redirect to the ticket page
-              window.location.href = "../html/ticket.html";
+              window.location.href = "../pages/ticket.html";
             }
           });
 
