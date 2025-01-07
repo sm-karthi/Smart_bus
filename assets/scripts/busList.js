@@ -17,7 +17,7 @@ let filteredBusesList;
 
 // Click the back arrow go to home page
 document.getElementById("leftArrow").addEventListener("click", () => {
-    window.location = "../html/home.html";
+    window.location = "../pages/home.html";
 });
 
 
@@ -487,7 +487,7 @@ ${availableSeatsCount} Seats available</p>`;
     viewSeatsButton.classList.add("view-seats-btn");
     viewSeatsButton.addEventListener("click", () => {
         localStorage.setItem("selectedBus", JSON.stringify(bus));
-        window.location.href = "../html/seats.html";
+        window.location.href = "../pages/seats.html";
     });
 
     busItem.appendChild(viewSeatsButton);

@@ -38,7 +38,7 @@ get(busRef)
 
 // Handle arrow icon
 document.getElementById("leftArrow").addEventListener("click", () => {
-  window.location.href = "../html/seats.html";
+  window.location.href = "../pages/seats.html";
 });
 
 // Retrieve data from localStorage
@@ -241,7 +241,7 @@ if (!selectedBusId || !selectedBusId.busId) {
     // Wait for animation to complete, then redirect
     setTimeout(() => {
       tickContainer.style.display = "none";
-      window.location.href = "../html/busList.html"; // Redirect to bus list page
+      window.location.href = "../pages/busList.html"; // Redirect to bus list page
     }, 4000); // 4 seconds
   }
 

@@ -46,7 +46,7 @@ window.onload = function () {
 
     if (isLoggedIn) {
         // If the user is logged in, redirect to the home page
-        window.location.replace("./assets/pages/html/home.html");
+        window.location.replace("../../assets/pages/home.html");
     }
 };
 
@@ -303,7 +303,7 @@ loginForm.addEventListener("submit", (event) => {
                 loginError.textContent = '';
                 console.log('Logged in:', userCredential.user);
 
-                window.location.href = "./assets/pages/html/home.html";
+                window.location.href = "../../assets/pages/home.html";
                 localStorage.setItem("loggedIn", "true");
 
                  // Store the user type in localStorage (if 'admin' is selected, store admin as true)

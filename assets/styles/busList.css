@@ -411,6 +411,7 @@ header #leftArrow:hover {
     border-color: #f44b4b;
     box-shadow: 0 0 5px #f44b4b;
     outline: none;
+    
 }
 
 #dynamicModifyForm button {

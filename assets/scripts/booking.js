@@ -1,6 +1,6 @@
 // Handle left arrow
 document.getElementById("leftArrow").addEventListener("click", () => {
-  window.location.href = "../html/home.html";
+  window.location.href = "../pages/home.html";
 })
 
 document.addEventListener("DOMContentLoaded", () => {
