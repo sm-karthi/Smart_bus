@@ -96,7 +96,8 @@
 
 #login:hover {
     background-color: #de3b33;
-    transform: scale(1.05); /* Scales the button slightly */
+    transform: scale(1.05);
+    /* Scales the button slightly */
 }
 
 
@@ -165,16 +166,18 @@
     margin-left: 50px;
     padding: 0px 0px 3px 3px;
 }
-#Number_input{
+
+#Number_input {
     width: 250px;
     border: none;
     font-size: 20px;
     border-bottom: 1.5px solid black;
     margin-left: 55px;
     padding: 0px 0px 3px 3px;
+    margin-bottom: 5px;
 }
 
-.input-prefix{
+.input-prefix {
     position: relative;
     left: 55px;
     font-size: 1.5rem;
@@ -182,7 +185,7 @@
     padding: 2px;
 }
 
-#mobileLine{
+#mobileLine {
     width: 50px;
     height: 1.5px;
     background-color: black;
@@ -226,7 +229,8 @@
 
 #Sign_up:hover {
     background-color: #de3b33;
-    transform: scale(1.05); /* Scales the button slightly */
+    transform: scale(1.05);
+    /* Scales the button slightly */
 }
 
 #sign_up_heading {
@@ -348,14 +352,17 @@
     color: #000000;
     border: 1px solid #39e461;
     border-radius: 5px;
-    padding: 15px ;
+    padding: 15px;
     font-size: 14px;
     font-family: Arial, sans-serif;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure it appears above other elements */
-    opacity: 0; /* Start invisible */
-    transform: translateY(-20px); /* Start slightly above */
-    animation: fadeInSlideDown 0.5s ease forwards; /* Initial animation */
+    z-index: 1000;
+    /* Ensure it appears above other elements */
+    /* Start invisible */
+    transform: translateY(-20px);
+    /* Start slightly above */
+    animation: fadeInSlideDown 0.5s ease forwards;
+    /* Initial animation */
 }
 
 /* Animation for showing the message */
@@ -364,6 +371,7 @@
         opacity: 0;
         transform: translateY(-20px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -380,6 +388,7 @@
         opacity: 1;
         transform: translateY(0);
     }
+
     100% {
         opacity: 0;
         transform: translateY(-20px);
@@ -388,3 +397,145 @@
 
 
 
+
+
+@media screen and (max-width: 600px) {
+    .sign_up_container {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 70px;
+    }
+
+    .login-container {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    #login_form,
+    #sign_up_form {
+        margin: 0 auto;
+        padding: 20px;
+        width: 90%;
+        box-shadow: none;
+    }
+
+    #sign_up_heading {
+        text-align: center;
+        font-size: 18px;
+        margin-left: 20px;
+    }
+
+    #loginHeading {
+        text-align: center;
+        font-size: 18px;
+        margin-right: 80px;
+    }
+
+    #Bus_Logo {
+        margin-left: 10px;
+    }
+
+    #Bus_logo {
+        margin-left: 20px;
+    }
+
+    #userType,
+    #Email_inputs,
+    #password_inputs,
+    #Name_input,
+    #Email_input,
+    #password_input,
+    #Cpassword_input {
+        width: 90%;
+        margin-left: 50px;
+        font-size: 16px;
+    }
+
+    #Cpassword_input {
+        margin-top: 10px;
+    }
+
+
+    #Number_input {
+        width: 82%;
+        font-size: 16px;
+        margin-left: 80px;
+        margin-top: 2.34px;
+    }
+
+    .input-prefix {
+        font-size: 17px;
+        position: absolute;
+        margin-left: 8.3%;
+
+    }
+
+    #login,
+    #Sign_up {
+        width: 100%;
+        font-size: 16px;
+        height: 40px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .eye-icon {
+        position: absolute;
+        bottom: 274px;
+        left: 375px;
+    }
+
+    #go_sign_up,
+    #go_login_page {
+        position: static;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    #loginError,
+    #signUpError {
+        margin: 10px auto;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .success-message {
+        font-size: 12px;
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    
+    .confirm_pass_eye-icon {
+        position: absolute;
+        top: 74%; /* Vertically center relative to the input */
+        right: 1%; /* Position near the right edge of the input */
+    }
+
+    .sign-up-eye-icon{
+        position: absolute;
+        top: 66%; /* Vertically center relative to the input */
+        right: 1%; /* Position near the right edge of the input */
+    }
+
+    #signUpNameError{
+        margin-right: 18px;
+    }
+    #signUpEmailError{
+        margin-right: 220px;
+        
+    }
+    #numberError{
+        margin-right: 160px;
+    }
+    #signUpPassError{
+       margin-right: 270px;
+       width: 150px;
+    }
+    #signUpCpassError{
+        margin-right: 200px;
+        width: 200px;
+    }
+}
