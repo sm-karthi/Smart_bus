@@ -180,619 +180,623 @@ if (!selectedBusId || !selectedBusId.busId) {
               seatsData[adjustedSeatIndex] = "unavailable"; // Mark as unavailable for males
             } else if (passenger.gender.toLowerCase() === "female") {
               seatsData[adjustedSeatIndex] = "female"; // Mark as female for females
+              femaleOthers();
             }
             else if (passenger.gender.toLowerCase() === "other") {
               seatsData[adjustedSeatIndex] = "other"; // Mark as female for others
+              femaleOthers();
             }
           } else {
             console.warn(`Seat index ${adjustedSeatIndex} not found in seats data.`);
           }
 
+          function femaleOthers() {
+            // Check if the total number of seats is 30
+            if (Object.keys(seatsData).length === 30) {
+              // Apply the female seat mapping logic for the first 5 seats
+              const femaleSeatMapping = {
+                1: 6,
+                2: 7,
+                3: 8,
+                4: 9,
+                5: 10,
+                16: 21,
+                17: 22,
+                18: 23,
+                19: 24,
+                20: 25
+              };
 
-          // Check if the total number of seats is 30
-          if (Object.keys(seatsData).length === 30) {
-            // Apply the female seat mapping logic for the first 5 seats
-            const femaleSeatMapping = {
-              1: 6,
-              2: 7,
-              3: 8,
-              4: 9,
-              5: 10,
-              16: 21,
-              17: 22,
-              18: 23,
-              19: 24,
-              20: 25
-            };
+              const othersSeatMapping = {
+                1: 6,
+                2: 7,
+                3: 8,
+                4: 9,
+                5: 10,
+                16: 21,
+                17: 22,
+                18: 23,
+                19: 24,
+                20: 25
+              };
 
-            const othersSeatMapping = {
-              1: 6,
-              2: 7,
-              3: 8,
-              4: 9,
-              5: 10,
-              16: 21,
-              17: 22,
-              18: 23,
-              19: 24,
-              20: 25
-            };
+              // Apply the femaleSeat logic dynamically for the first 5 seats and the new ones
+              if (femaleSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+                }
+              }
 
-            // Apply the femaleSeat logic dynamically for the first 5 seats and the new ones
-            if (femaleSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 5 || adjustedSeatIndex >= 16 && adjustedSeatIndex <= 20) {
+                const femaleSeatIndex = adjustedSeatIndex + 5;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
+              // Mapping for seats 6 to 1, 7 to 2, 8 to 3, and so on
+              if (adjustedSeatIndex >= 6 && adjustedSeatIndex <= 10 || adjustedSeatIndex >= 21 && adjustedSeatIndex <= 25) {
+                const femaleSeatIndex = adjustedSeatIndex - 5; // Adjust the seat mapping dynamically
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat dynamically
+                }
+              }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 5 || adjustedSeatIndex >= 16 && adjustedSeatIndex <= 20) {
-              const femaleSeatIndex = adjustedSeatIndex + 5;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Handle seats for others gender
+              if (othersSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as othersSeat
+                }
               }
-            }
-            // Mapping for seats 6 to 1, 7 to 2, 8 to 3, and so on
-            if (adjustedSeatIndex >= 6 && adjustedSeatIndex <= 10 || adjustedSeatIndex >= 21 && adjustedSeatIndex <= 25) {
-              const femaleSeatIndex = adjustedSeatIndex - 5; // Adjust the seat mapping dynamically
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat dynamically
-              }
-            }
 
-            // Handle seats for others gender
-            if (othersSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as othersSeat
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 5 || adjustedSeatIndex >= 16 && adjustedSeatIndex <= 20) {
+                const mappedSeatIndex = adjustedSeatIndex + 5;
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
+              // Mapping for seats 6 to 1, 7 to 2, 8 to 3, and so on
+              if (adjustedSeatIndex >= 6 && adjustedSeatIndex <= 10 || adjustedSeatIndex >= 21 && adjustedSeatIndex <= 25) {
+                const mappedSeatIndex = adjustedSeatIndex - 5; // Adjust the seat mapping dynamically
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat dynamically
+                }
+              }
 
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 5 || adjustedSeatIndex >= 16 && adjustedSeatIndex <= 20) {
-              const mappedSeatIndex = adjustedSeatIndex + 5;
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
             }
-            // Mapping for seats 6 to 1, 7 to 2, 8 to 3, and so on
-            if (adjustedSeatIndex >= 6 && adjustedSeatIndex <= 10 || adjustedSeatIndex >= 21 && adjustedSeatIndex <= 25) {
-              const mappedSeatIndex = adjustedSeatIndex - 5; // Adjust the seat mapping dynamically
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat dynamically
-              }
-            }
+            else if (Object.keys(seatsData).length === 36) {
+              // Apply the female seat mapping logic for the first 5 seats
+              const femaleSeatMapping = {
+                1: 7,
+                2: 8,
+                3: 9,
+                4: 10,
+                5: 11,
+                6: 12,
+                19: 25,
+                20: 26,
+                21: 27,
+                22: 28,
+                23: 29,
+                24: 30
+              };
 
-          }
-          else if (Object.keys(seatsData).length === 36) {
-            // Apply the female seat mapping logic for the first 5 seats
-            const femaleSeatMapping = {
-              1: 7,
-              2: 8,
-              3: 9,
-              4: 10,
-              5: 11,
-              6: 12,
-              19: 25,
-              20: 26,
-              21: 27,
-              22: 28,
-              23: 29,
-              24: 30
-            };
+              const othersSeatMapping = {
+                1: 7,
+                2: 8,
+                3: 9,
+                4: 10,
+                5: 11,
+                6: 12,
+                19: 25,
+                20: 26,
+                21: 27,
+                22: 28,
+                23: 29,
+                24: 30
+              };
 
-            const othersSeatMapping = {
-              1: 7,
-              2: 8,
-              3: 9,
-              4: 10,
-              5: 11,
-              6: 12,
-              19: 25,
-              20: 26,
-              21: 27,
-              22: 28,
-              23: 29,
-              24: 30
-            };
+              if (femaleSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+                }
+              }
 
-            if (femaleSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 6 || adjustedSeatIndex >= 19 && adjustedSeatIndex <= 24) {
+                const femaleSeatIndex = adjustedSeatIndex + 6;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 6 || adjustedSeatIndex >= 19 && adjustedSeatIndex <= 24) {
-              const femaleSeatIndex = adjustedSeatIndex + 6;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 7 && adjustedSeatIndex <= 12 || adjustedSeatIndex >= 25 && adjustedSeatIndex <= 30) {
+                const femaleSeatIndex = adjustedSeatIndex - 6;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 7 && adjustedSeatIndex <= 12 || adjustedSeatIndex >= 25 && adjustedSeatIndex <= 30) {
-              const femaleSeatIndex = adjustedSeatIndex - 6;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Handle seats for others gender
+              if (othersSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as othersSeat
+                }
               }
-            }
 
-            // Handle seats for others gender
-            if (othersSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as othersSeat
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 6 || adjustedSeatIndex >= 19 && adjustedSeatIndex <= 24) {
+                const mappedSeatIndex = adjustedSeatIndex + 6;
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              // Mapping for seats 6 to 1, 7 to 2, 8 to 3, and so on
+              if (adjustedSeatIndex >= 7 && adjustedSeatIndex <= 12 || adjustedSeatIndex >= 25 && adjustedSeatIndex <= 30) {
+                const mappedSeatIndex = adjustedSeatIndex - 6; // Adjust the seat mapping dynamically
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat dynamically
+                }
               }
             }
+            else if (Object.keys(seatsData).length === 46) {
+              // Apply the female seat mapping logic for the first 5 seats
+              const femaleSeatMapping = {
+                1: 11,
+                2: 12,
+                3: 13,
+                4: 14,
+                5: 15,
+                6: 16,
+                7: 17,
+                8: 18,
+                9: 19,
+                10: 20,
+                32: 37,
+                33: 38,
+                34: 39,
+                35: 40,
+                36: 41
+              };
 
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 6 || adjustedSeatIndex >= 19 && adjustedSeatIndex <= 24) {
-              const mappedSeatIndex = adjustedSeatIndex + 6;
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            // Mapping for seats 6 to 1, 7 to 2, 8 to 3, and so on
-            if (adjustedSeatIndex >= 7 && adjustedSeatIndex <= 12 || adjustedSeatIndex >= 25 && adjustedSeatIndex <= 30) {
-              const mappedSeatIndex = adjustedSeatIndex - 6; // Adjust the seat mapping dynamically
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat dynamically
-              }
-            }
-          }
-          else if (Object.keys(seatsData).length === 46) {
-            // Apply the female seat mapping logic for the first 5 seats
-            const femaleSeatMapping = {
-              1: 11,
-              2: 12,
-              3: 13,
-              4: 14,
-              5: 15,
-              6: 16,
-              7: 17,
-              8: 18,
-              9: 19,
-              10: 20,
-              32: 37,
-              33: 38,
-              34: 39,
-              35: 40,
-              36: 41
-            };
+              const othersSeatMapping = {
+                1: 11,
+                2: 12,
+                3: 13,
+                4: 14,
+                5: 15,
+                6: 16,
+                7: 17,
+                8: 18,
+                9: 19,
+                10: 20,
+                32: 37,
+                33: 38,
+                34: 39,
+                35: 40,
+                36: 41
+              };
 
-            const othersSeatMapping = {
-              1: 11,
-              2: 12,
-              3: 13,
-              4: 14,
-              5: 15,
-              6: 16,
-              7: 17,
-              8: 18,
-              9: 19,
-              10: 20,
-              32: 37,
-              33: 38,
-              34: 39,
-              35: 40,
-              36: 41
-            };
+              if (femaleSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+                }
+              }
 
-            if (femaleSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
+                const femaleSeatIndex = adjustedSeatIndex + 10;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
+              else if (adjustedSeatIndex >= 32 && adjustedSeatIndex <= 36) {
+                const femaleSeatIndex = adjustedSeatIndex + 5;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
-              const femaleSeatIndex = adjustedSeatIndex + 10;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
+                const femaleSeatIndex = adjustedSeatIndex - 10;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 32 && adjustedSeatIndex <= 36) {
-              const femaleSeatIndex = adjustedSeatIndex + 5;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 41) {
+                const femaleSeatIndex = adjustedSeatIndex - 5;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
-              const femaleSeatIndex = adjustedSeatIndex - 10;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Handle others gender seats
+              if (othersSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 41) {
-              const femaleSeatIndex = adjustedSeatIndex - 5;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
 
-            // Handle others gender seats
-            if (othersSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
+                const othersSeatIndex = adjustedSeatIndex + 10;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
+              else if (adjustedSeatIndex >= 32 && adjustedSeatIndex <= 36) {
+                const othersSeatIndex = adjustedSeatIndex + 5;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
-              const othersSeatIndex = adjustedSeatIndex + 10;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
+                const othersSeatIndex = adjustedSeatIndex - 10;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 41) {
+                const othersSeatIndex = adjustedSeatIndex - 5;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
             }
-            else if (adjustedSeatIndex >= 32 && adjustedSeatIndex <= 36) {
-              const othersSeatIndex = adjustedSeatIndex + 5;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
+            else if (Object.keys(seatsData).length === 40) {
+              // Apply the female seat mapping logic for the first 5 seats
+              const femaleSeatMapping = {
+                1: 11,
+                2: 12,
+                3: 13,
+                4: 14,
+                5: 15,
+                6: 16,
+                7: 17,
+                8: 18,
+                9: 19,
+                10: 20,
+                26: 31,
+                27: 32,
+                28: 33,
+                29: 34,
+                30: 35
+              };
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
-              const othersSeatIndex = adjustedSeatIndex - 10;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 41) {
-              const othersSeatIndex = adjustedSeatIndex - 5;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-          }
-          else if (Object.keys(seatsData).length === 40) {
-            // Apply the female seat mapping logic for the first 5 seats
-            const femaleSeatMapping = {
-              1: 11,
-              2: 12,
-              3: 13,
-              4: 14,
-              5: 15,
-              6: 16,
-              7: 17,
-              8: 18,
-              9: 19,
-              10: 20,
-              26: 31,
-              27: 32,
-              28: 33,
-              29: 34,
-              30: 35
-            };
+              const othersSeatMapping = {
+                1: 11,
+                2: 12,
+                3: 13,
+                4: 14,
+                5: 15,
+                6: 16,
+                7: 17,
+                8: 18,
+                9: 19,
+                10: 20,
+                26: 31,
+                27: 32,
+                28: 33,
+                29: 34,
+                30: 35
+              };
 
-            const othersSeatMapping = {
-              1: 11,
-              2: 12,
-              3: 13,
-              4: 14,
-              5: 15,
-              6: 16,
-              7: 17,
-              8: 18,
-              9: 19,
-              10: 20,
-              26: 31,
-              27: 32,
-              28: 33,
-              29: 34,
-              30: 35
-            };
+              if (femaleSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+                }
+              }
 
-            if (femaleSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
+                const femaleSeatIndex = adjustedSeatIndex + 10;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
+              else if (adjustedSeatIndex >= 26 && adjustedSeatIndex <= 30) {
+                const femaleSeatIndex = adjustedSeatIndex + 5;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
-              const femaleSeatIndex = adjustedSeatIndex + 10;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
+                const femaleSeatIndex = adjustedSeatIndex - 10;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 26 && adjustedSeatIndex <= 30) {
-              const femaleSeatIndex = adjustedSeatIndex + 5;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 35) {
+                const femaleSeatIndex = adjustedSeatIndex - 5;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
-              const femaleSeatIndex = adjustedSeatIndex - 10;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 35) {
-              const femaleSeatIndex = adjustedSeatIndex - 5;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-
-
-            // Handle others seats
-            if (othersSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
-              }
-            }
-
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
-              const othersSeatIndex = adjustedSeatIndex + 10;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            else if (adjustedSeatIndex >= 26 && adjustedSeatIndex <= 30) {
-              const othersSeatIndex = adjustedSeatIndex + 5;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
-              const othersSeatIndex = adjustedSeatIndex - 10;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 35) {
-              const othersSeatIndex = adjustedSeatIndex - 5;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-          }
-          else if (Object.keys(seatsData).length === 55) {
-            // Apply the female seat mapping logic for the first 5 seats
-            const femaleSeatMapping = {
-              1: 13,
-              2: 14,
-              3: 15,
-              4: 16,
-              5: 17,
-              6: 18,
-              7: 19,
-              8: 20,
-              9: 21,
-              10: 22,
-              11: 23,
-              12: 24,
-              38: 44,
-              39: 45,
-              40: 46,
-              41: 47,
-              42: 48,
-              43: 49
-            };
-
-            const othersSeatMapping = {
-              1: 13,
-              2: 14,
-              3: 15,
-              4: 16,
-              5: 17,
-              6: 18,
-              7: 19,
-              8: 20,
-              9: 21,
-              10: 22,
-              11: 23,
-              12: 24,
-              38: 44,
-              39: 45,
-              40: 46,
-              41: 47,
-              42: 48,
-              43: 49
-            };
-
-            if (femaleSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
-              }
-            }
-
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
-              const femaleSeatIndex = adjustedSeatIndex + 12;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            else if (adjustedSeatIndex >= 38 && adjustedSeatIndex <= 43) {
-              const femaleSeatIndex = adjustedSeatIndex + 6;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
-              const femaleSeatIndex = adjustedSeatIndex - 12;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-            else if (adjustedSeatIndex >= 44 && adjustedSeatIndex <= 49) {
-              const femaleSeatIndex = adjustedSeatIndex - 6;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
 
 
-            // Handle others seats
-            if (othersSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+              // Handle others seats
+              if (othersSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
-              const othersSeatIndex = adjustedSeatIndex + 12;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 10) {
+                const othersSeatIndex = adjustedSeatIndex + 10;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 38 && adjustedSeatIndex <= 43) {
-              const othersSeatIndex = adjustedSeatIndex + 6;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              else if (adjustedSeatIndex >= 26 && adjustedSeatIndex <= 30) {
+                const othersSeatIndex = adjustedSeatIndex + 5;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
-              const othersSeatIndex = adjustedSeatIndex - 12;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 11 && adjustedSeatIndex <= 20) {
+                const othersSeatIndex = adjustedSeatIndex - 10;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 35) {
+                const othersSeatIndex = adjustedSeatIndex - 5;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
             }
-            else if (adjustedSeatIndex >= 44 && adjustedSeatIndex <= 49) {
-              const othersSeatIndex = adjustedSeatIndex - 6;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
-              }
-            }
-          }
-          else if (Object.keys(seatsData).length === 48) {
-            // Apply the female seat mapping logic for the first 5 seats
-            const femaleSeatMapping = {
-              1: 13,
-              2: 14,
-              3: 15,
-              4: 16,
-              5: 17,
-              6: 18,
-              7: 19,
-              8: 20,
-              9: 21,
-              10: 22,
-              11: 23,
-              12: 24,
-              31: 37,
-              32: 38,
-              33: 39,
-              34: 40,
-              35: 41,
-              36: 42
-            };
+            else if (Object.keys(seatsData).length === 55) {
+              // Apply the female seat mapping logic for the first 5 seats
+              const femaleSeatMapping = {
+                1: 13,
+                2: 14,
+                3: 15,
+                4: 16,
+                5: 17,
+                6: 18,
+                7: 19,
+                8: 20,
+                9: 21,
+                10: 22,
+                11: 23,
+                12: 24,
+                38: 44,
+                39: 45,
+                40: 46,
+                41: 47,
+                42: 48,
+                43: 49
+              };
 
-            const othersSeatMapping = {
-              1: 13,
-              2: 14,
-              3: 15,
-              4: 16,
-              5: 17,
-              6: 18,
-              7: 19,
-              8: 20,
-              9: 21,
-              10: 22,
-              11: 23,
-              12: 24,
-              31: 37,
-              32: 38,
-              33: 39,
-              34: 40,
-              35: 41,
-              36: 42
-            };
+              const othersSeatMapping = {
+                1: 13,
+                2: 14,
+                3: 15,
+                4: 16,
+                5: 17,
+                6: 18,
+                7: 19,
+                8: 20,
+                9: 21,
+                10: 22,
+                11: 23,
+                12: 24,
+                38: 44,
+                39: 45,
+                40: 46,
+                41: 47,
+                42: 48,
+                43: 49
+              };
 
-            if (femaleSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+              if (femaleSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
-              const femaleSeatIndex = adjustedSeatIndex + 12;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
+                const femaleSeatIndex = adjustedSeatIndex + 12;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 36) {
-              const femaleSeatIndex = adjustedSeatIndex + 6;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              else if (adjustedSeatIndex >= 38 && adjustedSeatIndex <= 43) {
+                const femaleSeatIndex = adjustedSeatIndex + 6;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
-              const femaleSeatIndex = adjustedSeatIndex - 12;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
+                const femaleSeatIndex = adjustedSeatIndex - 12;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 42) {
-              const femaleSeatIndex = adjustedSeatIndex - 6;
-              if (seatsData[femaleSeatIndex] === "available") {
-                seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+              else if (adjustedSeatIndex >= 44 && adjustedSeatIndex <= 49) {
+                const femaleSeatIndex = adjustedSeatIndex - 6;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
 
-            // Handle others seats
-            if (othersSeatMapping[adjustedSeatIndex]) {
-              const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
-              if (seatsData[mappedSeatIndex] === "available") {
-                seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+              // Handle others seats
+              if (othersSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
-              const othersSeatIndex = adjustedSeatIndex + 12;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
+                const othersSeatIndex = adjustedSeatIndex + 12;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
-            else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 36) {
-              const othersSeatIndex = adjustedSeatIndex + 6;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              else if (adjustedSeatIndex >= 38 && adjustedSeatIndex <= 43) {
+                const othersSeatIndex = adjustedSeatIndex + 6;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
-            }
 
-            // Apply mapping dynamically for seats beyond the first 5 (6-30)
-            if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
-              const othersSeatIndex = adjustedSeatIndex - 12;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
+                const othersSeatIndex = adjustedSeatIndex - 12;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 44 && adjustedSeatIndex <= 49) {
+                const othersSeatIndex = adjustedSeatIndex - 6;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
             }
-            else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 42) {
-              const othersSeatIndex = adjustedSeatIndex - 6;
-              if (seatsData[othersSeatIndex] === "available") {
-                seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+            else if (Object.keys(seatsData).length === 48) {
+              // Apply the female seat mapping logic for the first 5 seats
+              const femaleSeatMapping = {
+                1: 13,
+                2: 14,
+                3: 15,
+                4: 16,
+                5: 17,
+                6: 18,
+                7: 19,
+                8: 20,
+                9: 21,
+                10: 22,
+                11: 23,
+                12: 24,
+                31: 37,
+                32: 38,
+                33: 39,
+                34: 40,
+                35: 41,
+                36: 42
+              };
+
+              const othersSeatMapping = {
+                1: 13,
+                2: 14,
+                3: 15,
+                4: 16,
+                5: 17,
+                6: 18,
+                7: 19,
+                8: 20,
+                9: 21,
+                10: 22,
+                11: 23,
+                12: 24,
+                31: 37,
+                32: 38,
+                33: 39,
+                34: 40,
+                35: 41,
+                36: 42
+              };
+
+              if (femaleSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = femaleSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "femaleSeat"; // Mark as femaleSeat
+                }
+              }
+
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
+                const femaleSeatIndex = adjustedSeatIndex + 12;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 36) {
+                const femaleSeatIndex = adjustedSeatIndex + 6;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
+                const femaleSeatIndex = adjustedSeatIndex - 12;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 42) {
+                const femaleSeatIndex = adjustedSeatIndex - 6;
+                if (seatsData[femaleSeatIndex] === "available") {
+                  seatsData[femaleSeatIndex] = "femaleSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+
+
+              // Handle others seats
+              if (othersSeatMapping[adjustedSeatIndex]) {
+                const mappedSeatIndex = othersSeatMapping[adjustedSeatIndex];
+                if (seatsData[mappedSeatIndex] === "available") {
+                  seatsData[mappedSeatIndex] = "othersSeat"; // Mark as femaleSeat
+                }
+              }
+
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 1 && adjustedSeatIndex <= 12) {
+                const othersSeatIndex = adjustedSeatIndex + 12;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 31 && adjustedSeatIndex <= 36) {
+                const othersSeatIndex = adjustedSeatIndex + 6;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+
+              // Apply mapping dynamically for seats beyond the first 5 (6-30)
+              if (adjustedSeatIndex >= 13 && adjustedSeatIndex <= 24) {
+                const othersSeatIndex = adjustedSeatIndex - 12;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
+              }
+              else if (adjustedSeatIndex >= 37 && adjustedSeatIndex <= 42) {
+                const othersSeatIndex = adjustedSeatIndex - 6;
+                if (seatsData[othersSeatIndex] === "available") {
+                  seatsData[othersSeatIndex] = "othersSeat"; // Mark as femaleSeat for dynamic seat mapping
+                }
               }
             }
           }
         });
+
 
         const seatsObject = {};
         seatsData.forEach((seat, index) => {
