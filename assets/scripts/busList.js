@@ -314,10 +314,11 @@ side_bar.style.display = "none";
 
 
 function displayAllBuses(bus) {
-    // Calculate available seats
+    // Calculate available and female seats
     const availableSeatsCount = Object.values(bus.seats || {}).filter(
-        (seat) => seat === "available"
+        (seat) => seat === "available" || seat === "femaleSeat" || seat === "othersSeat"
     ).length;
+
 
     // Skip buses with no available seats
     if (availableSeatsCount === 0) return;
@@ -390,33 +391,35 @@ function displayAllBuses(bus) {
             console.log(singleSeatsCount)
 
         }
-    } else if (totalSeats === 30) {
-        // Adjust single seat count for bus with 55 seats
-        singleSeatsCount = Object.keys(bus.seats || {}).filter(
-            (seatNumber) => {
-                const seatNum = parseInt(seatNumber);
-                // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
-                return (
-                    ((seatNum >= 11 && seatNum <= 15) || (seatNum >= 26 && seatNum <= 30)) &&
-                    bus.seats[seatNumber] === "available"
-                );
-            }
-        ).length;
-        console.log(singleSeatsCount)
-    }
-    else if (totalSeats === 36){
-        // Adjust single seat count for bus with 55 seats
-        singleSeatsCount = Object.keys(bus.seats || {}).filter(
-            (seatNumber) => {
-                const seatNum = parseInt(seatNumber);
-                // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
-                return (
-                    ((seatNum >= 13 && seatNum <= 18) || (seatNum >= 31 && seatNum <= 36)) &&
-                    bus.seats[seatNumber] === "available"
-                );
-            }
-        ).length;
-        console.log(singleSeatsCount)
+    } else {
+        if (totalSeats === 30) {
+            // Adjust single seat count for bus with 55 seats
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) => {
+                    const seatNum = parseInt(seatNumber);
+                    // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                    return (
+                        ((seatNum >= 11 && seatNum <= 15) || (seatNum >= 26 && seatNum <= 30)) &&
+                        bus.seats[seatNumber] === "available"
+                    );
+                }
+            ).length;
+            console.log(singleSeatsCount)
+        }
+        else if (totalSeats === 36) {
+            // Adjust single seat count for bus with 55 seats
+            singleSeatsCount = Object.keys(bus.seats || {}).filter(
+                (seatNumber) => {
+                    const seatNum = parseInt(seatNumber);
+                    // Check if seat is in the range 27-38 or 49-55, and if it's available (true)
+                    return (
+                        ((seatNum >= 13 && seatNum <= 18) || (seatNum >= 31 && seatNum <= 36)) &&
+                        bus.seats[seatNumber] === "available"
+                    );
+                }
+            ).length;
+            console.log(singleSeatsCount)
+        }
     }
 
     // Display available seats with special styling for exactly 1 seat
@@ -556,8 +559,13 @@ async function loadBusResults() {
                 if (busItem) busList.appendChild(busItem);
                 count++;
             });
+            if (count === 1) {
+                busCount.textContent = `${count} Bus found`;
+            }
+            else {
+                busCount.textContent = `${count} Buses found`;
 
-            busCount.textContent = `${count} Buses found`;
+            }
             bus_container.appendChild(busCount);
             sortByContainer.style.display = "block";
         } else {
@@ -1059,7 +1067,13 @@ function renderFilteredBuses(filteredBuses, filterType) {
             if (busItem) busList.appendChild(busItem);
             count++;
         });
-        busCount.textContent = `${count} Buses found`;
+
+        if (count === 1) {
+            busCount.textContent = `${count} Bus found`;
+        }
+        else {
+            busCount.textContent = `${count} Buses found`;
+        }
         bus_container.appendChild(busCount);
     } else {
         busList.innerHTML = `<h5 class="No_buses" id = "filterBus">No ${filterType.toUpperCase()} buses available for this route on the selected date.</h5>`;

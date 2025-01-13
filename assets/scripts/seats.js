@@ -38,6 +38,8 @@ const unColorBox = document.getElementById("unColorBox");
 const unAvailabe = document.getElementById("unAvailabe");
 const femaleColorBox = document.getElementById("femaleColorBox");
 const female = document.getElementById("female");
+const otherColorBox = document.getElementById("othersColorBox");
+const others = document.getElementById("others")
 
 // Function to show the loader
 function showLoader() {
@@ -57,6 +59,8 @@ function showLoader() {
   unAvailabe.style.display = "none";
   femaleColorBox.style.display = "none";
   female.style.display = "none";
+  otherColorBox.style.display = "none";
+  others.style.display = "none";
 }
 
 // Function to hide the loader
@@ -77,6 +81,8 @@ function hideLoader() {
   unAvailabe.style.display = "block";
   femaleColorBox.style.display = "block";
   female.style.display = "block";
+  otherColorBox.style.display = "block";
+  others.style.display = "block";
 }
 
 // Get selected bus from localStorage
@@ -288,15 +294,33 @@ get(busRef)
         // Display selected seats
         const seatsDisplay = document.createElement("p");
         seatsDisplay.id = "finalSeatNo";
-        seatsDisplay.textContent = `Seat No: ${selectedSeats.join(", ")}`; // Display all selected seats
+
+        // Map through the selectedSeats array and remove the 'f' from seats if they are female seats
+        let selectedSeatsForDisplay = selectedSeats.map(seat => {
+          if (seat.includes("f")) {
+            // Remove the 'f' from the seat number
+            return seat.slice(0, -1);
+          }
+          if (seat.includes("o")) {
+            // Remove the 'f' from the seat number
+            return seat.slice(0, -1);
+          }
+          return seat;
+        });
+
+        // Display the seats
+        seatsDisplay.textContent = `Seat No: ${selectedSeatsForDisplay.join(", ")}`; // Display all selected seats
         finalDetailsContainer.appendChild(seatsDisplay);
 
         // Manually calculate the total amount
-        const totalAmount = selectedSeats.length * amount;
+        const totalAmount = selectedSeatsForDisplay.length * amount;
+
+        // Display the total amount
         const totalAmountDisplay = document.createElement("p");
         totalAmountDisplay.id = "finalAmount";
         totalAmountDisplay.textContent = `Total Amount: ₹${totalAmount}`;
         finalDetailsContainer.appendChild(totalAmountDisplay);
+
 
         const confirmButton = document.createElement("button");
         confirmButton.textContent = "PROCEED TO BOOK";
@@ -358,6 +382,7 @@ get(busRef)
         confirmButton.addEventListener("click", () => {
 
 
+
           // Create the form dynamically based on the selected seats
           const formContainer = document.createElement("div");
           formContainer.id = "formContainer";
@@ -388,6 +413,19 @@ get(busRef)
 
           // Create a form for each selected seat
           selectedSeats.forEach((seat, index) => {
+            let isFemaleSeat = seat.includes("f");
+            if (isFemaleSeat) {
+              seat = seat.slice(0, -1);
+            }
+
+            let isOtherSeat = seat.includes("o")
+            if(isOtherSeat){
+              seat = seat.slice(0, -1);
+            }
+            
+
+            console.log(seat, index);
+
             const seatForm = document.createElement("form");
             seatForm.classList.add("seatForm");
 
@@ -447,13 +485,38 @@ get(busRef)
             const maleOption = document.createElement("option");
             maleOption.value = "Male";
             maleOption.textContent = "Male";
+            if (isFemaleSeat) {
+              maleOption.disabled = true;
+            }
+            else if(isOtherSeat){
+              maleOption.disabled = true;
+            }
             genderSelect.appendChild(maleOption);
 
             // Create the female option
             const femaleOption = document.createElement("option");
             femaleOption.value = "Female";
             femaleOption.textContent = "Female";
+            if (isFemaleSeat) {
+              femaleOption.selected = true
+            }
+            else if (isOtherSeat){
+              femaleOption.disabled = true;
+            }
             genderSelect.appendChild(femaleOption);
+
+            const otherOption = document.createElement("option");
+            otherOption.value = "Other";
+            otherOption.textContent = "Other";
+            if (isFemaleSeat) {
+              otherOption.disabled = true;
+            }
+            else if (isOtherSeat) {
+              otherOption.selected = true
+            }
+            genderSelect.appendChild(otherOption);
+
+
 
             // Append the select element to the form
             seatForm.appendChild(genderSelect);
@@ -697,12 +760,34 @@ get(busRef)
 
       const toggleSeatSelection = (seat, originalIndex) => {
         seat.addEventListener("click", () => {
+
           if (seat.style.backgroundColor === "rgb(249, 89, 105)") {
-            // Deselect the seat
+
+
             seat.style.backgroundColor = "";
             seat.style.color = "";
-            selectedSeats = selectedSeats.filter((s) => s !== seat.textContent); // Remove seat from array
+            let seatNeed = selectedSeats;
+            let selectedSeatsForDisplay = selectedSeats.map(seat => {
+              if (seat.includes("f")) {
+                return seat.slice(0, -1);
+                
+              }
+              else if (seat.includes("o")) {
+                return seat.slice(0, -1);
+              }
+              return seat;
+            })
+            selectedSeats = selectedSeatsForDisplay.filter((s) => s !== seat.textContent); // Remove seat from array
             selectedSeatIndices = selectedSeatIndices.filter((index) => index !== originalIndex); // Remove index
+
+            selectedSeats = selectedSeats.map((seat) => {
+              // Find a match in seatNeed that includes the seat
+              const matchedSeat = seatNeed.find((s) => s.includes(seat));
+              return matchedSeat || seat; // Use matchedSeat if found, otherwise keep the original seat
+            });
+
+            console.log(originalIndex);
+
             saveSelectedSeatsToLocalStorage(); // Update local storage
 
             if (selectedSeats.length === 0) {
@@ -734,20 +819,42 @@ get(busRef)
               return;
             } else {
               // Select the seat
+              console.log(seat);
+              // Deselect the seat
+              if (seat.classList.contains("femaleSeat")) {
+                selectedSeats.push(seat.textContent + "f"); // Add seat to array
+              }
+              else if (seat.classList.contains("othersSeat")) {
+                selectedSeats.push(seat.textContent + "o"); // Add seat to array
+              }
+              else {
+                selectedSeats.push(seat.textContent); // Add seat to array
+              }
               seat.style.backgroundColor = "rgb(249, 89, 105)";
               seat.style.color = "white";
-              selectedSeats.push(seat.textContent); // Add seat to array
               selectedSeatIndices.push(originalIndex); // Add original index
               saveSelectedSeatsToLocalStorage(); // Update local storage
               infoDiv.classList.add("show");
+              console.log(originalIndex);
+
             }
           }
           updateAmount();
 
           // Update the seat display in the final section
           const seatsDisplay = document.getElementById("finalSeatNo");
+
           if (seatsDisplay) {
-            seatsDisplay.textContent = `Seat No: ${selectedSeats.join(", ")}`;
+            let selectedSeatsForDisplay = selectedSeats.map(seat => {
+              if (seat.includes("f")) {
+                return seat.slice(0, -1);
+              }
+              else if (seat.includes("o")) {
+                return seat.slice(0, -1);
+              }
+              return seat;
+            })
+            seatsDisplay.textContent = `Seat No: ${selectedSeatsForDisplay.join(", ")}`;
           } else {
             console.error("Element with ID 'finalSeatNo' not found");
           }
@@ -768,16 +875,29 @@ get(busRef)
 
 
 
-      function seatAvailability(seat, string){
+      function seatAvailability(seat, string) {
         if (string === "unavailable") {
           seat.style.backgroundColor = "rgb(135, 135, 135)"; // Gray color for unavailable seats
           seat.style.pointerEvents = "none"; // Disable click on unavailable seat
           seat.textContent = "";
         }
-        else if(string === "female") {
+        else if (string === "female") {
           seat.style.backgroundColor = "rgb(255, 175, 175)";
           seat.style.pointerEvents = "none";
           seat.textContent = "";
+        }
+        else if (string === "femaleSeat") {
+          seat.style.border = "2px solid rgb(255, 175, 175)"; // Correct border style
+          seat.classList.add("femaleSeat");
+        }
+        else if (string === "other") {
+          seat.style.backgroundColor = "rgb(169, 163, 255)";
+          seat.style.pointerEvents = "none";
+          seat.textContent = "";
+        }
+        else if (string === "othersSeat") {
+          seat.style.border = "2px solid rgb(169, 163, 255)"; // Correct border style
+          seat.classList.add("othersSeat");
         }
       }
 
