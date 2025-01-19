@@ -318,6 +318,19 @@ function ShowTotalSeats(busType, totalSeats) {
 
 }
 
+// Get today's date in YYYY-MM-DD format
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+const dd = String(today.getDate()).padStart(2, "0");
+const todayDate = `${yyyy}-${mm}-${dd}`;
+
+// Set the min attribute of the date input field to today's date
+const dateInput = document.getElementById("date");
+dateInput.setAttribute("min", todayDate);
+
+const arrivalDate = document.getElementById("arrivalDate");
+arrivalDate.setAttribute("min", todayDate);
 
 
 const messageContainer = document.getElementById('message-container');
@@ -374,6 +387,9 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
     const getDroppingPoint = document.getElementById("droppingPoint").value.trim();
     const droppingPoint = capitalizeLocations(getDroppingPoint);
 
+
+
+
     let formValid = true;
 
     // Regular expression for "location (time)" format
@@ -384,8 +400,9 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
     if (busName === "") {
         busNameError.textContent = "Bus name is required.";
         formValid = false;
-    } else if (/\d/.test(busName)) {
-        busNameError.textContent = "Enter valid bus name.";
+    } 
+    else if (!/^[a-zA-Z\s]{3,}$/.test(busName)) {
+        busNameError.textContent = "Enter a valid bus name.";
         formValid = false;
     }
 
@@ -442,6 +459,7 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         departureDateError.textContent = "Departure date is required.";
         formValid = false;
     }
+    
 
     if (Arrival === "") {
         arrivalTimeError.textContent = "Arrival time is required.";
@@ -470,6 +488,10 @@ document.getElementById("submitBtn").addEventListener("click", async (event) => 
         formValid = false;
     } else if (isNaN(inrRate)) {
         fareError.textContent = "Enter valid fare amount.";
+        formValid = false;
+    }
+    else if (Number(inrRate) < 1 || Number(inrRate) > 10000) {
+        fareError.textContent = "Fare amount must be between 1 and 10,000.";
         formValid = false;
     }
 
