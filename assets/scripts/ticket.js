@@ -90,6 +90,19 @@ if (Array.isArray(busDataLocal.selectedSeats)) {
   seatsName.textContent = busDataLocal.selectedSeats;
 }
 
+let selectedSeatsForTickets = busDataLocal.selectedSeats.map(seat => {
+  if (seat.includes("f")) {
+    // Remove the 'f' from the seat number
+    return seat.slice(0, -1);
+  }
+  if (seat.includes("o")) {
+    // Remove the 'f' from the seat number
+    return seat.slice(0, -1);
+  }
+  return seat;
+});
+seatsName.textContent = Array.isArray(selectedSeatsForTickets) ? selectedSeatsForTickets.join(", ") : selectedSeatsForTickets;
+
 boardingPoint.textContent = busDataLocal.selectedBoardingPoint;
 droppingPoint.textContent = busDataLocal.selectedDroppingPoint;
 
