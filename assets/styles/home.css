@@ -102,11 +102,7 @@ body {
     background-position-y: 115px;
 
 }
-@media only screen and (max-width: 768px) {
-    body {
-        background-image: none;
-    }
-  }
+
   
 #bus_search_bg {
     width: 1150px;
@@ -592,4 +588,143 @@ body {
 .confirmationDialog p {
     font-family: "poppins", sans-serif;
     font-size: 17px;
+}
+
+
+@media screen and (max-width: 768px) {
+    header {
+        height: 80px;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+    #Bus_logo {
+        width: 200px;
+        height: auto;
+        position: absolute;
+        top: 80px;
+    }
+
+    #myBooking {
+        left: 0;
+        top: 0;
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    #registerBus {
+        left: 0;
+        top: 0;
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    #profile {
+        margin-right: 10px;
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+    }
+
+    body {
+        background-size: cover;
+        background-position: center;
+    }
+
+    #bus_search_bg {
+        width: 90%;
+        margin: 250px auto 0;
+        height: auto;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    #book_bus_ticket {
+        font-size: 28px;
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        white-space: nowrap;
+        max-width: fit-content;
+    }
+    
+
+    #tag_line {
+        display: none;
+    }
+
+    #line, #line2{
+        display: none;
+    }
+
+    .stack {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adds space between icon and text */
+    }
+    
+    #from_bus, #to_bus, #calender {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    #from_bus i, #to_bus i, #calender i {
+        font-size: 1.5rem; /* Ensures icons are visible */
+        color: black;
+    }
+    
+
+    #from_input, #to_input, .date_input {
+        width: 80%;
+        right: 0;
+        
+        text-align: center;
+    }
+
+    #from, #to, #date {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    #search_bus_button {
+        width: 80%;
+        left: 40px;
+        top: 200px;
+        position: relative;
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .profileManage {
+        width: 150px;
+        height: 150px;
+        right: 20px;
+        top: 80px;
+    }
+
+    #logoutText, .fa{
+        position: relative;
+        bottom: 20px;
+    }
+
+    #confirmationDialog {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .dropdown {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .dropdown-item {
+        padding: 10px;
+        font-size: 14px;
+    }
 }
